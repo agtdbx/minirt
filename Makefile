@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/02/23 13:13:50 by aderouba         ###   ########.fr        #
+#    Updated: 2023/02/23 13:26:08 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -88,7 +88,7 @@ re :
 	@make $(NAME) RECURSIVE=1 TOTAL_COMPIL=$(words $(OBJS))
 
 norm:
-	@{ ! norminette $(SRC) $(SRC_BONUS) | grep Error; } && echo -e "$(GREEN)All normed !$(NOC)";
+	@{ ! norminette inlcudes srcs libft | grep Error; } && echo -e "$(GREEN)All normed !$(NOC)";
 
 .PHONY: all clean fclean re norm
 
