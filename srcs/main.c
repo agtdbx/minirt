@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/23 13:01:53 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/23 13:22:23 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ void	render(t_all *all)
 	mlx_image_to_window(all->mlx, all->img, 0, 0);
 }
 
-void	hook(void* param)
+void	hook(void *param)
 {
-	t_all	*all = param;
+	t_all	*all;
 
+	all = param;
 	if (mlx_is_key_down(all->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(all->mlx);
 }
@@ -44,16 +45,11 @@ int	main(void)
 {
 	t_all	all;
 
-	if (!(all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-		return(EXIT_FAILURE);
-
+	all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
 	all.img = mlx_new_image(all.mlx, WIDTH, WIDTH);
-
 	render(&all);
-
 	mlx_loop_hook(all.mlx, &hook, &all);
 	mlx_loop(all.mlx);
-
 	mlx_terminate(all.mlx);
 	return (EXIT_SUCCESS);
 }

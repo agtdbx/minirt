@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/23 12:59:10 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/23 13:19:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_all
 
 // main.c
 void	render(t_all *all);
-void	hook(void* param);
+void	hook(void *param);
 int		main(void);
 
 #endif
