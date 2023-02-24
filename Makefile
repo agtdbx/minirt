@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/02/23 13:26:08 by aderouba         ###   ########.fr        #
+#    Updated: 2023/02/24 17:57:42 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,16 @@ NAME	:=	minirt
 BUILD	:=	.build
 
 #=================================SOURCE FILES=================================#
-SRCS	:=	srcs/main.c
+SRCS	:=	srcs/main.c \
+			srcs/objects/sphere.c \
+			srcs/utils/vector.c \
+			srcs/utils/print.c \
+			srcs/utils/math_utils.c
 
 #====================================OBJECTS===================================#
 OBJS	:=	${SRCS:srcs/%.c=$(BUILD)/%.o}
 DEPS	:=	$(SRCS:srcs/%.c=$(BUILD)/%.d)
-DIRS	:=	$(BUILD)
+DIRS	:=	$(sort $(shell dirname $(OBJS)))
 
 #====================================COLORS====================================#
 NOC			:=	\033[0m
@@ -73,7 +77,7 @@ all : $(NAME)
 
 clean :
 	@echo -e "$(RED)Deleting objects$(NOC)"
-	@rm -rf $(BUILD)
+	@rm -rf $(DIRS)
 	@make clean -C libft
 	@make clean -sC MLX42/build
 

@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/02/23 13:10:49 by aderouba         ###   ########.fr        #
+#    Updated: 2023/02/24 17:22:07 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,11 +125,9 @@ $(NAME) : $(OBJS)
 all : $(NAME)
 
 clean :
-	@echo -e "$(RED)Deleting libft objects$(NOC)"
 	@rm -rf $(BUILD)
 
 fclean : clean
-	@echo -e "$(RED)Deleting libft$(NOC)"
 	@rm -f $(NAME)
 
 re :
