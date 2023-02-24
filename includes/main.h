@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/24 17:22:24 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/24 18:31:19 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ typedef struct s_sphere
 	int			color;
 }	t_sphere;
 
+// Plane struct
+typedef struct s_plane
+{
+	t_vector	origin;
+	t_vector	direction;
+	int			color;
+}	t_plane;
+
 ////////////////////////////////////////////////////////////////////////////////
 // FILES
 
@@ -74,23 +82,26 @@ void	render(t_all *all);
 void	hook(void *param);
 int		main(void);
 
-// vector.c
-t_vector	create_vector(float x, float y, float z);
+// objets/sphere.c
+t_sphere	create_sphere(t_vector origin, int radius, int color);
+float		intersect_sphere(t_sphere *sphere, t_ray *ray);
+
+// objets/plane.c
+float		intersect_plane(t_plane *plane , t_ray *ray);
+
+// utils/vector.c
+t_vector	create_vector(float x, float y, float z, int normalize);
 t_vector	multiply_vect_number(t_vector *vector, float number);
 t_vector	add_vect_vect(t_vector *v1, t_vector *v2);
 t_vector	sub_vect_vect(t_vector *v1, t_vector *v2);
 float		dot_product(t_vector *v1, t_vector *v2);
 
-// print.c
+// utils/print.c
 void		print_vect(t_vector *vector);
 void		print_ray(t_ray *ray);
 void		print_sphere(t_sphere *sphere);
 
-// sphere.c
-t_sphere	create_sphere(t_vector origin, int radius, int color);
-float		intersect_sphere(t_sphere *sphere, t_ray *ray);
-
-// math_utils.c
+// utils/math_utils.c
 float		calculate_discriminant(float a, float b, float c);
 float		equation_result(float a, float b);
 float		equation_minus_result(float a, float b,

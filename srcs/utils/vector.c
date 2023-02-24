@@ -6,19 +6,27 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:28:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/24 17:01:44 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/24 18:33:14 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_vector	create_vector(float x, float y, float z)
+t_vector	create_vector(float x, float y, float z, int normalize)
 {
 	t_vector	res;
+	float		length;
 
 	res.x = x;
 	res.y = y;
 	res.z = z;
+	if (normalize && (x != 0.0f || y != 0.0f || z != 0.0f))
+	{
+		length = sqrt((x * x) + (y * y) + (z * z));
+		res.x /= length;
+		res.y /= length;
+		res.z /= length;
+	}
 	return (res);
 }
 

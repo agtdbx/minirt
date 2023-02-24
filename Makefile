@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/02/24 17:57:42 by aderouba         ###   ########.fr        #
+#    Updated: 2023/02/24 18:27:51 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ BUILD	:=	.build
 #=================================SOURCE FILES=================================#
 SRCS	:=	srcs/main.c \
 			srcs/objects/sphere.c \
+			srcs/objects/plane.c \
 			srcs/utils/vector.c \
 			srcs/utils/print.c \
 			srcs/utils/math_utils.c
