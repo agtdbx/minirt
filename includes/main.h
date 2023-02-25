@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/24 18:31:19 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/25 11:44:59 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,19 @@ typedef struct s_sphere
 typedef struct s_plane
 {
 	t_vector	origin;
-	t_vector	direction;
+	t_vector	normal;
 	int			color;
 }	t_plane;
+
+// Cylinder struct
+typedef struct s_cylinder
+{
+	t_vector	origin;
+	t_vector	direction;
+	float		diameter;
+	float		height;
+	int			color;
+}	t_cylinder;
 
 ////////////////////////////////////////////////////////////////////////////////
 // FILES
@@ -87,6 +97,7 @@ t_sphere	create_sphere(t_vector origin, int radius, int color);
 float		intersect_sphere(t_sphere *sphere, t_ray *ray);
 
 // objets/plane.c
+t_plane		create_plane(t_vector origin, t_vector direction, int color);
 float		intersect_plane(t_plane *plane , t_ray *ray);
 
 // utils/vector.c
