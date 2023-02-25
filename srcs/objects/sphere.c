@@ -6,13 +6,13 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/24 17:18:36 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:33:09 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_sphere	create_sphere(t_vector origin, int radius, int color)
+t_sphere	create_sphere(t_vector origin, float radius, int color)
 {
 	t_sphere	res;
 
@@ -26,30 +26,66 @@ t_sphere	create_sphere(t_vector origin, int radius, int color)
 // param : sphere, ray
 // result : distance beetween ray origin and sphere.
 //			if resut < 0, no interection
+// float	intersect_sphere(t_sphere *sphere, t_ray *ray)
+// {
+// 	float		res;
+// 	float		res2;
+// 	t_vector	abc;
+// 	t_vector	x;
+// 	float		discriminant;
+
+// 	x = sub_vect_vect(&ray->origin, &sphere->origin);
+// 	abc.x = dot_product(&ray->direction, &ray->direction);
+// 	abc.y = 2.0f * dot_product(&ray->direction, &x);
+// 	abc.z = dot_product(&x, &x)
+// 		- sphere->radius2;
+// 	discriminant = calculate_discriminant(abc.x, abc.y, abc.z);
+// 	if (discriminant == 0.0f)
+// 		res = equation_result(abc.x, abc.y);
+// 	else if (discriminant > 0.0f)
+// 	{
+// 		res = equation_minus_result(abc.x, abc.y, discriminant);
+// 		res2 = equation_plus_result(abc.x, abc.y, discriminant);
+// 		if (res2 >= 0.0f && res2 < res)
+// 			res = res2;
+// 	}
+// 	else
+// 		res = -1.0f;
+// 	return (res);
+// }
 float	intersect_sphere(t_sphere *sphere, t_ray *ray)
 {
 	float		res;
 	float		res2;
-	t_vector	abc;
-	t_vector	origin_minus_center;
+	float		a;
+	float		b;
+	float		c;
 	float		discriminant;
+	t_vector	x;
 
-	origin_minus_center = sub_vect_vect(&ray->origin, &sphere->origin);
-	abc.x = dot_product(&ray->direction, &ray->direction);
-	abc.y = 2.0f * dot_product(&ray->direction, &origin_minus_center);
-	abc.z = dot_product(&origin_minus_center, &origin_minus_center)
+	// Calcule for optimisation
+	x = sub_vect_vect(&ray->origin, &sphere->origin);
+
+	// Calcule a b c for second degrees equation
+	a = dot_product(&ray->direction, &ray->direction);
+	b = 2.0f * dot_product(&ray->direction, &x);
+	c = dot_product(&x, &x)
 		- sphere->radius2;
-	discriminant = calculate_discriminant(abc.x, abc.y, abc.z);
-	if (discriminant == 0.0f)
-		res = equation_result(abc.x, abc.y);
-	else if (discriminant > 0.0f)
+
+	// Calcule discriminant
+	discriminant = calculate_discriminant(a, b, c);
+	if (discriminant == 0.0f) // if equals 0, one result
+		res = equation_result(a, b);
+	else if (discriminant > 0.0f) // if more than 0, deux results
 	{
-		res = equation_minus_result(abc.x, abc.y, discriminant);
-		res2 = equation_plus_result(abc.x, abc.y, discriminant);
-		if (res2 >= 0.0f && res2 < res)
+		// Calculate results
+		res = equation_minus_result(a, b, discriminant);
+		res2 = equation_plus_result(a, b, discriminant);
+		if (res2 >= 0.0f && (res2 < res || res == -1.0f)) // chose the closest result
 			res = res2;
 	}
-	else
+	else // if less than 0, no result
 		res = -1.0f;
+
 	return (res);
 }

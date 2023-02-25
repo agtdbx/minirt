@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/02/24 18:27:51 by aderouba         ###   ########.fr        #
+#    Updated: 2023/02/25 14:59:43 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ BUILD	:=	.build
 SRCS	:=	srcs/main.c \
 			srcs/objects/sphere.c \
 			srcs/objects/plane.c \
+			srcs/objects/cylinder.c \
 			srcs/utils/vector.c \
 			srcs/utils/print.c \
 			srcs/utils/math_utils.c
@@ -93,7 +94,9 @@ re :
 	@make $(NAME) RECURSIVE=1 TOTAL_COMPIL=$(words $(OBJS))
 
 norm:
-	@{ ! norminette inlcudes srcs libft | grep Error; } && echo -e "$(GREEN)All normed !$(NOC)";
+	@echo -ne "$(RED)"
+	@{ ! norminette includes srcs libft | grep Error; } && echo -e "$(GREEN)All normed !";
+	@echo -ne "$(NOC)"
 
 .PHONY: all clean fclean re norm
 

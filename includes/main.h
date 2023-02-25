@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/25 11:44:59 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/25 16:18:14 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_plane
 {
 	t_vector	origin;
 	t_vector	normal;
+	t_vector	rev_normal;
 	int			color;
 }	t_plane;
 
@@ -78,8 +79,13 @@ typedef struct s_plane
 typedef struct s_cylinder
 {
 	t_vector	origin;
-	t_vector	direction;
+	t_vector	bot_origin;
+	t_vector	top_origin;
+	t_vector	axis;
+	t_plane		bot;
+	t_plane		top;
 	float		diameter;
+	float		diameter2;
 	float		height;
 	int			color;
 }	t_cylinder;
@@ -88,17 +94,23 @@ typedef struct s_cylinder
 // FILES
 
 // main.c
-void	render(t_all *all);
-void	hook(void *param);
-int		main(void);
+void		render(t_all *all);
+void		hook(void *param);
+int			main(void);
 
 // objets/sphere.c
-t_sphere	create_sphere(t_vector origin, int radius, int color);
+t_sphere	create_sphere(t_vector origin, float radius, int color);
 float		intersect_sphere(t_sphere *sphere, t_ray *ray);
 
 // objets/plane.c
-t_plane		create_plane(t_vector origin, t_vector direction, int color);
-float		intersect_plane(t_plane *plane , t_ray *ray);
+t_plane		create_plane(t_vector origin, t_vector normal, int color);
+float		intersect_plane(t_plane *plane, t_ray *ray);
+
+// objets/cylinder.c
+t_cylinder	create_cylinder(t_vector origin, t_vector axis, float diameter,
+				float height);
+void		set_cylinder_color(t_cylinder *cylinder, int color);
+float		intersect_cylinder(t_cylinder *cylinder, t_ray *ray);
 
 // utils/vector.c
 t_vector	create_vector(float x, float y, float z, int normalize);
@@ -116,7 +128,7 @@ void		print_sphere(t_sphere *sphere);
 float		calculate_discriminant(float a, float b, float c);
 float		equation_result(float a, float b);
 float		equation_minus_result(float a, float b,
-									float discriminant);
+				float discriminant);
 float		equation_plus_result(float a, float b, float discriminant);
 
 #endif
