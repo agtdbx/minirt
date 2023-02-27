@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 13:45:56 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:17:09 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(void)
 	t_cylinder		cylinder;
 	t_dst_and_nrm	res_intersect;
 
-	ray.origin = create_vector(0.0f, 0.0f, 0.0f, false);
+	ray.origin = create_vector(00.0f, 0.0f, 0.0f, false);
 	ray.direction = create_vector(0.0f, 0.0f, 1.0f, true);
 	sphere = create_sphere(create_vector(10.0f, 0.0f, 0.0f, false),
 			5.0f, 0XFFFFFFFF);
@@ -64,7 +64,9 @@ int	main(void)
 	res_intersect.dst = -1.0f;
 	res_intersect.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
 	intersect_sphere(&sphere, &ray, &res_intersect);
+	printf("intersect : %f\n", res_intersect.dst);
 	intersect_plane(&plane, &ray, &res_intersect);
+	printf("intersect : %f\n", res_intersect.dst);
 	intersect_cylinder(&cylinder, &ray, &res_intersect);
 	printf("intersect : %f\n", res_intersect.dst);
 	return (EXIT_SUCCESS);

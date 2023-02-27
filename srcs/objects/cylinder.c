@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 13:51:03 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 15:18:29 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,10 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	t_vector		p;
 	float			d;
 
+	dst0.dst = -1.0f;
+	dst0.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
+	dst1.dst = -1.0f;
+	dst1.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
 	intersect_plane(&cylinder->bot, ray, &dst0);
 	intersect_plane(&cylinder->top, ray, &dst1);
 	if (dst1.dst < 0.0f || (0.0f <= dst0.dst && dst0.dst <= dst1.dst))
