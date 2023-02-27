@@ -6,11 +6,14 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 10:30:36 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 13:51:03 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
+				t_dst_and_nrm *dst_nrm);
 
 t_cylinder	create_cylinder(t_vector origin, t_vector axis, float diameter,
 				float height)
@@ -20,31 +23,25 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float diameter,
 
 	rev_axis = multiply_vect_number(&axis, -1.0f);
 	res.origin = origin;
-
-	// res.bot_origin = origin;
-	// res.bot_origin.x += rev_axis.x * (height / 2.0f);
-	// res.bot_origin.y += rev_axis.y * (height / 2.0f);
-	// res.bot_origin.z += rev_axis.z * (height / 2.0f);
-
-	// res.top_origin = origin;
-	// res.top_origin.x += axis.x * (height / 2.0f);
-	// res.top_origin.y += axis.y * (height / 2.0f);
-	// res.top_origin.z += axis.z * (height / 2.0f);
-
-	// res.bot = create_plane(res.bot.origin, rev_axis, 0XFFFFFFFF);
-	// res.top = create_plane(res.top.origin, axis, 0XFFFFFFFF);
-
+	res.bot_origin = origin;
+	res.bot_origin.x += rev_axis.x * (height / 2.0f);
+	res.bot_origin.y += rev_axis.y * (height / 2.0f);
+	res.bot_origin.z += rev_axis.z * (height / 2.0f);
+	res.top_origin = origin;
+	res.top_origin.x += axis.x * (height / 2.0f);
+	res.top_origin.y += axis.y * (height / 2.0f);
+	res.top_origin.z += axis.z * (height / 2.0f);
+	res.bot = create_plane(res.bot_origin, rev_axis, 0XFFFFFFFF);
+	res.top = create_plane(res.top_origin, axis, 0XFFFFFFFF);
 	res.axis = axis;
 	res.radius = diameter / 2.0f;
 	res.radius2 = res.radius * res.radius;
 	res.height = height;
-	res.half_height = height / 2.0f;
-	res.neg_half_height = res.half_height * -1.0f;
-	res.color = 0;
+	res.color = 0XFFFFFFFF;
 	return (res);
 }
 
-void		set_cylinder_color(t_cylinder *cylinder, int color)
+void	set_cylinder_color(t_cylinder *cylinder, int color)
 {
 	cylinder->color = color;
 	cylinder->bot.color = color;
@@ -54,64 +51,63 @@ void		set_cylinder_color(t_cylinder *cylinder, int color)
 // param : cylinder, ray
 // result : distance beetween ray origin and cylinder.
 //			if resut < 0, no interection
-float	intersect_cylinder(t_cylinder *cylinder, t_ray *ray)
+void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
+			t_dst_and_nrm *dst_nrm)
 {
-	float		res[2];
-	float		a;
-	float		b;
-	float		c;
-	float		discriminant;
+	float		dst;
+	float		abc[3];
 	float		m;
-	float		m2;
 	t_vector	x;
-	float		dv;
-	float		xv;
+	float		dv_xv[2];
 
-	// Calcule for optimisation
-	x = sub_vect_vect(&ray->origin, &cylinder->origin);
-	dv = dot_product(&ray->direction, &cylinder->axis);
-	xv = dot_product(&x, &cylinder->axis);
-
-	// Calcule a b c for second degrees equation
-	a = dot_product(&ray->direction, &ray->direction) - dv;
-	b = (dot_product(&ray->direction, &x) - dv * xv) * 2.0f;
-	c = dot_product(&x, &x) - xv - cylinder->radius2;
-
-	// Calcule discriminant
-	discriminant = calculate_discriminant(a, b, c);
-	if (discriminant == 0.0f) // if equals 0, one result
+	x = sub_vect_vect(&ray->origin, &cylinder->bot_origin);
+	dv_xv[0] = dot_product(&ray->direction, &cylinder->axis);
+	dv_xv[1] = dot_product(&x, &cylinder->axis);
+	abc[0] = dot_product(&ray->direction, &ray->direction)
+		- (dv_xv[0] * dv_xv[0]);
+	abc[1] = (dot_product(&ray->direction, &x) - (dv_xv[0] * dv_xv[1])) * 2.0f;
+	abc[2] = dot_product(&x, &x) - (dv_xv[1] * dv_xv[1]) - cylinder->radius2;
+	if (abc[0] == 0.0f)
 	{
-		res[0] = equation_result(a, b);
-		m = dv * res[0] + xv;
+		intersect_cylinder_ends(cylinder, ray, dst_nrm);
+		return ;
 	}
-	else if (discriminant >= 0.0f) // if more than 0, deux results
+	dst = solve_quadratic(abc[0], abc[1], abc[2]);
+	m = dv_xv[0] * dst + dv_xv[1];
+	if (m < 0 || m > cylinder->height)
+		return ;
+	if (0.0f <= dst && (dst_nrm->dst < 0.0f || dst < dst_nrm->dst))
+		dst_nrm->dst = dst;
+}
+
+static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
+				t_dst_and_nrm *dst_nrm)
+{
+	t_dst_and_nrm	dst0;
+	t_dst_and_nrm	dst1;
+	t_vector		x;
+	t_vector		p;
+	float			d;
+
+	intersect_plane(&cylinder->bot, ray, &dst0);
+	intersect_plane(&cylinder->top, ray, &dst1);
+	if (dst1.dst < 0.0f || (0.0f <= dst0.dst && dst0.dst <= dst1.dst))
 	{
-		// Calculate results
-		res[0] = 0.0f;
-		res[1] = 0.0f;
-		equation_both_result(a, b, discriminant, res);
-
-		// Calculate the distance from the origin of the cylinder
-		m = dv * res[0] + xv;
-		m2 = dv * res[0] + xv;
-
-		if (res[1] >= 0.0f &&  (res[1] < res[0] || res[0] == -1.0f)
-			&& m2 >= cylinder->neg_half_height
-			&& m2 <= cylinder->half_height) // chose the closest result in cylinder
-		{
-			res[0] = res[1];
-			m = m2;
-		}
+		if (dst0.dst < 0.0f)
+			return ;
+		p = get_point_on_ray(ray, dst0.dst);
+		x = sub_vect_vect(&p, &cylinder->bot_origin);
+		d = dot_product(&x, &x);
+		if (d > cylinder->radius2)
+			return ;
+		if (0.0f <= dst0.dst && (dst_nrm->dst < 0.0f || dst0.dst < dst_nrm->dst))
+			dst_nrm->dst = dst0.dst;
 	}
-	else // if less than 0, no result
-	{
-		res[0] = -1.0f;
-		m = 0.0f;
-	}
-	// if the distance from the origin of the cylinder
-	// is negatif or more than height, the point isn't in the cylinder
-	if (m < cylinder->neg_half_height || m > cylinder->half_height)
-		res[0] = -1.0f;
-
-	return (res[0]);
+	p = get_point_on_ray(ray, dst1.dst);
+	x = sub_vect_vect(&p, &cylinder->top_origin);
+	d = dot_product(&x, &x);
+	if (d > cylinder->radius2)
+		return ;
+	if (0.0f <= dst1.dst && (dst_nrm->dst < 0.0f || dst1.dst < dst_nrm->dst))
+		dst_nrm->dst = dst1.dst;
 }

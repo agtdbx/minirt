@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 10:23:20 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 13:41:01 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MAIN_H
 
 # include <stdio.h>
+# include <stdbool.h>
 # include <stdlib.h>
 # include <memory.h>
 # include <math.h>
@@ -87,10 +88,15 @@ typedef struct s_cylinder
 	float		radius;
 	float		radius2;
 	float		height;
-	float		half_height;
-	float		neg_half_height;
 	int			color;
 }	t_cylinder;
+
+// Intersect result struct
+typedef struct s_dst_and_nrm
+{
+	t_vector	nrm;
+	float		dst;
+}	t_dst_and_nrm;
 
 ////////////////////////////////////////////////////////////////////////////////
 // FILES
@@ -102,20 +108,23 @@ int			main(void);
 
 // objets/sphere.c
 t_sphere	create_sphere(t_vector origin, float radius, int color);
-float		intersect_sphere(t_sphere *sphere, t_ray *ray);
+void		intersect_sphere(t_sphere *sphere, t_ray *ray,
+				t_dst_and_nrm *dst_nrm);
 
 // objets/plane.c
 t_plane		create_plane(t_vector origin, t_vector normal, int color);
-float		intersect_plane(t_plane *plane, t_ray *ray);
+void		intersect_plane(t_plane *plane, t_ray *ray,
+				t_dst_and_nrm *dst_nrm);
 
 // objets/cylinder.c
 t_cylinder	create_cylinder(t_vector origin, t_vector axis, float diameter,
 				float height);
 void		set_cylinder_color(t_cylinder *cylinder, int color);
-float		intersect_cylinder(t_cylinder *cylinder, t_ray *ray);
+void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
+				t_dst_and_nrm *dst_nrm);
 
 // utils/vector.c
-t_vector	create_vector(float x, float y, float z, int normalize);
+t_vector	create_vector(float x, float y, float z, bool normalize);
 t_vector	multiply_vect_number(t_vector *vector, float number);
 t_vector	add_vect_vect(t_vector *v1, t_vector *v2);
 t_vector	sub_vect_vect(t_vector *v1, t_vector *v2);
@@ -127,9 +136,7 @@ void		print_ray(t_ray *ray);
 void		print_sphere(t_sphere *sphere);
 
 // utils/math_utils.c
-float		calculate_discriminant(float a, float b, float c);
-float		equation_result(float a, float b);
-void		equation_both_result(float a, float b, float discriminant,
-			float *res);
+float		solve_quadratic(float a, float b, float c);
+t_vector	get_point_on_ray(t_ray *ray, float dist);
 
 #endif

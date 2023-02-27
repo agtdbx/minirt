@@ -6,29 +6,41 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 10:29:11 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 11:55:19 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-float	calculate_discriminant(float a, float b, float c)
+float	solve_quadratic(float a, float b, float c)
 {
-	return ((b * b) - (4 * a * c));
-}
+	float const	discriminant = (b * b) - (4 * a * c);
+	float		srqt_discriminant;
+	float		denom;
+	float		res[2];
 
-float	equation_result(float a, float b)
-{
-	return ((-b) / (a * 2.0f));
-}
-
-void	equation_both_result(float a, float b, float discriminant, float *res)
-{
-	float	srqt_discriminant;
-	float	denom;
-
+	if (discriminant < 0)
+		return (-1.0f);
+	if (discriminant == 0)
+		return ((-b) / (a * 2.0f));
 	srqt_discriminant = sqrt(discriminant);
 	denom = 1.0f / (a * 2.0f);
 	res[0] = (-b - srqt_discriminant) * denom;
 	res[1] = (-b + srqt_discriminant) * denom;
+	if (res[1] < 0)
+		return (res[0]);
+	if (0 <= res[0] && res[0] <= res[1])
+		return (res[0]);
+	return (res[1]);
+}
+
+t_vector	get_point_on_ray(t_ray *ray, float dist)
+{
+	t_vector	point;
+
+	point = ray->origin;
+	point.x += ray->direction.x * dist;
+	point.y += ray->direction.y * dist;
+	point.z += ray->direction.z * dist;
+	return (point);
 }

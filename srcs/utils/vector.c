@@ -6,13 +6,13 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:28:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/24 18:33:14 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 11:03:58 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_vector	create_vector(float x, float y, float z, int normalize)
+t_vector	create_vector(float x, float y, float z, bool normalize)
 {
 	t_vector	res;
 	float		length;
