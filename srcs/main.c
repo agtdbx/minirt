@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 15:17:09 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 17:24:55 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int	main(void)
 	t_plane			plane;
 	t_cylinder		cylinder;
 	t_dst_and_nrm	res_intersect;
+	float			cylinder_size[2] = {5.0f, 10.0f};
 
-	ray.origin = create_vector(00.0f, 0.0f, 0.0f, false);
+	ray.origin = create_vector(0.0f, 0.0f, 0.0f, false);
 	ray.direction = create_vector(0.0f, 0.0f, 1.0f, true);
 	sphere = create_sphere(create_vector(10.0f, 0.0f, 0.0f, false),
 			5.0f, 0XFFFFFFFF);
@@ -57,18 +58,20 @@ int	main(void)
 			create_vector(0.0f, 1.0f, 0.0f, true),
 			0XFFFFFFFF);
 	cylinder = create_cylinder(create_vector(0.0f, 0.0f, 10.0f, false),
-			create_vector(0.0f, 0.0f, 1.0f, true),
-			5.0f,
-			10.0f);
-	set_cylinder_color(&cylinder, 0XFFFFFFFF);
+			create_vector(0.0f, 1.0f, 0.0f, true),
+			cylinder_size,
+			0XFFFFFFFF);
 	res_intersect.dst = -1.0f;
 	res_intersect.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
 	intersect_sphere(&sphere, &ray, &res_intersect);
-	printf("intersect : %f\n", res_intersect.dst);
+	printf("intersect : %03.3f, ", res_intersect.dst);
+	print_vect(&res_intersect.nrm);
 	intersect_plane(&plane, &ray, &res_intersect);
-	printf("intersect : %f\n", res_intersect.dst);
+	printf("intersect : %03.3f, ", res_intersect.dst);
+	print_vect(&res_intersect.nrm);
 	intersect_cylinder(&cylinder, &ray, &res_intersect);
-	printf("intersect : %f\n", res_intersect.dst);
+	printf("intersect : %03.3f, ", res_intersect.dst);
+	print_vect(&res_intersect.nrm);
 	return (EXIT_SUCCESS);
 }
 

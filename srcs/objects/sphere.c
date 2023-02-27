@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 13:46:20 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 16:00:40 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,10 @@ void	intersect_sphere(t_sphere *sphere, t_ray *ray,
 	c = dot_product(&x, &x) - sphere->radius2;
 	dst = solve_quadratic(a, b, c);
 	if (0.0f <= dst && (dst_nrm->dst < 0.0f || dst < dst_nrm->dst))
+	{
 		dst_nrm->dst = dst;
+		dst_nrm->nrm = get_point_on_ray(ray, dst);
+		x = sub_vect_vect(&dst_nrm->nrm, &sphere->origin);
+		dst_nrm->nrm = create_vector(x.x, x.y, x.z, true);
+	}
 }
