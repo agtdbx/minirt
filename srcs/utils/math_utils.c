@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/24 15:26:35 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:29:11 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,13 @@ float	equation_result(float a, float b)
 	return ((-b) / (a * 2.0f));
 }
 
-float	equation_minus_result(float a, float b, float discriminant)
+void	equation_both_result(float a, float b, float discriminant, float *res)
 {
-	return ((-b - sqrt(discriminant)) / (a * 2.0f));
-}
+	float	srqt_discriminant;
+	float	denom;
 
-float	equation_plus_result(float a, float b, float discriminant)
-{
-	return ((-b + sqrt(discriminant)) / (a * 2.0f));
+	srqt_discriminant = sqrt(discriminant);
+	denom = 1.0f / (a * 2.0f);
+	res[0] = (-b - srqt_discriminant) * denom;
+	res[1] = (-b + srqt_discriminant) * denom;
 }

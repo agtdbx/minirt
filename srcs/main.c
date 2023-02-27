@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/25 16:38:37 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:19:47 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(void)
 							0XFFFFFFFF);
 
 	cylinder = create_cylinder(create_vector(0.0f, 0.0f, 10.0f, 0),
-								create_vector(0.0f, 0.0f, -1.0f, 1),
+								create_vector(0.0f, 1.0f, 0.0f, 1),
 								5.0f,
 								10.0f);
 	set_cylinder_color(&cylinder, 0XFFFFFFFF);

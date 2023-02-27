@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/25 16:36:48 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:16:37 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ float	intersect_plane(t_plane *plane, t_ray *ray)
 	else if (rev_denom > 0.000001f)
 	{
 		tmp = sub_vect_vect(&plane->origin, &ray->origin);
-		res = dot_product(&tmp, &plane->normal);
-		res /= denom;
-		return (res * -1.0f);
+		res = dot_product(&tmp, &plane->rev_normal);
+		res /= rev_denom;
+		return (res);
 	}
 	return (-1);
 }

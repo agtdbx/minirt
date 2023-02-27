@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/25 16:33:09 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:13:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ t_sphere	create_sphere(t_vector origin, float radius, int color)
 // }
 float	intersect_sphere(t_sphere *sphere, t_ray *ray)
 {
-	float		res;
-	float		res2;
+	float		res[2];
 	float		a;
 	float		b;
 	float		c;
@@ -75,17 +74,19 @@ float	intersect_sphere(t_sphere *sphere, t_ray *ray)
 	// Calcule discriminant
 	discriminant = calculate_discriminant(a, b, c);
 	if (discriminant == 0.0f) // if equals 0, one result
-		res = equation_result(a, b);
+		res[0] = equation_result(a, b);
 	else if (discriminant > 0.0f) // if more than 0, deux results
 	{
 		// Calculate results
-		res = equation_minus_result(a, b, discriminant);
-		res2 = equation_plus_result(a, b, discriminant);
-		if (res2 >= 0.0f && (res2 < res || res == -1.0f)) // chose the closest result
-			res = res2;
+		res[0] = 0.0f;
+		res[1] = 0.0f;
+		equation_both_result(a, b, discriminant, res);
+		// chose the closest result
+		if (res[1] >= 0.0f && (res[1] < res[0] || res[0] == -1.0f))
+			res[0] = res[1];
 	}
 	else // if less than 0, no result
-		res = -1.0f;
+		res[0] = -1.0f;
 
-	return (res);
+	return (res[0]);
 }

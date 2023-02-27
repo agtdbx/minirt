@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/25 16:18:14 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/27 10:23:20 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,11 @@ typedef struct s_cylinder
 	t_vector	axis;
 	t_plane		bot;
 	t_plane		top;
-	float		diameter;
-	float		diameter2;
+	float		radius;
+	float		radius2;
 	float		height;
+	float		half_height;
+	float		neg_half_height;
 	int			color;
 }	t_cylinder;
 
@@ -127,8 +129,7 @@ void		print_sphere(t_sphere *sphere);
 // utils/math_utils.c
 float		calculate_discriminant(float a, float b, float c);
 float		equation_result(float a, float b);
-float		equation_minus_result(float a, float b,
-				float discriminant);
-float		equation_plus_result(float a, float b, float discriminant);
+void		equation_both_result(float a, float b, float discriminant,
+			float *res);
 
 #endif
