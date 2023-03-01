@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 17:24:55 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/01 18:49:52 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,37 +41,31 @@ void	hook(void *param)
 		mlx_close_window(all->mlx);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	t_ray			ray;
-	t_sphere		sphere;
-	t_plane			plane;
-	t_cylinder		cylinder;
-	t_dst_and_nrm	res_intersect;
-	float			cylinder_size[2] = {5.0f, 10.0f};
+	t_scene	scene;
 
-	ray.origin = create_vector(0.0f, 0.0f, 0.0f, false);
-	ray.direction = create_vector(0.0f, 0.0f, 1.0f, true);
-	sphere = create_sphere(create_vector(10.0f, 0.0f, 0.0f, false),
-			5.0f, 0XFFFFFFFF);
-	plane = create_plane(create_vector(0.0f, 10.0f, 0.0f, false),
-			create_vector(0.0f, 1.0f, 0.0f, true),
-			0XFFFFFFFF);
-	cylinder = create_cylinder(create_vector(0.0f, 0.0f, 10.0f, false),
-			create_vector(0.0f, 1.0f, 0.0f, true),
-			cylinder_size,
-			0XFFFFFFFF);
-	res_intersect.dst = -1.0f;
-	res_intersect.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
-	intersect_sphere(&sphere, &ray, &res_intersect);
-	printf("intersect : %03.3f, ", res_intersect.dst);
-	print_vect(&res_intersect.nrm);
-	intersect_plane(&plane, &ray, &res_intersect);
-	printf("intersect : %03.3f, ", res_intersect.dst);
-	print_vect(&res_intersect.nrm);
-	intersect_cylinder(&cylinder, &ray, &res_intersect);
-	printf("intersect : %03.3f, ", res_intersect.dst);
-	print_vect(&res_intersect.nrm);
+	if (argc != 2)
+	{
+		ft_printf_fd("Usage:\n./minirt file.rt\n", 2);
+		return (1);
+	}
+	scene = parse_file(argv[1]);
+	if (scene.al_intensity == -1.0f || scene.camera.fov == 0
+		|| scene.light.brightness == -1.0f)
+	{
+		ft_printf_fd("Parsing error\n", 2);
+		rtlst_free(&scene.objects);
+		return (1);
+	}
+	printf("\nPARAMETERS :\n\n");
+	print_ambiant_light(&scene);
+	print_camera(&scene);
+	print_light(&scene);
+	printf("\n");
+	print_rtlst(scene.objects);
+	printf("\n");
+	rtlst_free(&scene.objects);
 	return (EXIT_SUCCESS);
 }
 

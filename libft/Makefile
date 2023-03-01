@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/02/24 17:22:07 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/01 14:55:28 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ SRCS	:=	ft_atof.c \
 			ft_strchr.c \
 			ft_strcmp.c \
 			ft_strcpy.c \
+			ft_strcspn.c \
 			ft_strdup.c \
 			ft_striteri.c \
 			ft_strjoin_free_1st_p.c \
@@ -79,6 +80,7 @@ SRCS	:=	ft_atof.c \
 			ft_strncmp.c \
 			ft_strnstr.c \
 			ft_strrchr.c \
+			ft_strspn.c \
 			ft_strstr.c \
 			ft_strsuperjoin_free_1st_p.c \
 			ft_strsuperjoin.c \

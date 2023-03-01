@@ -6,13 +6,13 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 17:25:40 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/02/28 14:32:22 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	tkt(t_cylinder *cylinder, t_ray *ray,
+static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm, float *dst);
 static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
@@ -73,10 +73,10 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 	if (dst[1] < 0 || dst[1] > cylinder->height)
 		return ;
 	if (0.0f <= dst[0] && (dst_nrm->dst < 0.0f || dst[0] < dst_nrm->dst))
-		tkt(cylinder, ray, dst_nrm, dst);
+		assign_result_value(cylinder, ray, dst_nrm, dst);
 }
 
-static void	tkt(t_cylinder *cylinder, t_ray *ray,
+static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 			t_dst_and_nrm *dst_nrm, float *dst)
 {
 	t_vector	x;

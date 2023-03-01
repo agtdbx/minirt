@@ -6,12 +6,20 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:33:14 by aderouba          #+#    #+#             */
-/*   Updated: 2022/11/21 17:21:12 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/01 14:51:47 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# ifndef OPEN_MAX
+#  define OPEN_MAX 100
+# endif
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 256
+# endif
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -61,6 +69,8 @@ int		ft_strcpy(char *dst, const char *src);
 int		ft_strlcpy(char *dst, const char *src, int size);
 int		ft_strcat(char *dst, const char *src);
 int		ft_strlcat(char *dst, const char *src, int size);
+size_t	ft_strspn(char const *str, char const *accept);
+size_t	ft_strcspn(char const *str, char const *reject);
 
 // list string
 char	**ft_add_str(char **lstr, char *str);
