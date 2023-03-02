@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/01 14:55:28 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/02 10:30:42 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ BUILD	:=	.build
 SRCS	:=	ft_atof.c \
 			ft_atoi_base.c \
 			ft_atoi.c \
+			ft_atol.c \
 			ft_bzero.c \
 			ft_calloc.c \
 			ft_ftoa.c \

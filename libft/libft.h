@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:33:14 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 14:51:47 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 10:29:54 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ void	ft_bzero(void *s, int n);
 // number
 int		ft_atoi(const char *nptr);
 float	ft_atof(const char *nptr);
+long	ft_atol(const char *nptr);
 int		ft_atoi_base(const char *nptr, char *base);
 char	*ft_itoa(int n);
 char	*ft_ftoa(float n);

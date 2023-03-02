@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 18:46:53 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 10:32:52 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,6 @@ float		solve_quadratic(float a, float b, float c);
 t_vector	get_point_on_ray(t_ray *ray, float dist);
 
 // utils/number.c
-long		ft_atol(const char *nptr);
 bool		is_int(char *str);
 bool		is_float(char *str);
 

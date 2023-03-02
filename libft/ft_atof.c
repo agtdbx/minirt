@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/27 15:14:19 by aderouba          #+#    #+#             */
-/*   Updated: 2022/11/16 10:05:31 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 10:33:51 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,16 @@ float	get_dec_part(const char *nptr, int neg)
 float	ft_atof(const char *nptr)
 {
 	int		intpart;
+	int		neg;
 	float	res;
 
+	if (nptr == NULL)
+		return (0.0f);
+	neg = 0;
+	if (nptr[0] == '-')
+		neg = 1;
 	intpart = ft_atoi(nptr);
 	res = (float)intpart;
-	res += get_dec_part(nptr, res < 0);
+	res += get_dec_part(nptr, neg);
 	return (res);
 }

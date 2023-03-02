@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:42:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 18:50:07 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 11:46:10 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ bool	parse_ambient_light(t_scene *scene)
 		return (false);
 	scene->al_intensity = ft_atof(part);
 	if (scene->al_intensity < 0.0f || scene->al_intensity > 1.0f)
-	{
-		ft_printf_fd("Intensity of ambient light must be between 0 and 1\n", 2);
 		return (false);
-	}
 	part = ft_strtok(NULL, " \n");
 	if (part == NULL)
 		return (false);
@@ -59,10 +56,7 @@ bool	parse_light(t_scene *scene)
 		return (false);
 	scene->light.brightness = ft_atof(part);
 	if (scene->light.brightness < 0.0f || scene->light.brightness > 1.0f)
-	{
-		ft_printf_fd("Intensity of ambient light must be between 0 and 1\n", 2);
 		return (false);
-	}
 	part = ft_strtok(NULL, " \n");
 	if (part == NULL)
 		return (false);

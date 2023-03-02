@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 09:53:06 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 18:46:58 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 11:48:20 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static bool	read_file(int fd, t_scene *scene)
 			parse_ok = parse_cylinder(scene);
 		else if (ft_strcmp(line, "\n") != 0)
 		{
-			ft_printf_fd("Unexpected line '%s'\n", 2, line);
+			ft_printf_fd("Unexpected identifier '%s'\n", 2, line);
 			parse_ok = false;
 		}
 		free(line);

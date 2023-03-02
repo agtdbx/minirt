@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 18:49:52 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 11:49:17 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int argc, char **argv)
 	if (scene.al_intensity == -1.0f || scene.camera.fov == 0
 		|| scene.light.brightness == -1.0f)
 	{
-		ft_printf_fd("Parsing error\n", 2);
+		ft_printf_fd("Error\nMinirt : parsing error\n", 2);
 		rtlst_free(&scene.objects);
 		return (1);
 	}
