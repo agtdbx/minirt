@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:49:20 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 12:42:37 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 13:54:40 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ bool	is_int(char *str)
 	int		len;
 	long	test;
 
+	if (!str)
+		return (false);
 	start = 0;
 	if (str[0] == '-' || str[0] == '+')
 		start++;
@@ -44,6 +46,8 @@ bool	is_float(char *str)
 	int		len;
 	char	*part;
 
+	if (!str)
+		return (false);
 	start = 0;
 	len = 0;
 	if (str[0] == '-' || str[0] == '+')

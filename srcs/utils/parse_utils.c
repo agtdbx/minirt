@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:02:48 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 11:46:46 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 13:54:01 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ bool	parse_vector(char *part, float *nbs, float min, float max)
 	float	nb;
 	int		i;
 
+	if (!part)
+		return (false);
 	i = 0;
 	while (i < 3)
 	{

@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:31:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 18:49:14 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/02 14:01:17 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,14 @@ bool	parse_camera(t_scene *scene)
 	if (scene->camera.fov != 0)
 		return (false);
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
 	scene->camera.pos = create_vector(vect[0], vect[1], vect[2], false);
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	if (!parse_vector(part, vect, -1.0f, 1.0f))
 		return (false);
 	scene->camera.orientation = create_vector(vect[0], vect[1], vect[2], true);
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	if (!is_int(part))
 		return (false);
 	scene->camera.fov = ft_atoi(part);
@@ -54,20 +48,14 @@ bool	parse_sphere(t_scene *scene)
 	int			color;
 
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
 	pos = create_vector(vect[0], vect[1], vect[2], false);
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	if (!is_float(part))
 		return (false);
 	radius = ft_atof(part);
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	color = parse_color(part);
 	if (color == 0)
 		return (false);
@@ -92,20 +80,14 @@ bool	parse_plane(t_scene *scene)
 	int			color;
 
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
 	pos = create_vector(vect[0], vect[1], vect[2], false);
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	if (!parse_vector(part, vect, -1.0f, 1.0f))
 		return (false);
 	nrm = create_vector(vect[0], vect[1], vect[2], true);
 	part = ft_strtok(NULL, " \n");
-	if (part == NULL)
-		return (false);
 	color = parse_color(part);
 	if (color == 0)
 		return (false);
