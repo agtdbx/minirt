@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 11:39:21 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/15 12:14:18 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/15 13:04:16 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,9 @@ void	fill_tab_ray(t_ray **ray_tab, t_camera *camera,
 		while (x < number_ray)
 		{
 			// Pour chaque rayon, on dup la direction
-			ray_tab[y][x].direction = dup_vect(&ray_tab[y + 1][x].direction);
+			ray_tab[y][x].direction = dup_vect(&ray_tab[y - 1][x].direction);
 			// On dup aussi l'origine
-			ray_tab[y][x].origin = dup_vect(&ray_tab[y + 1][x].origin);
+			ray_tab[y][x].origin = dup_vect(&ray_tab[y - 1][x].origin);
 			// Puis on baisse le y
 			ray_tab[y][x].origin.y -= height_per_ray;
 			x++;

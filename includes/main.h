@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/15 12:21:05 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/15 12:53:22 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,9 @@ void		rotate(t_vector *vector, float angle, char axis);
 void		fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray);
 void		fill_tab_ray(t_ray **ray_tab, t_camera *camera,
 				int number_ray, int number_line);
+
+//image/draw.c
+void	draw(t_scene *scene, t_all *all, int size);
 
 // parsing/parse_file.c
 t_scene		parse_file(char *filename);

@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/15 11:41:32 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/15 12:59:46 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ CC			:=	clang
 INCLUDES	:=	-Iincludes -Ilibft -I/usr/include -IMLX42/include
 LIBFLAGS	:=	-LMLX42/build -lmlx42 -ldl -lglfw -pthread -lm
 LIBFTFLAGS	:=	-Llibft -lft
-CFLAGS		:=	-MP -MMD -Wall -Wextra -Werror $(INCLUDES)
+CFLAGS		:=	-MP -MMD -Wall -Wextra -Werror $(INCLUDES) -g3
 
 #==================================EXECUTABLE==================================#
 NAME	:=	minirt
@@ -35,6 +35,7 @@ SRCS	:=	srcs/main.c							\
 			srcs/objects/sphere.c				\
 			srcs/objects/cylinder.c				\
 			srcs/objects/space_operations.c		\
+			srcs/image/draw.c					\
 			srcs/utils/rtlst.c					\
 			srcs/utils/print.c					\
 			srcs/utils/vector.c					\
