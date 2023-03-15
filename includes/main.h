@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 10:32:52 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/15 12:21:05 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
+
+// Define for pre-calculate value
+# define PI 3.141592
+# define PI_DIV_180 0.017453
+
+// Define for rotate parameter
+# define ROTATE_AROUND_X 'x'
+# define ROTATE_AROUND_Y 'y'
+# define ROTATE_AROUND_Z 'z'
 
 ////////////////////////////////////////////////////////////////////////////////
 // STRUCTS
@@ -173,6 +182,15 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
 				int color);
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
+
+// objets/space_operations.c
+void		translate(t_vector *vector, float x, float y, float z);
+void		rotate(t_vector *vector, float angle, char axis);
+
+// objets/camera.c
+void		fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray);
+void		fill_tab_ray(t_ray **ray_tab, t_camera *camera,
+				int number_ray, int number_line);
 
 // parsing/parse_file.c
 t_scene		parse_file(char *filename);

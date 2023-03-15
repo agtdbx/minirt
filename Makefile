@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/01 17:19:41 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/15 11:41:32 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,19 +29,21 @@ NAME	:=	minirt
 BUILD	:=	.build
 
 #=================================SOURCE FILES=================================#
-SRCS	:=	srcs/main.c					\
-			srcs/objects/plane.c		\
-			srcs/objects/sphere.c		\
-			srcs/objects/cylinder.c		\
-			srcs/utils/rtlst.c			\
-			srcs/utils/print.c			\
-			srcs/utils/vector.c			\
-			srcs/utils/number.c			\
-			srcs/utils/string.c			\
-			srcs/utils/math_utils.c		\
-			srcs/utils/parse_utils.c	\
-			srcs/parsing/parse_file.c	\
-			srcs/parsing/parse_lights.c	\
+SRCS	:=	srcs/main.c							\
+			srcs/objects/plane.c				\
+			srcs/objects/camera.c				\
+			srcs/objects/sphere.c				\
+			srcs/objects/cylinder.c				\
+			srcs/objects/space_operations.c		\
+			srcs/utils/rtlst.c					\
+			srcs/utils/print.c					\
+			srcs/utils/vector.c					\
+			srcs/utils/number.c					\
+			srcs/utils/string.c					\
+			srcs/utils/math_utils.c				\
+			srcs/utils/parse_utils.c			\
+			srcs/parsing/parse_file.c			\
+			srcs/parsing/parse_lights.c			\
 			srcs/parsing/parse_objects.c
 
 #====================================OBJECTS===================================#
