@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 11:39:21 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/16 13:54:18 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/16 16:22:07 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray)
 	i--;
 	while (i >= 0)
 	{
-		ray_lst[i].origin = dup_vect(&camera->pos);
-		ray_lst[i].direction = add_vect_vect(&ray_lst[i + 1].direction, &to_decale);
+		// ray_lst[i].origin = dup_vect(&camera->pos);
+		ray_lst[i].origin = dup_vect(&ray_lst[i + 1].origin);
+		ray_lst[i].origin.x--;
+		ray_lst[i].direction = dup_vect(&camera->orientation);
+		// ray_lst[i].direction = add_vect_vect(&ray_lst[i + 1].direction, &to_decale);
 		i--;
 	}
 	// Je récupère le décalage vers la droite
@@ -57,8 +60,11 @@ void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray)
 	i++;
 	while (i < number_ray)
 	{
-		ray_lst[i].origin = dup_vect(&camera->pos);
-		ray_lst[i].direction = add_vect_vect(&ray_lst[i - 1].direction, &to_decale);
+		// ray_lst[i].origin = dup_vect(&camera->pos);
+		ray_lst[i].origin = dup_vect(&ray_lst[i - 1].origin);
+		ray_lst[i].origin.x++;
+		ray_lst[i].direction = dup_vect(&camera->orientation);
+		// ray_lst[i].direction = add_vect_vect(&ray_lst[i - 1].direction, &to_decale);
 		i++;
 	}
 }

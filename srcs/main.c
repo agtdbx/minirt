@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/16 13:50:54 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/16 15:59:40 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	main(int argc, char **argv)
 
 	// Test de la fonction draw et jolie écran cyan
 	draw(&all, 1);
-	render(&all);
+	// render(&all);
 
 	// Initialisation de la fenêtre
 	mlx_loop_hook(all.mlx, &hook, &all);
