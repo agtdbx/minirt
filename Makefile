@@ -22,7 +22,7 @@ CC			:=	clang
 INCLUDES	:=	-Iincludes -Ilibft -I/usr/include -IMLX42/include
 LIBFLAGS	:=	-LMLX42/build -lmlx42 -ldl -lglfw -pthread -lm
 LIBFTFLAGS	:=	-Llibft -lft
-CFLAGS		:=	-MP -MMD -Wall -Wextra -Werror $(INCLUDES) -g3
+CFLAGS		:=	-MP -MMD -Wall -Wextra -Werror $(INCLUDES) -g3 -Wno-unused-function
 
 #==================================EXECUTABLE==================================#
 NAME	:=	minirt
