@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/16 13:58:14 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 13:02:21 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,6 @@ void		translate(t_vector *vector, float x, float y, float z);
 void		rotate(t_vector *vector, float angle, char axis);
 
 // objets/camera.c
-void		fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray);
 void		fill_tab_ray(t_ray **ray_tab, t_camera *camera,
 				int number_ray, int number_line);
 
@@ -210,10 +209,12 @@ bool		parse_cylinder(t_scene *scene);
 
 // utils/vector.c
 t_vector	create_vector(float x, float y, float z, bool normalize);
-t_vector	multiply_vect_number(t_vector *vector, float number);
-t_vector	add_vect_vect(t_vector *v1, t_vector *v2);
-t_vector	sub_vect_vect(t_vector *v1, t_vector *v2);
-float		dot_product(t_vector *v1, t_vector *v2);
+t_vector	multiply_vect_number(t_vector const *vector, float const number);
+t_vector	add_vect_vect(t_vector const *v1, t_vector const *v2);
+t_vector	sub_vect_vect(t_vector const *v1, t_vector const *v2);
+float		dot_product(t_vector const *v1, t_vector const *v2);
+t_vector	cross_product(t_vector const *v1, t_vector const *v2);
+void		get_normals_of_vect(t_vector const *vect, t_vector nrm[2]);
 
 // utils/rtlst.c
 t_rtlst		*rtlst_new(t_rtlst_t type, t_rtlst_v value);
