@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_objects.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:31:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 14:01:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:12:48 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 bool	parse_camera(t_scene *scene)
 {
-	char	*part;
-	float	vect[3];
+	char		*part;
+	float		vect[3];
+	float		len;
+	t_vector	basis[2];
 
 	if (scene->camera.fov != 0)
 		return (false);
@@ -26,7 +28,7 @@ bool	parse_camera(t_scene *scene)
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, -1.0f, 1.0f))
 		return (false);
-	scene->camera.orientation = create_vector(vect[0], vect[1], vect[2], true);
+	scene->camera.basis[2] = create_vector(vect[0], vect[1], vect[2], true);
 	part = ft_strtok(NULL, " \n");
 	if (!is_int(part))
 		return (false);
@@ -34,6 +36,13 @@ bool	parse_camera(t_scene *scene)
 	if (scene->camera.fov < 0 || scene->camera.fov > 180)
 		return (false);
 	part = ft_strtok(NULL, " \n");
+	len = WIDTH / (tan(scene->camera.fov * PI_DIV_360) * 2.0f);
+	scene->camera.orientation = multiply_vect_number(&scene->camera.basis[2], len);
+	get_screen_basis(&scene->camera.basis[2], basis, 1);
+	scene->camera.basis[0] = create_vector(basis[0].x, basis[0].y, basis[0].z,
+								true);
+	scene->camera.basis[1] = create_vector(basis[1].x, basis[1].y, basis[1].z,
+								true);
 	return (part == NULL);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 13:02:21 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 15:25:09 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 // Define for pre-calculate value
 # define PI 3.141592
 # define PI_DIV_180 0.017453
+# define PI_DIV_360 0.008726
 
 // Define for rotate parameter
 # define ROTATE_AROUND_X 'x'
@@ -106,6 +107,7 @@ typedef struct s_camera
 {
 	t_vector	pos;
 	t_vector	orientation;
+	t_vector	basis[3];
 	int			fov;
 }	t_camera;
 
@@ -188,6 +190,7 @@ void		translate(t_vector *vector, float x, float y, float z);
 void		rotate(t_vector *vector, float angle, char axis);
 
 // objets/camera.c
+void		get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr);
 void		fill_tab_ray(t_ray **ray_tab, t_camera *camera,
 				int number_ray, int number_line);
 

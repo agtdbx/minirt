@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/16 16:41:26 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 16:13:59 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,70 @@ void	render(t_all *all)
 
 void	hook(void *param)
 {
-	t_all	*all;
+	t_all		*all;
+	bool		need_draw;
+	const float	rot = 10.0f;
 
+	need_draw = false;
 	all = param;
 	if (mlx_is_key_down(all->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(all->mlx);
+	if (mlx_is_key_down(all->mlx, MLX_KEY_W))
+	{
+		all->scene.camera.pos = add_vect_vect(&all->scene.camera.pos,
+												&all->scene.camera.basis[2]);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_S))
+	{
+		all->scene.camera.pos = sub_vect_vect(&all->scene.camera.pos,
+												&all->scene.camera.basis[2]);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_A))
+	{
+		all->scene.camera.pos = sub_vect_vect(&all->scene.camera.pos,
+												&all->scene.camera.basis[0]);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_D))
+	{
+		all->scene.camera.pos = add_vect_vect(&all->scene.camera.pos,
+												&all->scene.camera.basis[0]);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_Q))
+	{
+		all->scene.camera.pos = sub_vect_vect(&all->scene.camera.pos,
+												&all->scene.camera.basis[1]);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_E))
+	{
+		all->scene.camera.pos = add_vect_vect(&all->scene.camera.pos,
+												&all->scene.camera.basis[1]);
+		need_draw = true;
+	}
+
+	if (mlx_is_key_down(all->mlx, MLX_KEY_R))
+	{
+		rotate(&all->scene.camera.orientation, -rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[0], -rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[1], -rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[2], -rot, ROTATE_AROUND_Y);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_T))
+	{
+		rotate(&all->scene.camera.orientation, rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[0], rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[1], rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[2], rot, ROTATE_AROUND_Y);
+		need_draw = true;
+	}
+
+	if (need_draw)
+		draw(all, 1);
 }
 
 int	main(int argc, char **argv)

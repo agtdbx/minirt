@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   plane.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 16:39:04 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:06:16 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ t_plane	create_plane(t_vector origin, t_vector normal, int color)
 //			if resut < 0, no interection
 void	intersect_plane(t_plane *plane, t_ray *ray, t_dst_and_nrm *dst_nrm)
 {
-	const float	denom = dot_product(&ray->direction, &plane->normal);
-	const float	rev_denom = dot_product(&ray->direction, &plane->rev_normal);
+	float		denom;
 	float		dst;
 	t_vector	tmp;
 
+	tmp = create_vector(ray->direction.x, ray->direction.y, ray->direction.z,
+						true);
+	denom = dot_product(&tmp, &plane->normal);
 	if (denom > 0.000001f)
 	{
 		tmp = sub_vect_vect(&plane->origin, &ray->origin);
@@ -40,17 +42,18 @@ void	intersect_plane(t_plane *plane, t_ray *ray, t_dst_and_nrm *dst_nrm)
 		if (0.0f <= dst && (dst_nrm->dst < 0.0f || dst < dst_nrm->dst))
 		{
 			dst_nrm->dst = dst;
-			dst_nrm->nrm = plane->normal;
+			dst_nrm->nrm = plane->rev_normal;
+			// printf("DST %f\n", dst);
 		}
 	}
-	else if (rev_denom > 0.000001f)
+	else if (denom < -0.000001f)
 	{
 		tmp = sub_vect_vect(&plane->origin, &ray->origin);
-		dst = dot_product(&tmp, &plane->rev_normal) / rev_denom;
+		dst = dot_product(&tmp, &plane->rev_normal) / (-denom);
 		if (0.0f <= dst && (dst_nrm->dst < 0.0f || dst < dst_nrm->dst))
 		{
 			dst_nrm->dst = dst;
-			dst_nrm->nrm = plane->rev_normal;
+			dst_nrm->nrm = plane->normal;
 		}
 	}
 }

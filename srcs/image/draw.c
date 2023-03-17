@@ -6,11 +6,28 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 14:01:44 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:02:49 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+static int	get_rgb(int r, int g, int b)
+{
+	if (r < 0)
+		r = 0;
+	else if (r > 255)
+		r = 255;
+	if (g < 0)
+		g = 0;
+	else if (g > 255)
+		g = 255;
+	if (b < 0)
+		b = 0;
+	else if (b > 255)
+		b = 255;
+    return (r << 24 | g << 16 | b << 8 | 255);
+}
 
 static void	free_ray_tab(t_ray **ray_tab, int max_alloc)
 {
@@ -33,10 +50,11 @@ void	draw(t_all *all, int size)
 	t_ray			**ray_tab;
 	int				x;
 	int				y;
+	float			intensity;
+	int				color;
 	t_dst_and_nrm	res;
 	t_rtlst			*obj;
 
-	printf("ALLOCATE RAY TAB\n");
 	// Allocation du tableau de rayons
 	ray_tab = malloc(sizeof(t_ray *) * number_line);
 	if (ray_tab == NULL)
@@ -53,12 +71,9 @@ void	draw(t_all *all, int size)
 		y++;
 	}
 
-	printf("FILL RAY TAB\n");
 	// Replissage du tableau de rayons
 	fill_tab_ray(ray_tab, &all->scene.camera, number_ray, number_line);
 
-
-	printf("CALCULATE IMAGE\n");
 	// Faire les calcules d'intersections ici
 	y = 0;
 	while (y < number_line)
@@ -82,7 +97,13 @@ void	draw(t_all *all, int size)
 			}
 
 			if (res.dst != -1.0f)
-				mlx_put_pixel(all->img, x, y, 0xFFFFFFFF);
+			{
+				res.nrm = create_vector(res.nrm.x, res.nrm.y, res.nrm.z, true);
+				ray_tab[y][x].direction = create_vector(ray_tab[y][x].direction.x, ray_tab[y][x].direction.y, ray_tab[y][x].direction.z, true);
+				intensity = (-dot_product(&res.nrm, &ray_tab[y][x].direction)) * 255;
+				color = intensity;
+				mlx_put_pixel(all->img, x, y, get_rgb(color, color, color));
+			}
 			else
 				mlx_put_pixel(all->img, x, y, 0x000000FF);
 				
@@ -90,12 +111,8 @@ void	draw(t_all *all, int size)
 		}
 		y++;
 	}
-
-	printf("PUT IMAGE\n");
 	// Dessiner les pixels ici
 	mlx_image_to_window(all->mlx, all->img, 0, 0);
 
 	free_ray_tab(ray_tab, number_line);
-
-	printf("DONE\n");
 }

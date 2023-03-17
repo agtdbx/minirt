@@ -6,11 +6,12 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 11:39:21 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 14:04:39 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 15:51:42 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
 
 static t_vector	dup_vect(t_vector *vector)
 {
@@ -47,7 +48,7 @@ static inline void	vec_scale(float factor, t_vector *ret_vec)
  *   ret_basis[0] . camera = 0
  *   ret_basis[1] . camera = 0
  */
-static void	get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr)
+void	get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr)
 {
 	float const	a = camera->x;
 	float const	b = camera->y;
@@ -111,10 +112,6 @@ void	fill_tab_ray(t_ray **ray_tab, t_camera *camera,
 	t_vector	screen_vect[2];
 
 	get_screen_basis(&camera->orientation, screen_vect, 1);
-
-	print_vect(&camera->orientation);
-	print_vect(&screen_vect[0]);
-	print_vect(&screen_vect[1]);
 
 	// On créer la ligne de rayon au milieu de l'écran
 	y = number_line / 2;
