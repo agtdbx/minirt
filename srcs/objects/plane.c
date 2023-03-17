@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 17:06:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/17 17:24:57 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	intersect_plane(t_plane *plane, t_ray *ray, t_dst_and_nrm *dst_nrm)
 		{
 			dst_nrm->dst = dst;
 			dst_nrm->nrm = plane->rev_normal;
-			// printf("DST %f\n", dst);
 		}
 	}
 	else if (denom < -0.000001f)
