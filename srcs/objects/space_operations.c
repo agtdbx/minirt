@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:34:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/20 08:55:53 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/20 09:14:51 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	translate(t_vector *vector, float x, float y, float z)
 	vector->z += z;
 }
 
-void	rotate(t_vector *vector, float angle, char axis)
+void	absolute_rotate(t_vector *vector, float angle, char axis)
 {
 	const float	x = vector->x;
 	const float	y = vector->y;

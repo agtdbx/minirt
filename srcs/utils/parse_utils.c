@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:02:48 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 13:54:01 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/20 09:23:36 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int	parse_color(char *part)
 	int		nb;
 	int		i;
 
+	i = ft_strlen(part);
+	if (i > 1 && part[i - 1] == ',')
+		return (0);
 	i = 0;
 	while (i < 3)
 	{
@@ -65,8 +68,9 @@ bool	parse_vector(char *part, float *nbs, float min, float max)
 	float	nb;
 	int		i;
 
-	if (!part)
-		return (false);
+	i = ft_strlen(part);
+	if (i > 1 && part[i - 1] == ',')
+		return (0);
 	i = 0;
 	while (i < 3)
 	{

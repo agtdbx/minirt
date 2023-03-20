@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 15:25:09 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/20 09:15:08 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 
 // objets/space_operations.c
 void		translate(t_vector *vector, float x, float y, float z);
-void		rotate(t_vector *vector, float angle, char axis);
+void		absolute_rotate(t_vector *vector, float angle, char axis);
 
 // objets/camera.c
 void		get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr);
