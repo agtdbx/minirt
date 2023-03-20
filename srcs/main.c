@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 17:35:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/20 08:59:34 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,22 +67,30 @@ void	hook(void *param)
 												&all->scene.camera.basis[0]);
 		need_draw = true;
 	}
-	if (mlx_is_key_down(all->mlx, MLX_KEY_Q))
+	if (mlx_is_key_down(all->mlx, MLX_KEY_SPACE))
 	{
 		all->scene.camera.pos = sub_vect_vect(&all->scene.camera.pos,
 												&all->scene.camera.basis[1]);
 		need_draw = true;
 	}
-	if (mlx_is_key_down(all->mlx, MLX_KEY_E))
+	if (mlx_is_key_down(all->mlx, MLX_KEY_LEFT_SHIFT))
 	{
 		all->scene.camera.pos = add_vect_vect(&all->scene.camera.pos,
 												&all->scene.camera.basis[1]);
 		need_draw = true;
 	}
 
-	if (mlx_is_key_down(all->mlx, MLX_KEY_R))
+	if (mlx_is_key_down(all->mlx, MLX_KEY_LEFT))
 	{
-		// rotate(&all->scene.camera.orientation, -rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[0], rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[1], rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[2], rot, ROTATE_AROUND_Y);
+		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
+		all->scene.camera.orientation = multiply_vect_number(&all->scene.camera.basis[2], len);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_RIGHT))
+	{
 		rotate(&all->scene.camera.basis[0], -rot, ROTATE_AROUND_Y);
 		rotate(&all->scene.camera.basis[1], -rot, ROTATE_AROUND_Y);
 		rotate(&all->scene.camera.basis[2], -rot, ROTATE_AROUND_Y);
@@ -90,12 +98,20 @@ void	hook(void *param)
 		all->scene.camera.orientation = multiply_vect_number(&all->scene.camera.basis[2], len);
 		need_draw = true;
 	}
-	if (mlx_is_key_down(all->mlx, MLX_KEY_T))
+	if (mlx_is_key_down(all->mlx, MLX_KEY_UP))
 	{
-		// rotate(&all->scene.camera.orientation, rot, ROTATE_AROUND_Y);
-		rotate(&all->scene.camera.basis[0], rot, ROTATE_AROUND_Y);
-		rotate(&all->scene.camera.basis[1], rot, ROTATE_AROUND_Y);
-		rotate(&all->scene.camera.basis[2], rot, ROTATE_AROUND_Y);
+		rotate(&all->scene.camera.basis[0], rot, ROTATE_AROUND_X);
+		rotate(&all->scene.camera.basis[1], rot, ROTATE_AROUND_X);
+		rotate(&all->scene.camera.basis[2], rot, ROTATE_AROUND_X);
+		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
+		all->scene.camera.orientation = multiply_vect_number(&all->scene.camera.basis[2], len);
+		need_draw = true;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_DOWN))
+	{
+		rotate(&all->scene.camera.basis[0], -rot, ROTATE_AROUND_X);
+		rotate(&all->scene.camera.basis[1], -rot, ROTATE_AROUND_X);
+		rotate(&all->scene.camera.basis[2], -rot, ROTATE_AROUND_X);
 		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
 		all->scene.camera.orientation = multiply_vect_number(&all->scene.camera.basis[2], len);
 		need_draw = true;

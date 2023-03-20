@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:34:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 16:20:30 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/20 08:55:53 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	rotate(t_vector *vector, float angle, char axis)
 {
 	const float	x = vector->x;
 	const float	y = vector->y;
-	const float	z = vector->x;
+	const float	z = vector->z;
 	const float	rad = angle * PI_DIV_180;
 
 	if (axis == ROTATE_AROUND_X)
