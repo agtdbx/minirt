@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/20 09:15:08 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/20 13:33:02 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,10 @@ typedef struct s_all
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_scene		scene;
+	int			draw_size;
+	t_ray		**ray_tab;
+	double		last_time;
+	int			colors_tab[HEIGHT][WIDTH];
 }	t_all;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +199,9 @@ void		fill_tab_ray(t_ray **ray_tab, t_camera *camera,
 				int number_ray, int number_line);
 
 //image/draw.c
-void	draw(t_all *all, int size);
+void	free_ray_tab(t_ray **ray_tab, int max_alloc);
+t_ray	**alloc_ray_tab(void);
+void	draw(t_all *all);
 
 // parsing/parse_file.c
 t_scene		parse_file(char *filename);

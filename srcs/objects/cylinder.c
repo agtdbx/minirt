@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cylinder.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/28 14:32:22 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/20 17:52:14 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 	if (abc[0] == 0.0f)
 	{
 		intersect_cylinder_ends(cylinder, ray, dst_nrm);
+		printf("A");
 		return ;
 	}
 	abc[1] = (dot_product(&ray->direction, &x) - (dv_xv[0] * dv_xv[1])) * 2.0f;
