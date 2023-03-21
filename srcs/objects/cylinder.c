@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/20 17:52:14 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 09:43:40 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
 	res.top = create_plane(res.top_origin, axis, color);
 	res.axis = axis;
 	res.color = color;
+
+	printf("BASE : ");
+	print_cylinder(&res);
+	printf("TOP : ");
+	print_plane(&res.top);
+	printf("BOT : ");
+	print_plane(&res.bot);
+
 	return (res);
 }
 
@@ -61,18 +69,15 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 	dv_xv[1] = dot_product(&x, &cylinder->axis);
 	abc[0] = dot_product(&ray->direction, &ray->direction)
 		- (dv_xv[0] * dv_xv[0]);
-	if (abc[0] == 0.0f)
-	{
-		intersect_cylinder_ends(cylinder, ray, dst_nrm);
-		printf("A");
-		return ;
-	}
 	abc[1] = (dot_product(&ray->direction, &x) - (dv_xv[0] * dv_xv[1])) * 2.0f;
 	abc[2] = dot_product(&x, &x) - (dv_xv[1] * dv_xv[1]) - cylinder->radius2;
 	dst[0] = solve_quadratic(abc[0], abc[1], abc[2]);
 	dst[1] = dv_xv[0] * dst[0] + dv_xv[1];
 	if (dst[1] < 0 || dst[1] > cylinder->height)
+	{
+		intersect_cylinder_ends(cylinder, ray, dst_nrm);
 		return ;
+	}
 	if (0.0f <= dst[0] && (dst_nrm->dst < 0.0f || dst[0] < dst_nrm->dst))
 		assign_result_value(cylinder, ray, dst_nrm, dst);
 }
