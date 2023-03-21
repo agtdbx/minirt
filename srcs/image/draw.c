@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/20 17:30:19 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:12:53 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ static void	draw_pixels(t_all *all, int x, int y, int color)
 	int	j;
 
 	j = 0;
-	while (j < all->draw_size)
+	while (j < all->scene.ppr)
 	{
 		i = 0;
-		while (i < all->draw_size)
+		while (i < all->scene.ppr)
 		{
-			mlx_put_pixel(all->img, (x * all->draw_size) + i, (y * all->draw_size) + j, color);
+			all->colors_tab[(y * all->scene.ppr) + j][(x * all->scene.ppr) + i] = color;
 			i++;
 		}
 		j++;
@@ -87,18 +87,18 @@ static void	draw_pixels(t_all *all, int x, int y, int color)
 
 void	draw(t_all *all)
 {
-	const int		number_ray = WIDTH / all->draw_size;
-	const int		number_line = HEIGHT / all->draw_size;
+	const int		number_ray = WIDTH / all->scene.ppr;
+	const int		number_line = HEIGHT / all->scene.ppr;
+	float			intensity;
 	int				x;
 	int				y;
-	float			intensity;
 	int				color;
 	int				r, g, b;
 	t_dst_and_nrm	res;
 	t_rtlst			*obj;
 
 	// Replissage du tableau de rayons
-	fill_tab_ray(all->ray_tab, &all->scene.camera, number_ray, number_line);
+	fill_tab_ray(all->ray_tab, &all->scene, number_ray, number_line);
 
 	// Faire les calcules d'intersections ici
 	y = 0;
@@ -109,6 +109,7 @@ void	draw(t_all *all)
 		{
 			res.dst = -1.0f;
 			res.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
+			res.color = 0x000000FF;
 
 			obj = all->scene.objects;
 			while (obj)
@@ -126,26 +127,27 @@ void	draw(t_all *all)
 			{
 				res.nrm = create_vector(res.nrm.x, res.nrm.y, res.nrm.z, true);
 				all->ray_tab[y][x].direction = create_vector(all->ray_tab[y][x].direction.x, all->ray_tab[y][x].direction.y, all->ray_tab[y][x].direction.z, true);
-				intensity = (-dot_product(&res.nrm, &all->ray_tab[y][x].direction)) * 255;
-				color = intensity;
-				all->colors_tab[y][x] = get_rgb(color, color, color);
+				intensity = (-dot_product(&res.nrm, &all->ray_tab[y][x].direction) * all->scene.al_intensity);
+				r = (res.color >> 24 & 0XFF) * intensity * ((all->scene.al_color >> 24 & 0XFF) / 255.0f);
+				g = (res.color >> 16 & 0XFF) * intensity * ((all->scene.al_color >> 16 & 0XFF) / 255.0f);
+				b = (res.color >> 8 & 0XFF) * intensity * ((all->scene.al_color >> 8 & 0XFF) / 255.0f);
+				draw_pixels(all, x, y, get_rgb(r, g, b));
 			}
 			else
-				all->colors_tab[y][x] = 0x000000FF;
-
+				draw_pixels(all, x, y, 0x000000FF);
 			x++;
 		}
 		y++;
 	}
 
 	y = 0;
-	while (y < number_line)
+	while (y < HEIGHT)
 	{
 		x = 0;
-		while (x < number_ray)
+		while (x < WIDTH)
 		{
 			// Antialiasing
-			if (x > 1 && x < number_ray - 1 && y > 1 && y < number_line - 1)
+			if (x > 1 && x < WIDTH - 1 && y > 1 && y < HEIGHT - 1)
 			{
 				r = all->colors_tab[y - 1][x - 1] >> 24 & 0xFF;
 				g = all->colors_tab[y - 1][x - 1] >> 16 & 0xFF;
@@ -187,7 +189,7 @@ void	draw(t_all *all)
 			}
 			else
 				color = all->colors_tab[y][x];
-			draw_pixels(all, x, y, color);
+			mlx_put_pixel(all->img, x, y, color);
 			x++;
 		}
 		y++;

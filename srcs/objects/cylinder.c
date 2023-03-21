@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 09:43:40 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 10:48:59 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,6 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
 	res.axis = axis;
 	res.color = color;
 
-	printf("BASE : ");
-	print_cylinder(&res);
-	printf("TOP : ");
-	print_plane(&res.top);
-	printf("BOT : ");
-	print_plane(&res.bot);
-
 	return (res);
 }
 
@@ -61,8 +54,8 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 {
 	float		dst[2];
 	float		abc[3];
-	t_vector	x;
 	float		dv_xv[2];
+	t_vector	x;
 
 	x = sub_vect_vect(&ray->origin, &cylinder->bot_origin);
 	dv_xv[0] = dot_product(&ray->direction, &cylinder->axis);
@@ -93,6 +86,7 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 	dst_nrm->nrm = multiply_vect_number(&cylinder->axis, dst[1]);
 	x = sub_vect_vect(&x, &dst_nrm->nrm);
 	dst_nrm->nrm = create_vector(x.x, x.y, x.z, true);
+	dst_nrm->color = cylinder->color;
 }
 
 static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
@@ -121,6 +115,7 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	{
 		dst_nrm->dst = dst1.dst;
 		dst_nrm->nrm = cylinder->top.normal;
+		dst_nrm->color = cylinder->color;
 	}
 }
 
@@ -143,5 +138,6 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 	{
 		dst_nrm->dst = dst0->dst;
 		dst_nrm->nrm = cylinder->bot.normal;
+		dst_nrm->color = cylinder->color;
 	}
 }

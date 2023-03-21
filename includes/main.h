@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/20 13:33:02 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 11:29:14 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_dst_and_nrm
 {
 	t_vector	nrm;
 	float		dst;
+	int			color;
 }	t_dst_and_nrm;
 
 // Camera Struct
@@ -148,6 +149,7 @@ typedef struct s_scene
 {
 	float		al_intensity;
 	int			al_color;
+	int			ppr;
 	t_camera	camera;
 	t_light		light;
 	t_rtlst		*objects;
@@ -159,7 +161,6 @@ typedef struct s_all
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_scene		scene;
-	int			draw_size;
 	t_ray		**ray_tab;
 	double		last_time;
 	int			colors_tab[HEIGHT][WIDTH];
@@ -195,7 +196,7 @@ void		absolute_rotate(t_vector *vector, float angle, char axis);
 
 // objets/camera.c
 void		get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr);
-void		fill_tab_ray(t_ray **ray_tab, t_camera *camera,
+void		fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 				int number_ray, int number_line);
 
 //image/draw.c

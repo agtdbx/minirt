@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 11:39:21 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 15:51:42 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 11:30:41 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray,
 			t_vector screen_vect[2])
 {
 	int	i;
-	
+
 	// Boucle pour créer les rayons de gauche
 	i = number_ray / 2;
 	ray_lst[i].origin = dup_vect(&camera->pos);
@@ -103,7 +103,7 @@ The number of ray per line is the width of the window / size
 The number of line is the height of the window / size
 Take the camera and the size of ray (How many pixel are trace per ray)
 */
-void	fill_tab_ray(t_ray **ray_tab, t_camera *camera,
+void	fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 			int number_ray, int number_line)
 {
 	// const int	height_per_ray = HEIGHT / number_line;
@@ -111,11 +111,11 @@ void	fill_tab_ray(t_ray **ray_tab, t_camera *camera,
 	int			y;
 	t_vector	screen_vect[2];
 
-	get_screen_basis(&camera->orientation, screen_vect, 1);
+	get_screen_basis(&scene->camera.orientation, screen_vect, scene->ppr);
 
 	// On créer la ligne de rayon au milieu de l'écran
 	y = number_line / 2;
-	fov_to_ray_list(ray_tab[y], camera, number_ray, screen_vect);
+	fov_to_ray_list(ray_tab[y], &scene->camera, number_ray, screen_vect);
 	// On va set les lignes au dessus de celle du milieu
 	y--;
 	while (y >= 0)

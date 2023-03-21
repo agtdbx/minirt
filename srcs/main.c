@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/20 17:59:52 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 12:03:55 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,39 @@ void	render(t_all *all)
 
 void	hook(void *param)
 {
-	t_all			*all;
-	float			len;
-	double			delta_time;
 	static float	time_for_fps = 0.0f;
-	t_vector	tmp;
+	static float	time_ignore_input = 0.0f;
+	double			delta_time;
+	float			len;
+	t_all			*all;
+	t_vector		tmp;
 
 	all = param;
 
 	delta_time = mlx_get_time() - all->last_time;
 	all->last_time = mlx_get_time();
 
+	// Calcule des fps
 	time_for_fps += delta_time;
-	if (time_for_fps > 3.0f)
+	if (time_for_fps > 1.0f)
 	{
-		printf("fps : %f\n", 1.0f / delta_time);
-		time_for_fps -= 3.0f;
+		printf("ppr : %i, %5.2f fps\n", all->scene.ppr,  2.0f / delta_time);
+		time_for_fps -= 1.0f;
 	}
+
+	if (time_ignore_input > 0.0f)
+	{
+		time_ignore_input -= delta_time;
+		if (time_ignore_input < 0.0f)
+			time_ignore_input = 0.0f;
+	}
+
 	delta_time *= 5.0f;
 
 	if (mlx_is_key_down(all->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(all->mlx);
+
+	// Mouvement camera
 	if (mlx_is_key_down(all->mlx, MLX_KEY_W))
 	{
 		tmp = multiply_vect_number(&all->scene.camera.basis[2], delta_time);
@@ -92,6 +104,7 @@ void	hook(void *param)
 												&tmp);
 	}
 
+	// Rotation camera
 	if (mlx_is_key_down(all->mlx, MLX_KEY_LEFT))
 	{
 		absolute_rotate(&all->scene.camera.basis[0], (delta_time * 3.0f), ROTATE_AROUND_Y);
@@ -124,6 +137,21 @@ void	hook(void *param)
 		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
 		all->scene.camera.orientation = multiply_vect_number(&all->scene.camera.basis[2], len);
 	}
+
+	// Changement ppr
+	if (mlx_is_key_down(all->mlx, MLX_KEY_EQUAL) && all->scene.ppr < 4
+			&& time_ignore_input == 0.0f)
+	{
+		all->scene.ppr++;
+		time_ignore_input = 1.0f;
+	}
+	if (mlx_is_key_down(all->mlx, MLX_KEY_MINUS) && all->scene.ppr > 1
+			&& time_ignore_input == 0.0f)
+	{
+		all->scene.ppr--;
+		time_ignore_input = 1.0f;
+	}
+
 	draw(all);
 }
 
@@ -154,7 +182,7 @@ int	main(int argc, char **argv)
 	printf("\n");
 
 	all.last_time = 0.0;
-	all.draw_size = 1;
+	all.scene.ppr = 1;
 	// Allocation du tableau de rayon
 	all.ray_tab = alloc_ray_tab();
 	if (all.ray_tab == NULL)
