@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 12:03:55 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 15:51:54 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ void	hook(void *param)
 	}
 
 	// Changement ppr
-	if (mlx_is_key_down(all->mlx, MLX_KEY_EQUAL) && all->scene.ppr < 4
+	if (mlx_is_key_down(all->mlx, MLX_KEY_EQUAL) && all->scene.ppr < 10
 			&& time_ignore_input == 0.0f)
 	{
 		all->scene.ppr++;

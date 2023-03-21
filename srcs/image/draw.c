@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 12:12:53 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 15:53:35 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ t_ray	**alloc_ray_tab(void)
 	return (ray_tab);
 }
 
-
 static void	draw_pixels(t_all *all, int x, int y, int color)
 {
 	int	i;
@@ -83,7 +82,6 @@ static void	draw_pixels(t_all *all, int x, int y, int color)
 		j++;
 	}
 }
-
 
 void	draw(t_all *all)
 {
@@ -194,4 +192,6 @@ void	draw(t_all *all)
 		}
 		y++;
 	}
+
+
 }

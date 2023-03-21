@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/21 14:06:53 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/21 14:30:30 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,10 @@ INCLUDES	:=	-Iincludes -Ilibft -I/usr/include -IMLX42/include
 LIBFLAGS	:=	-LMLX42/build -lmlx42 -ldl -lglfw -pthread -lm
 LIBFTFLAGS	:=	-Llibft -lft
 CFLAGS		:=	-MP -MMD -Wall -Wextra -Werror $(INCLUDES) -Wno-unused-function -Ofast
+
+ifdef DEBUG
+	CFLAGS += -g3
+endif
 
 #==================================EXECUTABLE==================================#
 NAME	:=	minirt

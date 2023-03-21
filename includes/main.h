@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 11:29:14 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/21 15:51:47 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ void		fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 void	free_ray_tab(t_ray **ray_tab, int max_alloc);
 t_ray	**alloc_ray_tab(void);
 void	draw(t_all *all);
+
 
 // parsing/parse_file.c
 t_scene		parse_file(char *filename);
