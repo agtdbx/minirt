@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/21 13:21:52 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/21 14:06:53 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,7 +98,6 @@ fclean : clean
 	@echo -e "$(RED)Deleting binary$(NOC)"
 	@rm -f $(NAME)
 	@make fclean -C libft
-	@make clean -sC MLX42/build
 
 re :
 	@make fclean
