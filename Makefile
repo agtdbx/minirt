@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/17 16:04:58 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/21 13:21:52 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,6 +80,7 @@ $(BUILD)/%.o : srcs/%.c | $$(@D)
 
 $(NAME) : $(OBJS)
 	@make -C libft
+	@cd MLX42 && cmake -DBUILD_TESTS=ON -B build && cmake --build build --parallel
 	@make -sC MLX42/build
 	@echo -e "$(BLUE)Creation of binary$(NOC)"
 	@$(CC) $(CFLAGS) $^ $(LIBFLAGS) $(LIBFTFLAGS) -o $@
@@ -91,7 +92,7 @@ clean :
 	@echo -e "$(RED)Deleting objects$(NOC)"
 	@rm -rf $(DIRS)
 	@make clean -C libft
-	@make clean -sC MLX42/build
+	@rm -rf MLX42/build
 
 fclean : clean
 	@echo -e "$(RED)Deleting binary$(NOC)"

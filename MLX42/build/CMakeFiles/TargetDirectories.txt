@@ -1,3 +1,0 @@
-/nfs/homes/aderouba/Documents/Tronc-commun/Cercle-4/minirt/MLX42/build/CMakeFiles/rebuild_cache.dir
-/nfs/homes/aderouba/Documents/Tronc-commun/Cercle-4/minirt/MLX42/build/CMakeFiles/edit_cache.dir
-/nfs/homes/aderouba/Documents/Tronc-commun/Cercle-4/minirt/MLX42/build/CMakeFiles/mlx42.dir
