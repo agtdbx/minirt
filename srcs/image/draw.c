@@ -6,13 +6,17 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 15:53:35 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/22 12:21:48 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static int	get_rgb(int r, int g, int b)
+static void	do_intersections(t_all *all, t_dst_and_nrm *res, int x, int y);
+static void	draw_pixels(t_all *all, int x, int y, int color);
+static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y);
+
+int	get_rgb(int r, int g, int b)
 {
 	if (r < 0)
 		r = 0;
@@ -26,79 +30,18 @@ static int	get_rgb(int r, int g, int b)
 		b = 0;
 	else if (b > 255)
 		b = 255;
-    return (r << 24 | g << 16 | b << 8 | 255);
-}
-
-void	free_ray_tab(t_ray **ray_tab, int max_alloc)
-{
-	int	i;
-
-	i = 0;
-	while (i < max_alloc)
-	{
-		free(ray_tab[i]);
-		i++;
-	}
-	free(ray_tab);
-}
-
-
-t_ray	**alloc_ray_tab(void)
-{
-	int		y;
-	t_ray	**ray_tab;
-
-	ray_tab = malloc(sizeof(t_ray *) * HEIGHT);
-	if (ray_tab == NULL)
-		return (NULL);
-	y = 0;
-	while (y < HEIGHT)
-	{
-		ray_tab[y] = malloc(sizeof(t_ray) * WIDTH);
-		if (ray_tab[y] == NULL)
-		{
-			free_ray_tab(ray_tab, y);
-			return (NULL);
-		}
-		y++;
-	}
-	return (ray_tab);
-}
-
-static void	draw_pixels(t_all *all, int x, int y, int color)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	while (j < all->scene.ppr)
-	{
-		i = 0;
-		while (i < all->scene.ppr)
-		{
-			all->colors_tab[(y * all->scene.ppr) + j][(x * all->scene.ppr) + i] = color;
-			i++;
-		}
-		j++;
-	}
+	return (r << 24 | g << 16 | b << 8 | 255);
 }
 
 void	draw(t_all *all)
 {
 	const int		number_ray = WIDTH / all->scene.ppr;
 	const int		number_line = HEIGHT / all->scene.ppr;
-	float			intensity;
 	int				x;
 	int				y;
-	int				color;
-	int				r, g, b;
 	t_dst_and_nrm	res;
-	t_rtlst			*obj;
 
-	// Replissage du tableau de rayons
 	fill_tab_ray(all->ray_tab, &all->scene, number_ray, number_line);
-
-	// Faire les calcules d'intersections ici
 	y = 0;
 	while (y < number_line)
 	{
@@ -108,90 +51,80 @@ void	draw(t_all *all)
 			res.dst = -1.0f;
 			res.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
 			res.color = 0x000000FF;
-
-			obj = all->scene.objects;
-			while (obj)
-			{
-				if (obj->type == SPHERE)
-					intersect_sphere(&obj->value.as_sphere, &all->ray_tab[y][x], &res);
-				else if (obj->type == PLANE)
-					intersect_plane(&obj->value.as_plane, &all->ray_tab[y][x], &res);
-				else if (obj->type == CYLINDER)
-					intersect_cylinder(&obj->value.as_cylinder, &all->ray_tab[y][x], &res);
-				obj = obj->next;
-			}
-
-			if (res.dst != -1.0f)
-			{
-				res.nrm = create_vector(res.nrm.x, res.nrm.y, res.nrm.z, true);
-				all->ray_tab[y][x].direction = create_vector(all->ray_tab[y][x].direction.x, all->ray_tab[y][x].direction.y, all->ray_tab[y][x].direction.z, true);
-				intensity = (-dot_product(&res.nrm, &all->ray_tab[y][x].direction) * all->scene.al_intensity);
-				r = (res.color >> 24 & 0XFF) * intensity * ((all->scene.al_color >> 24 & 0XFF) / 255.0f);
-				g = (res.color >> 16 & 0XFF) * intensity * ((all->scene.al_color >> 16 & 0XFF) / 255.0f);
-				b = (res.color >> 8 & 0XFF) * intensity * ((all->scene.al_color >> 8 & 0XFF) / 255.0f);
-				draw_pixels(all, x, y, get_rgb(r, g, b));
-			}
-			else
-				draw_pixels(all, x, y, 0x000000FF);
+			do_intersections(all, &res, x, y);
+			draw_result(all, &res, x, y);
 			x++;
 		}
 		y++;
 	}
+	apply_antialiasing(all);
+}
 
-	y = 0;
-	while (y < HEIGHT)
+static void	do_intersections(t_all *all, t_dst_and_nrm *res, int x, int y)
+{
+	t_rtlst	*obj;
+
+	obj = all->scene.objects;
+	while (obj)
 	{
-		x = 0;
-		while (x < WIDTH)
-		{
-			// Antialiasing
-			if (x > 1 && x < WIDTH - 1 && y > 1 && y < HEIGHT - 1)
-			{
-				r = all->colors_tab[y - 1][x - 1] >> 24 & 0xFF;
-				g = all->colors_tab[y - 1][x - 1] >> 16 & 0xFF;
-				b = all->colors_tab[y - 1][x - 1] >> 8 & 0xFF;
-
-				r += all->colors_tab[y - 1][x] >> 24 & 0xFF;
-				g += all->colors_tab[y - 1][x] >> 16 & 0xFF;
-				b += all->colors_tab[y - 1][x] >> 8 & 0xFF;
-
-				r += all->colors_tab[y - 1][x + 1] >> 24 & 0xFF;
-				g += all->colors_tab[y - 1][x + 1] >> 16 & 0xFF;
-				b += all->colors_tab[y - 1][x + 1] >> 8 & 0xFF;
-
-				r += all->colors_tab[y][x - 1] >> 24 & 0xFF;
-				g += all->colors_tab[y][x - 1] >> 16 & 0xFF;
-				b += all->colors_tab[y][x - 1] >> 8 & 0xFF;
-
-				r += all->colors_tab[y][x + 1] >> 24 & 0xFF;
-				g += all->colors_tab[y][x + 1] >> 16 & 0xFF;
-				b += all->colors_tab[y][x + 1] >> 8 & 0xFF;
-
-				r += all->colors_tab[y + 1][x - 1] >> 24 & 0xFF;
-				g += all->colors_tab[y + 1][x - 1] >> 16 & 0xFF;
-				b += all->colors_tab[y + 1][x - 1] >> 8 & 0xFF;
-
-				r += all->colors_tab[y + 1][x] >> 24 & 0xFF;
-				g += all->colors_tab[y + 1][x] >> 16 & 0xFF;
-				b += all->colors_tab[y + 1][x] >> 8 & 0xFF;
-
-				r += all->colors_tab[y + 1][x] >> 24 & 0xFF;
-				g += all->colors_tab[y + 1][x] >> 16 & 0xFF;
-				b += all->colors_tab[y + 1][x] >> 8 & 0xFF;
-
-				r >>= 3;
-				g >>= 3;
-				b >>= 3;
-
-				color = get_rgb(r, g, b);
-			}
-			else
-				color = all->colors_tab[y][x];
-			mlx_put_pixel(all->img, x, y, color);
-			x++;
-		}
-		y++;
+		if (obj->type == SPHERE)
+			intersect_sphere(&obj->value.as_sphere, &all->ray_tab[y][x], res);
+		else if (obj->type == PLANE)
+			intersect_plane(&obj->value.as_plane, &all->ray_tab[y][x], res);
+		else if (obj->type == CYLINDER)
+			intersect_cylinder(&obj->value.as_cylinder, &all->ray_tab[y][x],
+				res);
+		obj = obj->next;
 	}
+}
 
+static void	draw_pixels(t_all *all, int x, int y, int color)
+{
+	int	i;
+	int	j;
+	int	tmp_x;
+	int	tmp_y;
 
+	j = 0;
+	while (j < all->scene.ppr)
+	{
+		i = 0;
+		while (i < all->scene.ppr)
+		{
+			tmp_x = (x * all->scene.ppr) + i;
+			tmp_y = (y * all->scene.ppr) + j;
+			all->colors_tab[tmp_y][tmp_x] = color;
+			i++;
+		}
+		j++;
+	}
+}
+
+static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
+{
+	int			r;
+	int			g;
+	int			b;
+	float		intensity;
+	t_vector	tmp;
+
+	if (res->dst != -1.0f)
+	{
+		res->nrm = create_vector(res->nrm.x, res->nrm.y, res->nrm.z, true);
+		tmp = create_vector(all->ray_tab[y][x].direction.x,
+				all->ray_tab[y][x].direction.y,
+				all->ray_tab[y][x].direction.z, true);
+		all->ray_tab[y][x].direction = tmp;
+		intensity = -dot_product(&res->nrm, &all->ray_tab[y][x].direction);
+		intensity *= all->scene.al_intensity;
+		r = (res->color >> 24 & 0XFF) * intensity;
+		g = (res->color >> 16 & 0XFF) * intensity;
+		b = (res->color >> 8 & 0XFF) * intensity;
+		r *= ((all->scene.al_color >> 24 & 0XFF) / 255.0f);
+		g *= ((all->scene.al_color >> 16 & 0XFF) / 255.0f);
+		b *= ((all->scene.al_color >> 8 & 0XFF) / 255.0f);
+		draw_pixels(all, x, y, get_rgb(r, g, b));
+	}
+	else
+		draw_pixels(all, x, y, 0x000000FF);
 }

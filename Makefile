@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/21 14:30:30 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/22 12:12:04 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,8 +38,11 @@ SRCS	:=	srcs/main.c							\
 			srcs/objects/camera.c				\
 			srcs/objects/sphere.c				\
 			srcs/objects/cylinder.c				\
-			srcs/objects/space_operations.c		\
+			srcs/objects/space_rotation.c		\
+			srcs/objects/camera_movement.c		\
 			srcs/image/draw.c					\
+			srcs/image/ray_tab.c				\
+			srcs/image/antialiasing.c			\
 			srcs/utils/rtlst.c					\
 			srcs/utils/print.c					\
 			srcs/utils/vector.c					\

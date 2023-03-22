@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 09:53:06 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 11:48:20 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:07:34 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static t_scene	init_scene(void);
 static bool		check_filename(char *filename);
 static bool		read_file(int fd, t_scene *scene);
+static bool		check_word(t_scene *scene, char *word);
 
 // Met res.al_intensity à -1 en cas de pb et print le message d'erreur
 // Sinon récup les infos dans le fichers
@@ -84,27 +85,33 @@ static bool	read_file(int fd, t_scene *scene)
 	while (line && parse_ok)
 	{
 		word = ft_strtok(line, " ");
-		if (ft_strcmp(word, "A") == 0)
-			parse_ok = parse_ambient_light(scene);
-		else if (ft_strcmp(word, "C") == 0)
-			parse_ok = parse_camera(scene);
-		else if (ft_strcmp(word, "L") == 0)
-			parse_ok = parse_light(scene);
-		else if (ft_strcmp(word, "sp") == 0)
-			parse_ok = parse_sphere(scene);
-		else if (ft_strcmp(word, "pl") == 0)
-			parse_ok = parse_plane(scene);
-		else if (ft_strcmp(word, "cy") == 0)
-			parse_ok = parse_cylinder(scene);
-		else if (ft_strcmp(line, "\n") != 0)
-		{
-			ft_printf_fd("Unexpected identifier '%s'\n", 2, line);
-			parse_ok = false;
-		}
+		check_word(scene, word);
 		free(line);
 		line = get_next_line(fd);
 	}
 	if (line)
 		free(line);
+	return (parse_ok);
+}
+
+static bool	check_word(t_scene *scene, char *word)
+{
+	bool	parse_ok;
+
+	parse_ok = false;
+	if (ft_strcmp(word, "A") == 0)
+		parse_ok = parse_ambient_light(scene);
+	else if (ft_strcmp(word, "C") == 0)
+		parse_ok = parse_camera(scene);
+	else if (ft_strcmp(word, "L") == 0)
+		parse_ok = parse_light(scene);
+	else if (ft_strcmp(word, "sp") == 0)
+		parse_ok = parse_sphere(scene);
+	else if (ft_strcmp(word, "pl") == 0)
+		parse_ok = parse_plane(scene);
+	else if (ft_strcmp(word, "cy") == 0)
+		parse_ok = parse_cylinder(scene);
+	else if (ft_strcmp(word, "\n") != 0)
+		ft_printf_fd("Unexpected identifier '%s'\n", 2, word);
 	return (parse_ok);
 }

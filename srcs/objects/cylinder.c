@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 10:48:59 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/22 13:45:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
 	res.top = create_plane(res.top_origin, axis, color);
 	res.axis = axis;
 	res.color = color;
-
 	return (res);
 }
 

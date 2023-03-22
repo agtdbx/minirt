@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:31:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/17 16:12:48 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/22 14:09:44 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,13 @@ bool	parse_camera(t_scene *scene)
 		return (false);
 	part = ft_strtok(NULL, " \n");
 	len = WIDTH / (tan(scene->camera.fov * PI_DIV_360) * 2.0f);
-	scene->camera.orientation = multiply_vect_number(&scene->camera.basis[2], len);
+	scene->camera.orientation = multiply_vect_number(&scene->camera.basis[2],
+			len);
 	get_screen_basis(&scene->camera.basis[2], basis, 1);
 	scene->camera.basis[0] = create_vector(basis[0].x, basis[0].y, basis[0].z,
-								true);
+			true);
 	scene->camera.basis[1] = create_vector(basis[1].x, basis[1].y, basis[1].z,
-								true);
+			true);
 	return (part == NULL);
 }
 

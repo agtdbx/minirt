@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 15:51:47 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/22 12:28:10 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,9 +170,10 @@ typedef struct s_all
 // FILES
 
 // main.c
-void		render(t_all *all);
 void		hook(void *param);
 int			main(int argc, char **argv);
+
+/*====================================OBJECT==================================*/
 
 // objets/sphere.c
 t_sphere	create_sphere(t_vector origin, float radius, int color);
@@ -190,20 +191,36 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
 
-// objets/space_operations.c
-void		translate(t_vector *vector, float x, float y, float z);
-void		absolute_rotate(t_vector *vector, float angle, char axis);
-
 // objets/camera.c
-void		get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr);
+void		get_screen_basis(t_vector const *camera, t_vector ret_basis[2],
+				int ppr);
 void		fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 				int number_ray, int number_line);
 
-//image/draw.c
-void	free_ray_tab(t_ray **ray_tab, int max_alloc);
-t_ray	**alloc_ray_tab(void);
-void	draw(t_all *all);
+// objets/space_operations.c
+void		translate(t_vector *vector, float x, float y, float z);
+void		absolute_rotate(t_vector *vector, float angle, char axis);
+void		my_rot_around(t_vector *restrict vect,
+				t_vector const *restrict axis, float angle);
 
+// objets/camera_operation.c
+void		camera_translations(t_all *all, float delta_time);
+void		camera_rotations(t_all *all, float delta_time);
+
+/*=====================================DRAW===================================*/
+
+//image/draw.c
+int			get_rgb(int r, int g, int b);
+void		draw(t_all *all);
+
+//image/ray_tab.c
+void		free_ray_tab(t_ray **ray_tab, int max_alloc);
+t_ray		**alloc_ray_tab(void);
+
+//image/antialiasing.c
+void		apply_antialiasing(t_all *all);
+
+/*====================================PARSING=================================*/
 
 // parsing/parse_file.c
 t_scene		parse_file(char *filename);
@@ -217,6 +234,8 @@ bool		parse_camera(t_scene *scene);
 bool		parse_sphere(t_scene *scene);
 bool		parse_plane(t_scene *scene);
 bool		parse_cylinder(t_scene *scene);
+
+/*====================================UTILS===================================*/
 
 // utils/vector.c
 t_vector	create_vector(float x, float y, float z, bool normalize);
