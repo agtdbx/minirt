@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/22 12:40:11 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 10:20:18 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ static void	ppr_gestion(t_all *all, float delta_time)
 {
 	static float	time_ignore_input = 0.0f;
 
-	time_ignore_input -= delta_time;
 	if (time_ignore_input > 0.0f)
 	{
+		time_ignore_input -= delta_time;
 		if (time_ignore_input < 0.0f)
 			time_ignore_input = 0.0f;
 	}
@@ -63,6 +63,7 @@ void	hook(void *param)
 		mlx_close_window(all->mlx);
 	camera_translations(all, delta_time);
 	camera_rotations(all, delta_time);
+	ppr_gestion(all, delta_time);
 	draw(all);
 }
 
