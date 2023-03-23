@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:31:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/22 14:09:44 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:03:29 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ bool	parse_camera(t_scene *scene)
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
-	scene->camera.pos = create_vector(vect[0], vect[1], vect[2], false);
+	fill_vec(&scene->camera.pos, vect[0], vect[1], vect[2]);
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, -1.0f, 1.0f))
 		return (false);
-	scene->camera.basis[2] = create_vector(vect[0], vect[1], vect[2], true);
+	fill_vec(&scene->camera.basis[2], vect[0], vect[1], vect[2]);
+	normalize_vec(&scene->camera.basis[2]);
 	part = ft_strtok(NULL, " \n");
 	if (!is_int(part))
 		return (false);
@@ -37,13 +38,13 @@ bool	parse_camera(t_scene *scene)
 		return (false);
 	part = ft_strtok(NULL, " \n");
 	len = WIDTH / (tan(scene->camera.fov * PI_DIV_360) * 2.0f);
-	scene->camera.orientation = multiply_vect_number(&scene->camera.basis[2],
-			len);
+	dup_vec(&scene->camera.orientation, &scene->camera.basis[2]);
+	multiply_vec_number(&scene->camera.orientation, len);
 	get_screen_basis(&scene->camera.basis[2], basis, 1);
-	scene->camera.basis[0] = create_vector(basis[0].x, basis[0].y, basis[0].z,
-			true);
-	scene->camera.basis[1] = create_vector(basis[1].x, basis[1].y, basis[1].z,
-			true);
+	fill_vec(&scene->camera.basis[0], basis[0].x, basis[0].y, basis[0].z);
+	fill_vec(&scene->camera.basis[1], basis[1].x, basis[1].y, basis[1].z);
+	normalize_vec(&scene->camera.basis[0]);
+	normalize_vec(&scene->camera.basis[1]);
 	return (part == NULL);
 }
 
@@ -60,7 +61,7 @@ bool	parse_sphere(t_scene *scene)
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
-	pos = create_vector(vect[0], vect[1], vect[2], false);
+	fill_vec(&pos, vect[0], vect[1], vect[2]);
 	part = ft_strtok(NULL, " \n");
 	if (!is_float(part))
 		return (false);
@@ -92,11 +93,12 @@ bool	parse_plane(t_scene *scene)
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
-	pos = create_vector(vect[0], vect[1], vect[2], false);
+	fill_vec(&pos, vect[0], vect[1], vect[2]);
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, -1.0f, 1.0f))
 		return (false);
-	nrm = create_vector(vect[0], vect[1], vect[2], true);
+	fill_vec(&nrm, vect[0], vect[1], vect[2]);
+	normalize_vec(&nrm);
 	part = ft_strtok(NULL, " \n");
 	color = parse_color(part);
 	if (color == 0)
@@ -127,13 +129,14 @@ bool	parse_cylinder(t_scene *scene)
 		return (false);
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
-	pos = create_vector(vect[0], vect[1], vect[2], false);
+	fill_vec(&pos, vect[0], vect[1], vect[2]);
 	part = ft_strtok(NULL, " \n");
 	if (part == NULL)
 		return (false);
 	if (!parse_vector(part, vect, -1.0f, 1.0f))
 		return (false);
-	axis = create_vector(vect[0], vect[1], vect[2], true);
+	fill_vec(&axis, vect[0], vect[1], vect[2]);
+	normalize_vec(&axis);
 	part = ft_strtok(NULL, " \n");
 	if (part == NULL)
 		return (false);

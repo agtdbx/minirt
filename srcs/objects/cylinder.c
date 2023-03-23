@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/22 13:45:25 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:02:37 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
 	t_cylinder	res;
 	t_vector	rev_axis;
 
-	rev_axis = multiply_vect_number(&axis, -1.0f);
+	dup_vec(&rev_axis, &axis);
+	multiply_vec_number(&rev_axis, -1.0f);
 	res.radius = size[0] / 2.0f;
 	res.radius2 = res.radius * res.radius;
 	res.height = size[1];
@@ -56,7 +57,8 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 	float		dv_xv[2];
 	t_vector	x;
 
-	x = sub_vect_vect(&ray->origin, &cylinder->bot_origin);
+	dup_vec(&x, &ray->origin);
+	sub_vec_vec(&x, &cylinder->bot_origin);
 	dv_xv[0] = dot_product(&ray->direction, &cylinder->axis);
 	dv_xv[1] = dot_product(&x, &cylinder->axis);
 	abc[0] = dot_product(&ray->direction, &ray->direction)
@@ -81,10 +83,12 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 
 	dst_nrm->dst = dst[0];
 	x = get_point_on_ray(ray, dst[0]);
-	x = sub_vect_vect(&x, &cylinder->bot_origin);
-	dst_nrm->nrm = multiply_vect_number(&cylinder->axis, dst[1]);
-	x = sub_vect_vect(&x, &dst_nrm->nrm);
-	dst_nrm->nrm = create_vector(x.x, x.y, x.z, true);
+	sub_vec_vec(&x, &cylinder->bot_origin);
+	dup_vec(&dst_nrm->nrm, &cylinder->axis);
+	multiply_vec_number(&dst_nrm->nrm, dst[1]);
+	sub_vec_vec(&x, &dst_nrm->nrm);
+	fill_vec(&dst_nrm->nrm, x.x, x.y, x.z);
+	normalize_vec(&dst_nrm->nrm);
 	dst_nrm->color = cylinder->color;
 }
 
@@ -98,15 +102,16 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	float			d;
 
 	dst0.dst = -1.0f;
-	dst0.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
+	fill_vec(&dst0.nrm, 0.0f, 0.0f, 0.0f);
 	dst1.dst = -1.0f;
-	dst1.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
+	fill_vec(&dst1.nrm, 0.0f, 0.0f, 0.0f);
 	intersect_plane(&cylinder->bot, ray, &dst0);
 	intersect_plane(&cylinder->top, ray, &dst1);
 	if (dst1.dst < 0.0f || (0.0f <= dst0.dst && dst0.dst <= dst1.dst))
 		intersect_cylinder_bot_end(cylinder, ray, dst_nrm, &dst0);
 	p = get_point_on_ray(ray, dst1.dst);
-	x = sub_vect_vect(&p, &cylinder->top_origin);
+	dup_vec(&x, &p);
+	sub_vec_vec(&x, &cylinder->top_origin);
 	d = dot_product(&x, &x);
 	if (d > cylinder->radius2)
 		return ;
@@ -128,7 +133,8 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 	if (dst0->dst < 0.0f)
 		return ;
 	p = get_point_on_ray(ray, dst0->dst);
-	x = sub_vect_vect(&p, &cylinder->bot_origin);
+	dup_vec(&x, &p);
+	sub_vec_vec(&x, &cylinder->bot_origin);
 	d = dot_product(&x, &x);
 	if (d > cylinder->radius2)
 		return ;

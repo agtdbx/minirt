@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/22 12:28:10 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:09:56 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,12 +238,16 @@ bool		parse_cylinder(t_scene *scene);
 /*====================================UTILS===================================*/
 
 // utils/vector.c
-t_vector	create_vector(float x, float y, float z, bool normalize);
-t_vector	multiply_vect_number(t_vector const *vector, float const number);
-t_vector	add_vect_vect(t_vector const *v1, t_vector const *v2);
-t_vector	sub_vect_vect(t_vector const *v1, t_vector const *v2);
+void		fill_vec(t_vector *vec, float const x, float const y, float const z);
+void		dup_vec(t_vector *vec, t_vector const *vec_to_dup);
+float		get_length_vec(t_vector *vec);
+void		normalize_vec(t_vector *vec);
+void		multiply_vec_number(t_vector *vec, float const number);
+void		add_vec_vec(t_vector *vec, t_vector const *vec_to_add);
+void		sub_vec_vec(t_vector *vec, t_vector const *vec_to_sub);
 float		dot_product(t_vector const *v1, t_vector const *v2);
-t_vector	cross_product(t_vector const *v1, t_vector const *v2);
+void		cross_product(t_vector const *v1, t_vector const *v2,
+				t_vector *vec_res);
 void		get_normals_of_vect(t_vector const *vect, t_vector nrm[2]);
 
 // utils/rtlst.c

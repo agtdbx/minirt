@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_lights.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:42:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 13:56:46 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:02:07 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	parse_light(t_scene *scene)
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
-	scene->light.pos = create_vector(vect[0], vect[1], vect[2], false);
+	fill_vec(&scene->light.pos, vect[0], vect[1], vect[2]);
 	part = ft_strtok(NULL, " \n");
 	if (!is_float(part))
 		return (false);

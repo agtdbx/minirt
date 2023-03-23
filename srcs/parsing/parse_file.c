@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 09:53:06 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/22 14:07:34 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:03:10 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ static t_scene	init_scene(void)
 
 	res.al_intensity = -1.0f;
 	res.al_color = 0;
-	res.camera.pos = create_vector(0.0f, 0.0f, 0.0f, false);
-	res.camera.orientation = create_vector(0.0f, 0.0f, 0.0f, false);
+	fill_vec(&res.camera.pos, 0.0f, 0.0f, 0.0f);
+	fill_vec(&res.camera.orientation, 0.0f, 0.0f, 0.0f);
 	res.camera.fov = 0;
-	res.light.pos = create_vector(0.0f, 0.0f, 0.0f, false);
+	fill_vec(&res.light.pos, 0.0f, 0.0f, 0.0f);
 	res.light.brightness = -1.0f;
 	res.light.color = 0;
 	res.objects = NULL;

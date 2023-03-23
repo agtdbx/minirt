@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 10:20:18 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:22:17 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static float	get_delta_time(t_all *all)
 	time_for_fps += delta_time;
 	if (time_for_fps > 1.0f)
 	{
-		printf("ppr : %i, %5.2f fps\n", all->scene.ppr, 2.0f / delta_time);
+		printf("ppr : %i, %5.2f fps\n", all->scene.ppr, 1.0f / delta_time);
 		time_for_fps -= 1.0f;
 	}
 	return (delta_time);
@@ -90,7 +90,7 @@ int	main(int argc, char **argv)
 
 	check_param(argc, argv, &all);
 	all.last_time = 0.0;
-	all.scene.ppr = 4;
+	all.scene.ppr = 1;
 	all.ray_tab = alloc_ray_tab();
 	if (all.ray_tab == NULL)
 	{

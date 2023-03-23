@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/22 12:21:48 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 11:06:22 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	draw(t_all *all)
 		while (x < number_ray)
 		{
 			res.dst = -1.0f;
-			res.nrm = create_vector(0.0f, 0.0f, 0.0f, false);
+			fill_vec(&res.nrm, 0.0f, 0.0f, 0.0f);
 			res.color = 0x000000FF;
 			do_intersections(all, &res, x, y);
 			draw_result(all, &res, x, y);
@@ -110,10 +110,12 @@ static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
 
 	if (res->dst != -1.0f)
 	{
-		res->nrm = create_vector(res->nrm.x, res->nrm.y, res->nrm.z, true);
-		tmp = create_vector(all->ray_tab[y][x].direction.x,
+		fill_vec(&res->nrm, res->nrm.x, res->nrm.y, res->nrm.z);
+		fill_vec(&tmp, all->ray_tab[y][x].direction.x,
 				all->ray_tab[y][x].direction.y,
-				all->ray_tab[y][x].direction.z, true);
+				all->ray_tab[y][x].direction.z);
+		normalize_vec(&res->nrm);
+		normalize_vec(&tmp);
 		all->ray_tab[y][x].direction = tmp;
 		intensity = -dot_product(&res->nrm, &all->ray_tab[y][x].direction);
 		intensity *= all->scene.al_intensity;

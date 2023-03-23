@@ -6,41 +6,11 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 11:39:21 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 11:30:41 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:10:52 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-
-
-static t_vector	dup_vect(t_vector *vector)
-{
-	t_vector	new;
-
-	new.x = vector->x;
-	new.y = vector->y;
-	new.z = vector->z;
-	return (new);
-}
-
-static inline void	vec_fill(float x, float y, float z, t_vector *ret_vec)
-{
-	ret_vec->x = x;
-	ret_vec->y = y;
-	ret_vec->z = z;
-}
-
-static inline float	vec_getnorm(t_vector const *vec)
-{
-	return (sqrt((vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z)));
-}
-
-static inline void	vec_scale(float factor, t_vector *ret_vec)
-{
-	ret_vec->x *= factor;
-	ret_vec->y *= factor;
-	ret_vec->z *= factor;
-}
 
 /** get_screen_basis:
  *   return basis of screen plan(plan normal to camera), such that
@@ -54,10 +24,10 @@ void	get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr)
 	float const	b = camera->y;
 	float const	c = camera->z;
 
-	vec_fill(-c, 0.0f, a, &ret_basis[0]);
-	vec_scale(ppr / vec_getnorm(&ret_basis[0]), &ret_basis[0]);
-	vec_fill(a * b, -(a * a) - (c * c), b * c, &ret_basis[1]);
-	vec_scale(ppr / vec_getnorm(&ret_basis[1]), &ret_basis[1]);
+	fill_vec(&ret_basis[0], -c, 0.0f, a);
+	multiply_vec_number(&ret_basis[0], ppr / get_length_vec(&ret_basis[0]));
+	fill_vec(&ret_basis[1], a * b, -(a * a) - (c * c), b * c);
+	multiply_vec_number(&ret_basis[1], ppr / get_length_vec(&ret_basis[1]));
 }
 
 
@@ -72,16 +42,14 @@ static void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray,
 
 	// Boucle pour créer les rayons de gauche
 	i = number_ray / 2;
-	ray_lst[i].origin = dup_vect(&camera->pos);
-	ray_lst[i].direction = dup_vect(&camera->orientation);
-
+	dup_vec(&ray_lst[i].origin, &camera->pos);
+	dup_vec(&ray_lst[i].direction, &camera->orientation);
 	i--;
 	while (i >= 0)
 	{
-		ray_lst[i].origin = dup_vect(&camera->pos);
-		ray_lst[i].direction = sub_vect_vect(&ray_lst[i + 1].direction,
-								&screen_vect[0]);
-		// print_vect(&ray_lst[i].direction);
+		dup_vec(&ray_lst[i].origin, &camera->pos);
+		dup_vec(&ray_lst[i].direction, &ray_lst[i + 1].direction);
+		sub_vec_vec(&ray_lst[i].direction, &screen_vect[0]);
 		i--;
 	}
 	// Boucle pour créer les rayons de droite
@@ -89,10 +57,9 @@ static void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray,
 	i++;
 	while (i < number_ray)
 	{
-		ray_lst[i].origin = dup_vect(&camera->pos);
-		ray_lst[i].direction = add_vect_vect(&ray_lst[i - 1].direction,
-								&screen_vect[0]);
-		// print_vect(&ray_lst[i].direction);
+		dup_vec(&ray_lst[i].origin, &camera->pos);
+		dup_vec(&ray_lst[i].direction, &ray_lst[i - 1].direction);
+		add_vec_vec(&ray_lst[i].direction, &screen_vect[0]);
 		i++;
 	}
 }
@@ -124,10 +91,10 @@ void	fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 		while (x < number_ray)
 		{
 			// Pour chaque rayon, on dup la direction
-			ray_tab[y][x].direction = sub_vect_vect(&ray_tab[y + 1][x].direction,
-										&screen_vect[1]);
+			dup_vec(&ray_tab[y][x].direction, &ray_tab[y + 1][x].direction);
+			sub_vec_vec(&ray_tab[y][x].direction, &screen_vect[1]);
 			// On dup aussi l'origine
-			ray_tab[y][x].origin = dup_vect(&ray_tab[y + 1][x].origin);
+			dup_vec(&ray_tab[y][x].origin, &ray_tab[y + 1][x].origin);
 			x++;
 		}
 		y--;
@@ -141,10 +108,10 @@ void	fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 		while (x < number_ray)
 		{
 			// Pour chaque rayon, on dup la direction
-			ray_tab[y][x].direction = add_vect_vect(&ray_tab[y - 1][x].direction,
-										&screen_vect[1]);
+			dup_vec(&ray_tab[y][x].direction, &ray_tab[y - 1][x].direction);
+			add_vec_vec(&ray_tab[y][x].direction, &screen_vect[1]);
 			// On dup aussi l'origine
-			ray_tab[y][x].origin = dup_vect(&ray_tab[y - 1][x].origin);
+			dup_vec(&ray_tab[y][x].origin, &ray_tab[y - 1][x].origin);
 			x++;
 		}
 		y++;

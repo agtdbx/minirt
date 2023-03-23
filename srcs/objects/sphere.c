@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/21 10:45:46 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:02:16 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	intersect_sphere(t_sphere *sphere, t_ray *ray,
 	float		c;
 	t_vector	x;
 
-	x = sub_vect_vect(&ray->origin, &sphere->origin);
+	dup_vec(&x, &ray->origin);
+	sub_vec_vec(&x, &sphere->origin);
 	a = dot_product(&ray->direction, &ray->direction);
 	b = 2.0f * dot_product(&ray->direction, &x);
 	c = dot_product(&x, &x) - sphere->radius2;
@@ -44,8 +45,10 @@ void	intersect_sphere(t_sphere *sphere, t_ray *ray,
 	{
 		dst_nrm->dst = dst;
 		dst_nrm->nrm = get_point_on_ray(ray, dst);
-		x = sub_vect_vect(&dst_nrm->nrm, &sphere->origin);
-		dst_nrm->nrm = create_vector(x.x, x.y, x.z, true);
+		dup_vec(&x, &dst_nrm->nrm);
+		sub_vec_vec(&x, &sphere->origin);
+		fill_vec(&dst_nrm->nrm, x.x, x.y, x.z);
+		normalize_vec(&dst_nrm->nrm);
 		dst_nrm->color = sphere->color;
 	}
 }

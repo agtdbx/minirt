@@ -6,58 +6,66 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:28:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 10:41:03 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 13:11:00 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_vector	create_vector(float x, float y, float z, bool normalize)
+void	fill_vec(t_vector *vec, float const x, float const y, float const z)
 {
-	t_vector	res;
+	vec->x = x;
+	vec->y = y;
+	vec->z = z;
+}
+
+void	dup_vec(t_vector *vec, t_vector const *vec_to_dup)
+{
+	vec->x = vec_to_dup->x;
+	vec->y = vec_to_dup->y;
+	vec->z = vec_to_dup->z;
+}
+
+float	get_length_vec(t_vector *vec)
+{
+	return (sqrt((vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z)));
+}
+
+void	normalize_vec(t_vector *vec)
+{
+	const float	x = vec->x;
+	const float	y = vec->y;
+	const float	z = vec->z;
 	float		length;
 
-	res.x = x;
-	res.y = y;
-	res.z = z;
-	if (normalize && (x != 0.0f || y != 0.0f || z != 0.0f))
+	if (x != 0.0f || y != 0.0f || z != 0.0f)
 	{
-		length = sqrt((x * x) + (y * y) + (z * z));
-		res.x /= length;
-		res.y /= length;
-		res.z /= length;
+		length = get_length_vec(vec);
+		vec->x /= length;
+		vec->y /= length;
+		vec->z /= length;
 	}
-	return (res);
 }
 
-t_vector	multiply_vect_number(t_vector const *vector, float const number)
+void	multiply_vec_number(t_vector *vec, float const number)
 {
-	t_vector	res;
-
-	res.x = vector->x * number;
-	res.y = vector->y * number;
-	res.z = vector->z * number;
-	return (res);
+	vec->x *= number;
+	vec->y *= number;
+	vec->z *= number;
 }
 
-t_vector	add_vect_vect(t_vector const *v1, t_vector const *v2)
+void	add_vec_vec(t_vector *vec, t_vector const *vec_to_add)
 {
-	t_vector	res;
-
-	res.x = v1->x + v2->x;
-	res.y = v1->y + v2->y;
-	res.z = v1->z + v2->z;
-	return (res);
+	vec->x += vec_to_add->x;
+	vec->y += vec_to_add->y;
+	vec->z += vec_to_add->z;
 }
 
-t_vector	sub_vect_vect(t_vector const *v1, t_vector const *v2)
+void	sub_vec_vec(t_vector *vec, t_vector const *vec_to_sub)
 {
-	t_vector	res;
-
-	res.x = v1->x - v2->x;
-	res.y = v1->y - v2->y;
-	res.z = v1->z - v2->z;
-	return (res);
+	vec->x -= vec_to_sub->x;
+	vec->y -= vec_to_sub->y;
+	vec->z -= vec_to_sub->z;
 }
 
 float	dot_product(t_vector const *v1, t_vector const *v2)
@@ -65,14 +73,11 @@ float	dot_product(t_vector const *v1, t_vector const *v2)
 	return ((v1->x * v2->x) + (v1->y * v2->y) + (v1->z * v2->z));
 }
 
-t_vector	cross_product(t_vector const *v1, t_vector const *v2)
+void	cross_product(t_vector const *v1, t_vector const *v2, t_vector *vec_res)
 {
-	t_vector	res;
-
-	res.x = (v1->y * v2->z) - (v1->z * v2->y);
-	res.y = (v1->z * v2->x) - (v1->x * v2->z);
-	res.z = (v1->x * v2->y) - (v1->y * v2->x);
-	return (res);
+	vec_res->x = (v1->y * v2->z) - (v1->z * v2->y);
+	vec_res->y = (v1->z * v2->x) - (v1->x * v2->z);
+	vec_res->z = (v1->x * v2->y) - (v1->y * v2->x);
 }
 
 void	get_normals_of_vect(t_vector const *vect, t_vector nrm[2])
@@ -80,5 +85,5 @@ void	get_normals_of_vect(t_vector const *vect, t_vector nrm[2])
 	nrm[0].x = 1.0f;
 	nrm[0].y = (-vect->x) / vect->y;
 	nrm[0].z = 0.0f;
-	nrm[1] = cross_product(vect, &nrm[0]);
+	cross_product(vect, &nrm[0], &nrm[1]);
 }
