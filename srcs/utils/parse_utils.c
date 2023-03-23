@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:02:48 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/20 09:23:36 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/23 10:46:21 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ bool	parse_vector(char *part, float *nbs, float min, float max)
 		i++;
 	}
 	word = ft_strtok_r(NULL, ",", &saveptr);
-	if (word != NULL)
+	if (word != NULL || (min != max
+		&& nbs[0] == 0.0f && nbs[1] == 0.0f && nbs[2] == 0.0f))
 		return (false);
 	return (true);
 }
