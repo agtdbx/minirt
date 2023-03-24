@@ -1,7 +1,5 @@
-.build
-build
-**/.build
-**/*.o
-**/*.d
-**/*.a
-minirt
+/.cache
+/.build
+
+/minirt
+/compile_commands.json
