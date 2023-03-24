@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 13:02:37 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:52:48 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm, t_dst_and_nrm *dst0);
 
-t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
+t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
 				int color)
 {
 	t_cylinder	res;
@@ -30,18 +30,18 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
 	res.radius = size[0] / 2.0f;
 	res.radius2 = res.radius * res.radius;
 	res.height = size[1];
-	res.origin = origin;
-	res.bot_origin = origin;
+	dup_vec(&res.origin, &origin);
+	dup_vec(&res.bot_origin, &origin);
 	res.bot_origin.x += rev_axis.x * (res.height / 2.0f);
 	res.bot_origin.y += rev_axis.y * (res.height / 2.0f);
 	res.bot_origin.z += rev_axis.z * (res.height / 2.0f);
-	res.top_origin = origin;
+	dup_vec(&res.top_origin, &origin);
 	res.top_origin.x += axis.x * (res.height / 2.0f);
 	res.top_origin.y += axis.y * (res.height / 2.0f);
 	res.top_origin.z += axis.z * (res.height / 2.0f);
 	res.bot = create_plane(res.bot_origin, rev_axis, color);
 	res.top = create_plane(res.top_origin, axis, color);
-	res.axis = axis;
+	dup_vec(&res.axis, &axis);
 	res.color = color;
 	return (res);
 }

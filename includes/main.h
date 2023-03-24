@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 13:09:56 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:50:17 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,6 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // STRUCTS
-
-// Pixel (point in the screen) struct
-typedef struct s_point
-{
-	int	x;
-	int	y;
-	int	color;
-}	t_point;
 
 // Vector struct
 typedef struct s_vector
@@ -176,7 +168,7 @@ int			main(int argc, char **argv);
 /*====================================OBJECT==================================*/
 
 // objets/sphere.c
-t_sphere	create_sphere(t_vector origin, float radius, int color);
+t_sphere	create_sphere(t_vector origin, float diameter, int color);
 void		intersect_sphere(t_sphere *sphere, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
 
@@ -186,7 +178,7 @@ void		intersect_plane(t_plane *plane, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
 
 // objets/cylinder.c
-t_cylinder	create_cylinder(t_vector origin, t_vector axis, float *size,
+t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
 				int color);
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);

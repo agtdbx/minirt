@@ -6,19 +6,19 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 13:02:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:50:09 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_sphere	create_sphere(t_vector origin, float radius, int color)
+t_sphere	create_sphere(t_vector origin, float diameter, int color)
 {
 	t_sphere	res;
 
 	res.origin = origin;
-	res.radius = radius;
-	res.radius2 = radius * radius;
+	res.radius = diameter / 2.0f;
+	res.radius2 = res.radius * res.radius;
 	res.color = color;
 	return (res);
 }

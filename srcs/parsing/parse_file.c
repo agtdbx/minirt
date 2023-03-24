@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 09:53:06 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 11:03:10 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:17:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_scene	init_scene(void)
 	res.al_color = 0;
 	fill_vec(&res.camera.pos, 0.0f, 0.0f, 0.0f);
 	fill_vec(&res.camera.orientation, 0.0f, 0.0f, 0.0f);
-	res.camera.fov = 0;
+	res.camera.fov = -1;
 	fill_vec(&res.light.pos, 0.0f, 0.0f, 0.0f);
 	res.light.brightness = -1.0f;
 	res.light.color = 0;
@@ -85,7 +85,7 @@ static bool	read_file(int fd, t_scene *scene)
 	while (line && parse_ok)
 	{
 		word = ft_strtok(line, " ");
-		check_word(scene, word);
+		parse_ok = check_word(scene, word);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -111,7 +111,9 @@ static bool	check_word(t_scene *scene, char *word)
 		parse_ok = parse_plane(scene);
 	else if (ft_strcmp(word, "cy") == 0)
 		parse_ok = parse_cylinder(scene);
-	else if (ft_strcmp(word, "\n") != 0)
+	else if (ft_strcmp(word, "\n") == 0)
+		parse_ok = true;
+	else
 		ft_printf_fd("Unexpected identifier '%s'\n", 2, word);
 	return (parse_ok);
 }

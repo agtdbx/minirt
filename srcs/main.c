@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 11:22:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:40:03 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static void	check_param(int argc, char **argv, t_all *all)
 		exit(1);
 	}
 	all->scene = parse_file(argv[1]);
-	if (all->scene.al_intensity == -1.0f || all->scene.camera.fov == 0
+	if (all->scene.al_intensity == -1.0f || all->scene.camera.fov == -1
 		|| all->scene.light.brightness == -1.0f)
 	{
 		ft_printf_fd("Error\nMinirt : parsing error\n", 2);

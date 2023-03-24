@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 11:06:22 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/24 15:02:29 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,14 +110,13 @@ static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
 
 	if (res->dst != -1.0f)
 	{
-		fill_vec(&res->nrm, res->nrm.x, res->nrm.y, res->nrm.z);
 		fill_vec(&tmp, all->ray_tab[y][x].direction.x,
 				all->ray_tab[y][x].direction.y,
 				all->ray_tab[y][x].direction.z);
 		normalize_vec(&res->nrm);
 		normalize_vec(&tmp);
-		all->ray_tab[y][x].direction = tmp;
-		intensity = -dot_product(&res->nrm, &all->ray_tab[y][x].direction);
+		// all->ray_tab[y][x].direction = tmp;
+		intensity = -dot_product(&res->nrm, &tmp);
 		intensity *= all->scene.al_intensity;
 		r = (res->color >> 24 & 0XFF) * intensity;
 		g = (res->color >> 16 & 0XFF) * intensity;

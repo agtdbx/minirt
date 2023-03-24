@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:31:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 13:03:29 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/24 14:31:05 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ bool	parse_camera(t_scene *scene)
 	float		len;
 	t_vector	basis[2];
 
-	if (scene->camera.fov != 0)
+	if (scene->camera.fov != -1)
 		return (false);
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
