@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/24 16:56:28 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/24 17:36:30 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,26 +54,6 @@ OBJS	:=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.o)
 DEPS	:=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.d)
 DIRS	:=	$(sort $(shell dirname $(OBJS)))
 
-#==============================================================================#
-#=== COLORS ===================================================================#
-
-NOC			:=	\033[0m
-RED			:=	\e[1m\e[38;5;196m
-GREEN		:=	\e[1m\e[38;5;76m
-BLUE		:=	\e[1m\e[38;5;33m
-PURPLE		:=	\033[1;35m
-
-#==============================================================================#
-#=== PROGRESS BAR UTILS =======================================================#
-
-NB_COMPIL			:=	0
-ifndef	RECURSIVE
-TOTAL_COMPIL		:=	$(shell expr $$(make -n RECURSIVE=1 | grep clang | wc -l) - 1)
-endif
-ifndef TOTAL_COMPIL
-TOTAL_COMPIL		:=	$(words $(OBJS))
-endif
-
 #******************************************************************************#
 #*** PHONY RULES **************************************************************#
 
@@ -99,15 +79,15 @@ clean:
 fclean: clean
 	@echo -e "$(RED)Deleting binary$(NOC)"
 	@rm -rf $(NAME)
-	@$(MAKE) -C libft fclean
+	@$(MAKE) -C lib/libft fclean
 	@rm -rf lib/mlx42/build
 
-re : fclean all
+re: fclean all
 
 #******************************************************************************#
 #*** BUILD RULES **************************************************************#
 
-$(NAME) : $(OBJS)
+$(NAME): $(OBJS)
 	@echo -e "$(BLUE)Creation of binary$(NOC)"
 	@$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
 	@echo -e "$(GREEN)Done$(NOC)"
@@ -115,10 +95,25 @@ $(NAME) : $(OBJS)
 $(DIRS):
 	@mkdir -p $@
 
-$(OBJS): $(BUILD)/%.o : $(SRC)/%.c | $$(@D)
+$(OBJS): $(BUILD)/%.o: $(SRC)/%.c | $$(@D)
 	$(if $(filter $(NB_COMPIL),0), @echo -e "$(BLUE)Compiling$(NOC)")
 	$(eval NB_COMPIL=$(shell expr $(NB_COMPIL) + 1))
 	@echo -e "[$(NB_COMPIL)/$(TOTAL_COMPIL)] $(PURPLE)Compiling $< $(NOC)"
 	@$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 -include $(DEPS)
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+NOC				:=	\033[0m
+RED				:=	\e[1m\e[38;5;196m
+GREEN			:=	\e[1m\e[38;5;76m
+BLUE			:=	\e[1m\e[38;5;33m
+PURPLE			:=	\033[1;35m
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% PROGRESS BAR UTILS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+all: NB_COMPIL		:=	0
+all: TOTAL_COMPIL	:=	$(shell make -n $(OBJS) | grep clang | wc -l)
