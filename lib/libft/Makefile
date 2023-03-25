@@ -6,31 +6,40 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/24 17:16:17 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/25 02:12:03 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% CONFIGURATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
 MAKEFLAGS		:=	--no-print-directory
 
+.POSIX:
+.SILENT:
 .DELETE_ON_ERROR:
 .SECONDEXPANSION:
 
 #==============================================================================#
 #=== GOALS ====================================================================#
 
-NAME	:=	libft.a
+NAME		:=	libft.a
 
 #==============================================================================#
 #=== DIRECTORIES ==============================================================#
 
-BUILD	:=	.build
+BUILD		:=	.build
 
 #==============================================================================#
 #=== COMPILATION ==============================================================#
 
 CC			:=	clang
-CFLAGS		:=	-Wall -Wextra -Werror
+CFLAGS		:=	-Wall -Wextra -Werror -O3
 CPPFLAGS	:=	-MP -MMD -I .
+
+ifdef DEBUG
+CFLAGS		+=	-ggdb3
+endif
 
 #==============================================================================#
 #=== SOURCES ==================================================================#
@@ -111,53 +120,59 @@ OBJS		:=	$(SRCS:%.c=$(BUILD)/%.o)
 DEPS		:=	$(SRCS:%.c=$(BUILD)/%.d)
 DIRS		:=	$(BUILD)
 
-#==============================================================================#
-#=== COLORS ===================================================================#
-
-NOC			:=	\033[0m
-RED			:=	\e[1m\e[38;5;196m
-GREEN		:=	\e[1m\e[38;5;76m
-BLUE		:=	\e[1m\e[38;5;33m
-PURPLE		:=	\033[1;35m
-
-#==============================================================================#
-#=== PROGRESS BAR UTILS =======================================================#
-
-NB_COMPIL2			:=	0
-TOTAL_COMPIL2		:=	$(words $(OBJS))
-
 #******************************************************************************#
 #*** PHONY RULES **************************************************************#
 
-.PHONY: all clean fclean re
+.PHONY:	all				\
+		objs			\
+		clean fclean re
 
-all: $(NAME)
-	@:
+all: objs $(NAME)
+
+objs:								#build objs in parallel
+	$(MAKE) -j$(nproc) $(OBJS)
 
 clean:
-	@rm -rf $(BUILD)
+	rm -rf $(BUILD)
 
 fclean: clean
-	@rm -f $(NAME)
+	rm -f $(NAME)
 
-re: RECURSIVE=1
 re: fclean all
 
 #******************************************************************************#
 #*** BUILD RULES **************************************************************#
 
 $(NAME): $(OBJS)
-	@echo "$(BLUE)Creation of library$(NOC)"
-	@ar rcs $@ $^
-	@echo "$(GREEN)Finish !$(NOC)"
+	$(info $(BLUE)Linking C static library $@$(NOC))
+	ar rcs $@ $(OBJS)
+	$(info $(GREEN)All done$(NOC))
 
 $(DIRS):
-	@mkdir -p $@
+	mkdir -p $@
 
-$(OBJS): $(BUILD)/%.o : %.c | $$(@D)
-	$(if $(filter $(NB_COMPIL2),0), @echo -e "$(BLUE)Compiling libft$(NOC)")
-	$(eval NB_COMPIL2=$(shell expr $(NB_COMPIL2) + 1))
-	@echo "[$(NB_COMPIL2)/$(TOTAL_COMPIL2)] $(PURPLE)Compiling $< $(NOC)"
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJS): $(BUILD)/%.o: %.c | $$(@D)
+	$(progress-log)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 -include $(DEPS)
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+NOC			:=	$(shell echo "\033[0m")
+RED			:=	$(shell echo "\e[1m\e[38;5;196m")
+BLUE		:=	$(shell echo "\e[1m\e[38;5;33m")
+GREEN		:=	$(shell echo "\e[1m\e[38;5;76m")
+PURPLE		:=	$(shell echo "\033[1;35m")
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% PROGRESS LOG UTILS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+objs: export N		:=	0
+objs: export NTOTAL	?=	$(shell make NTOTAL=1 -n $(OBJS) | grep clang | wc -l)
+
+define progress-log =
+	$(info [$(words $(N))/$(NTOTAL)] $(PURPLE)Building $< $(NOC))
+	$(eval N += 1)
+endef
