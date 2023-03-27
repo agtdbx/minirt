@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/24 15:02:29 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 16:09:22 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,13 +117,13 @@ static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
 		normalize_vec(&tmp);
 		// all->ray_tab[y][x].direction = tmp;
 		intensity = -dot_product(&res->nrm, &tmp);
-		intensity *= all->scene.al_intensity;
+		intensity *= all->scene.ambient_light.brightness;
 		r = (res->color >> 24 & 0XFF) * intensity;
 		g = (res->color >> 16 & 0XFF) * intensity;
 		b = (res->color >> 8 & 0XFF) * intensity;
-		r *= ((all->scene.al_color >> 24 & 0XFF) / 255.0f);
-		g *= ((all->scene.al_color >> 16 & 0XFF) / 255.0f);
-		b *= ((all->scene.al_color >> 8 & 0XFF) / 255.0f);
+		r *= all->scene.ambient_light.intensity_r;
+		g *= all->scene.ambient_light.intensity_g;
+		b *= all->scene.ambient_light.intensity_b;
 		draw_pixels(all, x, y, get_rgb(r, g, b));
 	}
 	else

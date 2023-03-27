@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:34:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 18:50:58 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 16:05:27 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	print_ambiant_light(t_scene *scene)
 	int	g;
 	int	b;
 
-	color = scene->al_color;
+	color = scene->ambient_light.color;
 	g = color >> 16;
 	r = (color >> 24) & 0XFF;
 	g = (color >> 16) & 0XFF;
 	b = (color >> 8) & 0XFF;
 	printf("Ambient light : intensity = %03.3f, color = (%i, %i, %i)\n",
-		scene->al_intensity, r, g, b);
+		scene->ambient_light.brightness, r, g, b);
 }
 
 void	print_camera(t_scene *scene)

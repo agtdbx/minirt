@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 14:15:55 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:03:02 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,9 @@ typedef struct s_light
 {
 	t_vector	pos;
 	float		brightness;
+	float		intensity_r;
+	float		intensity_g;
+	float		intensity_b;
 	int			color;
 }	t_light;
 
@@ -139,8 +142,7 @@ typedef struct s_rtlst
 // Scene Struct
 typedef struct s_scene
 {
-	float		al_intensity;
-	int			al_color;
+	t_light		ambient_light;
 	int			ppr;
 	t_camera	camera;
 	t_light		light;
@@ -218,8 +220,8 @@ void		apply_antialiasing(t_all *all);
 t_result	parse_file(char const *filename, t_scene *ret_scene);
 
 // parsing/parse_lights.c
-bool		parse_ambient_light(t_scene *scene);
-bool		parse_light(t_scene *scene);
+t_result	parse_ambient_light(t_scene *ret_scene);
+t_result	parse_light(t_scene *ret_scene);
 
 // parsing/parse_objects.c
 bool		parse_camera(t_scene *scene);
@@ -263,8 +265,8 @@ float		solve_quadratic(float a, float b, float c);
 t_vector	get_point_on_ray(t_ray *ray, float dist);
 
 // utils/number.c
-bool		is_int(char *str);
-bool		is_float(char *str);
+bool		is_int(char const *str);
+bool		is_float(char const *str);
 
 // utils/string.c
 char		*ft_strtok_r(char *str, char const *sep, char **saveptr);

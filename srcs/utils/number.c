@@ -6,13 +6,13 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:49:20 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/02 13:54:40 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 16:00:38 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-bool	is_int(char *str)
+bool	is_int(char const *str)
 {
 	int		start;
 	int		len;
@@ -40,7 +40,7 @@ bool	is_int(char *str)
 	return (true);
 }
 
-bool	is_float(char *str)
+bool	is_float(char const *str)
 {
 	int		start;
 	int		len;
