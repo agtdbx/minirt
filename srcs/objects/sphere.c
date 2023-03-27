@@ -6,13 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/24 14:50:09 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 18:40:41 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_sphere	create_sphere(t_vector origin, float diameter, int color)
+t_sphere	create_sphere(t_vector origin, float diameter, t_color color)
 {
 	t_sphere	res;
 

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:42:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 16:08:29 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:29:32 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ t_result	parse_ambient_light(t_scene *ret_scene)
 	if (parse_brightness(tok, &ret_scene->ambient_light.brightness) == FAILURE)
 		return (FAILURE);
 	tok = ft_strtok(NULL, " \n");
-	ret_scene->ambient_light.color = parse_color(tok);
-	if (ret_scene->ambient_light.color == 0)
+	if (parse_color(tok, &ret_scene->ambient_light.color) == FAILURE)
 		return (FAILURE);
 	tok = ft_strtok(NULL, " \n");
 	if (tok != NULL)
@@ -45,24 +44,20 @@ t_result	parse_light(t_scene *ret_scene)
 {
 	static bool	is_initialized = false;
 	char		*tok;
-	float		vect[3];
 
 	if (is_initialized)
 		return (FAILURE);
 	is_initialized = true;
 	tok = ft_strtok(NULL, " \n");
-	if (!parse_vector(tok, vect, 0.0f, 0.0f))
+	if (parse_vec(tok, &ret_scene->light.pos) == FAILURE)
 		return (FAILURE);
-	fill_vec(&ret_scene->light.pos, vect[0], vect[1], vect[2]);
 	tok = ft_strtok(NULL, " \n");
 	if (parse_brightness(tok, &ret_scene->light.brightness) == FAILURE)
 		return (FAILURE);
 	tok = ft_strtok(NULL, " \n");
-	ret_scene->light.color = parse_color(tok);
-	if (ret_scene->light.color == 0)
+	if (parse_color(tok, &ret_scene->light.color) == FAILURE)
 		return (FAILURE);
-	tok = ft_strtok(NULL, " \n");
-	if (tok != NULL)
+	if (ft_strtok(NULL, " \n") != NULL)
 		return (FAILURE);
 	compute_intensity(&ret_scene->light);
 	return (SUCCESS);
@@ -80,7 +75,7 @@ static t_result	parse_brightness(char const *nptr, float *ret_brightness)
 
 static void	compute_intensity(t_light *ret_light)
 {
-	ret_light->intensity_r = (ret_light->color >> 24 & 0XFF) / 255.0f;
-	ret_light->intensity_g = (ret_light->color >> 16 & 0XFF) / 255.0f;
-	ret_light->intensity_b = (ret_light->color >> 8 & 0XFF) / 255.0f;
+	ret_light->intensity_r = ret_light->color.r / 255.0f;
+	ret_light->intensity_g = ret_light->color.g / 255.0f;
+	ret_light->intensity_b = ret_light->color.b / 255.0f;
 }

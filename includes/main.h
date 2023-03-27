@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 16:03:02 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:42:12 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
+# define WIDTH_DIV_2 960
+# define HEIGHT_DIV_2 540
+
 // Define for pre-calculate value
 # define PI 3.141592
 # define PI_DIV_180 0.017453
@@ -38,6 +41,13 @@
 
 ////////////////////////////////////////////////////////////////////////////////
 // STRUCTS
+
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}	t_color;
 
 // Vector struct
 typedef struct s_vector
@@ -60,7 +70,7 @@ typedef struct s_sphere
 	t_vector	origin;
 	float		radius;
 	float		radius2;
-	int			color;
+	t_color		color;
 }	t_sphere;
 
 // Plane struct
@@ -69,7 +79,7 @@ typedef struct s_plane
 	t_vector	origin;
 	t_vector	normal;
 	t_vector	rev_normal;
-	int			color;
+	t_color		color;
 }	t_plane;
 
 // Cylinder struct
@@ -84,7 +94,7 @@ typedef struct s_cylinder
 	float		radius;
 	float		radius2;
 	float		height;
-	int			color;
+	t_color		color;
 }	t_cylinder;
 
 // Intersect result struct
@@ -92,7 +102,7 @@ typedef struct s_dst_and_nrm
 {
 	t_vector	nrm;
 	float		dst;
-	int			color;
+	t_color		color;
 }	t_dst_and_nrm;
 
 // Camera Struct
@@ -112,7 +122,7 @@ typedef struct s_light
 	float		intensity_r;
 	float		intensity_g;
 	float		intensity_b;
-	int			color;
+	t_color		color;
 }	t_light;
 
 // Object type
@@ -170,7 +180,7 @@ int			main(int argc, char **argv);
 /*====================================OBJECT==================================*/
 
 // objets/sphere.c
-t_sphere	create_sphere(t_vector origin, float diameter, int color);
+t_sphere	create_sphere(t_vector origin, float diameter, t_color color);
 void		intersect_sphere(t_sphere *sphere, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
 
@@ -224,10 +234,24 @@ t_result	parse_ambient_light(t_scene *ret_scene);
 t_result	parse_light(t_scene *ret_scene);
 
 // parsing/parse_objects.c
-bool		parse_camera(t_scene *scene);
-bool		parse_sphere(t_scene *scene);
+t_result	parse_camera(t_scene *ret_scene);
+t_result	parse_sphere(t_scene *scene);
 bool		parse_plane(t_scene *scene);
 bool		parse_cylinder(t_scene *scene);
+
+// parsing/parse_color.c
+t_result	parse_color(char *rgb_str, t_color *ret_color);
+
+// parsing/parse_vec.c
+t_result	parse_vec(char *xyz_str, t_vector *ret_vec);
+
+/*====================================MATHS===================================*/
+
+// maths/compute_screen_basis.c
+void		compute_screen_basis(t_camera *ret_cam);
+
+// maths/is_xyz_in_range.c
+bool		is_xyz_in_range(t_vector const *vec, float min, float max);
 
 /*====================================UTILS===================================*/
 
@@ -271,9 +295,5 @@ bool		is_float(char const *str);
 // utils/string.c
 char		*ft_strtok_r(char *str, char const *sep, char **saveptr);
 char		*ft_strtok(char *str, char const *sep);
-
-// utils/parse_utils.c
-int			parse_color(char *part);
-bool		parse_vector(char *part, float *nbs, float min, float max);
 
 #endif

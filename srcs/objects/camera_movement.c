@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:12:15 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 13:13:42 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 18:53:19 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	camera_translations(t_all *all, float delta_time)
 	multiply_vec_number(&go_x, speed);
 	multiply_vec_number(&go_y, speed);
 	multiply_vec_number(&go_z, speed);
-
 	if (mlx_is_key_down(all->mlx, MLX_KEY_W))
 		add_vec_vec(&all->scene.camera.pos, &go_z);
 	if (mlx_is_key_down(all->mlx, MLX_KEY_S))

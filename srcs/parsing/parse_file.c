@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 09:53:06 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 14:49:06 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/27 18:51:55 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_result	parse_file(char const *filename, t_scene *ret_scene)
 {
 	int	fd;
 
-	*ret_scene = (t_scene) {0};
+	*ret_scene = (t_scene){0};
 	if (ft_strlen(filename) <= 3 || !ft_strendswith(filename, ".rt"))
 	{
 		ft_printf_fd("Error\n", STDERR_FILENO);
@@ -72,7 +72,7 @@ static t_result	parse_line(char const *identifier, t_scene *ret_scene)
 	if (ft_strcmp("A", identifier) == 0)
 		return (parse_ambient_light(ret_scene));
 	else if (ft_strcmp("C", identifier) == 0)
-		return(parse_camera(ret_scene));
+		return (parse_camera(ret_scene));
 	else if (ft_strcmp("L", identifier) == 0)
 		return (parse_light(ret_scene));
 	else if (ft_strcmp("sp", identifier) == 0)
