@@ -6,21 +6,25 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:31:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/24 14:31:05 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 14:40:12 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+#include <stdbool.h>
+
 bool	parse_camera(t_scene *scene)
 {
+	bool		is_initialized = false;
 	char		*part;
 	float		vect[3];
 	float		len;
 	t_vector	basis[2];
 
-	if (scene->camera.fov != -1)
+	if (is_initialized)
 		return (false);
+	is_initialized = true;
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);

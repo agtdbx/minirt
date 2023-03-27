@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/24 14:50:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 14:15:55 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,7 +215,7 @@ void		apply_antialiasing(t_all *all);
 /*====================================PARSING=================================*/
 
 // parsing/parse_file.c
-t_scene		parse_file(char *filename);
+t_result	parse_file(char const *filename, t_scene *ret_scene);
 
 // parsing/parse_lights.c
 bool		parse_ambient_light(t_scene *scene);

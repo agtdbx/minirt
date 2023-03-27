@@ -6,11 +6,50 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/24 14:40:03 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 14:50:48 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+#include <stdlib.h>
+#include <unistd.h>
+
+static void		check_param(int argc, char **argv, t_all *all);
+static float	get_delta_time(t_all *all);
+static void		ppr_gestion(t_all *all, float delta_time);
+static void		ppr_gestion(t_all *all, float delta_time);
+void			hook(void *param);
+
+int	main(int argc, char **argv)
+{
+	t_all	all;
+
+	if (argc != 2)
+	{
+		ft_printf_fd("Error\nUsage: minirt file.rt\n", STDERR_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	if (parse_file(argv[1], &all.scene) == FAILURE)
+		exit(EXIT_FAILURE);
+	all.last_time = 0.0;
+	all.scene.ppr = 1;
+	all.ray_tab = alloc_ray_tab();
+	if (all.ray_tab == NULL)
+	{
+		rtlst_free(&all.scene.objects);
+		return (EXIT_FAILURE);
+	}
+	all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+	all.img = mlx_new_image(all.mlx, WIDTH, HEIGHT);
+	mlx_image_to_window(all.mlx, all.img, 0, 0);
+	mlx_loop_hook(all.mlx, &hook, &all);
+	mlx_loop(all.mlx);
+	mlx_terminate(all.mlx);
+	rtlst_free(&all.scene.objects);
+	free_ray_tab(all.ray_tab, HEIGHT);
+	return (EXIT_SUCCESS);
+}
 
 static float	get_delta_time(t_all *all)
 {
@@ -65,45 +104,4 @@ void	hook(void *param)
 	camera_rotations(all, delta_time);
 	ppr_gestion(all, delta_time);
 	draw(all);
-}
-
-static void	check_param(int argc, char **argv, t_all *all)
-{
-	if (argc != 2)
-	{
-		ft_printf_fd("Usage:\n./minirt file.rt\n", 2);
-		exit(1);
-	}
-	all->scene = parse_file(argv[1]);
-	if (all->scene.al_intensity == -1.0f || all->scene.camera.fov == -1
-		|| all->scene.light.brightness == -1.0f)
-	{
-		ft_printf_fd("Error\nMinirt : parsing error\n", 2);
-		rtlst_free(&all->scene.objects);
-		exit(1);
-	}
-}
-
-int	main(int argc, char **argv)
-{
-	t_all	all;
-
-	check_param(argc, argv, &all);
-	all.last_time = 0.0;
-	all.scene.ppr = 1;
-	all.ray_tab = alloc_ray_tab();
-	if (all.ray_tab == NULL)
-	{
-		rtlst_free(&all.scene.objects);
-		return (EXIT_FAILURE);
-	}
-	all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	all.img = mlx_new_image(all.mlx, WIDTH, HEIGHT);
-	mlx_image_to_window(all.mlx, all.img, 0, 0);
-	mlx_loop_hook(all.mlx, &hook, &all);
-	mlx_loop(all.mlx);
-	mlx_terminate(all.mlx);
-	rtlst_free(&all.scene.objects);
-	free_ray_tab(all.ray_tab, HEIGHT);
-	return (EXIT_SUCCESS);
 }

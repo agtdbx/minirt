@@ -6,7 +6,7 @@
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/25 02:12:03 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/27 14:19:09 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -102,6 +102,7 @@ SRCS	:=	ft_atof.c \
 			ft_strrchr.c \
 			ft_strspn.c \
 			ft_strstr.c \
+			ft_strendswith.c\
 			ft_strsuperjoin_free_1st_p.c \
 			ft_strsuperjoin.c \
 			ft_strtrim.c \

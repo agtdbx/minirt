@@ -6,18 +6,22 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:42:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 11:02:07 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/27 14:39:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+#include <stdbool.h>
+
 bool	parse_ambient_light(t_scene *scene)
 {
-	char	*part;
+	static bool	is_initialized = false;
+	char		*part;
 
-	if (scene->al_intensity != -1.0f)
+	if (is_initialized)
 		return (false);
+	is_initialized = true;
 	part = ft_strtok(NULL, " \n");
 	if (!is_float(part))
 		return (false);
@@ -34,11 +38,13 @@ bool	parse_ambient_light(t_scene *scene)
 
 bool	parse_light(t_scene *scene)
 {
-	char	*part;
-	float	vect[3];
+	static bool	is_initialized = false;
+	char		*part;
+	float		vect[3];
 
-	if (scene->light.brightness != -1.0f)
+	if (is_initialized)
 		return (false);
+	is_initialized = true;
 	part = ft_strtok(NULL, " \n");
 	if (!parse_vector(part, vect, 0.0f, 0.0f))
 		return (false);
