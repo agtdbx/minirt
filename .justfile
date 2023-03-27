@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/25 02:38:56 by tdubois           #+#    #+#              #
-#    Updated: 2023/03/25 16:57:49 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/27 08:37:17 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ alias c	:=	clean
 
 #rebuild project
 @re:
-	make re
+	make clean all
 
 #clean project
 @clean:

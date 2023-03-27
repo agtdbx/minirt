@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/25 02:06:35 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/27 08:36:26 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,8 +81,6 @@ objs:								#build objs in parallel
 clean:
 	#clean libft
 	$(MAKE) -C lib/libft clean
-	#clean libmlx42
-	rm -rf lib/mlx42/build
 	#clean minirt
 	$(info $(RED)Deleting objects$(NOC))
 	rm -rf $(BUILD)
@@ -90,6 +88,8 @@ clean:
 fclean: clean
 	#full clean libft
 	$(MAKE) -C lib/libft fclean
+	#clean libmlx42
+	rm -rf lib/mlx42/build
 	#full clean minirt
 	$(info $(RED)Deleting binary$(NOC))
 	rm -rf $(NAME)
