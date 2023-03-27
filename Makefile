@@ -6,115 +6,133 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/22 12:12:04 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/27 08:36:26 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% CONFIGURATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
 MAKEFLAGS		:=	--no-print-directory
-.DEFAULT_GOAL	:=	all
+
+.POSIX:
+.SILENT:
 .DELETE_ON_ERROR:
 .SECONDEXPANSION:
-SHELL			:= bash
-.SHELLFLAGS		:= -c
 
-#=================================COMPILATION==================================#
+#==============================================================================#
+#=== GOALS ====================================================================#
+
+NAME		:=	minirt
+
+LIBMLX42	:=	lib/mlx42/build/libmlx42.a
+LIBFT		:=	lib/libft/libft.a
+
+#==============================================================================#
+#=== DIRECTORIES ==============================================================#
+
+SRC			:=	srcs
+BUILD		:=	.build
+
+INCLUDES	:=	-Iincludes -Ilib/libft -I/usr/include -Ilib/mlx42/include
+
+#==============================================================================#
+#=== COMPILATION ==============================================================#
+
 CC			:=	clang
-INCLUDES	:=	-Iincludes -Ilibft -I/usr/include -IMLX42/include
-LIBFLAGS	:=	-LMLX42/build -lmlx42 -ldl -lglfw -pthread -lm
-LIBFTFLAGS	:=	-Llibft -lft
-CFLAGS		:=	-MP -MMD -Wall -Wextra -Werror $(INCLUDES) -Wno-unused-function -Ofast
+CFLAGS		:=	-Wall -Wextra -Werror -Wno-unused-function -Ofast#TODO
+CPPFLAGS	:=	-MP -MMD $(INCLUDES)
+LDFLAGS		:=	-Llib/libft -lft			\
+				-Llib/mlx42/build -lmlx42	\
+				-ldl -lglfw -pthread -lm	\
 
 ifdef DEBUG
-	CFLAGS += -g3
+CFLAGS		+=	-ggdb3
 endif
 
-#==================================EXECUTABLE==================================#
-NAME	:=	minirt
-BUILD	:=	.build
+#==============================================================================#
+#=== SOURCES ==================================================================#
 
-#=================================SOURCE FILES=================================#
-SRCS	:=	srcs/main.c							\
-			srcs/objects/plane.c				\
-			srcs/objects/camera.c				\
-			srcs/objects/sphere.c				\
-			srcs/objects/cylinder.c				\
-			srcs/objects/space_rotation.c		\
-			srcs/objects/camera_movement.c		\
-			srcs/image/draw.c					\
-			srcs/image/ray_tab.c				\
-			srcs/image/antialiasing.c			\
-			srcs/utils/rtlst.c					\
-			srcs/utils/print.c					\
-			srcs/utils/vector.c					\
-			srcs/utils/number.c					\
-			srcs/utils/string.c					\
-			srcs/utils/math_utils.c				\
-			srcs/utils/parse_utils.c			\
-			srcs/parsing/parse_file.c			\
-			srcs/parsing/parse_lights.c			\
-			srcs/parsing/parse_objects.c
+SRCS	:=	$(shell find $(SRC) -name '*.c')#TODO
 
-#====================================OBJECTS===================================#
-OBJS	:=	${SRCS:srcs/%.c=$(BUILD)/%.o}
-DEPS	:=	$(SRCS:srcs/%.c=$(BUILD)/%.d)
+#==============================================================================#
+#=== BUILD FILES ==============================================================#
+
+OBJS	:=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.o)
+DEPS	:=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.d)
 DIRS	:=	$(sort $(shell dirname $(OBJS)))
 
-#====================================COLORS====================================#
-NOC			:=	\033[0m
-RED			:=	\e[1m\e[38;5;196m
-GREEN		:=	\e[1m\e[38;5;76m
-BLUE		:=	\e[1m\e[38;5;33m
-PURPLE		:=	\033[1;35m
+#******************************************************************************#
+#*** PHONY RULES **************************************************************#
 
-#================================PROGRESS BAR UTILS============================#
-NB_COMPIL			:=	0
-ifndef	RECURSIVE
-TOTAL_COMPIL		:=	$(shell expr $$(make -n RECURSIVE=1 | grep clang | wc -l) - 1)
-endif
-ifndef TOTAL_COMPIL
-TOTAL_COMPIL		:=	$(words $(OBJS))
-endif
+.PHONY:	all				\
+		libft objs		\
+		clean fclean re	\
 
-#=====================================RULES====================================#
+all: | $(LIBMLX42)					#build mlx42 once (and first)
+all: libft objs $(NAME)				#build other targets every time needed
+
+libft:								#libft may be updated during development,
+	$(MAKE) -C lib/libft			#hence it's made a phony target
+
+objs:								#build objs in parallel
+	$(MAKE) -j$(nproc) $(OBJS)
+
+clean:
+	#clean libft
+	$(MAKE) -C lib/libft clean
+	#clean minirt
+	$(info $(RED)Deleting objects$(NOC))
+	rm -rf $(BUILD)
+
+fclean: clean
+	#full clean libft
+	$(MAKE) -C lib/libft fclean
+	#clean libmlx42
+	rm -rf lib/mlx42/build
+	#full clean minirt
+	$(info $(RED)Deleting binary$(NOC))
+	rm -rf $(NAME)
+
+re: fclean all
+
+#******************************************************************************#
+#*** BUILD RULES **************************************************************#
+
+$(LIBMLX42):
+	cmake lib/mlx42 -B lib/mlx42/build						\
+		&& cmake --build lib/mlx42/build -j$(nproc) -- -s
+
+$(NAME): $(OBJS) $(LIBFT) $(LIBMLX42)
+	$(info $(BLUE)Linking C executable $@$(NOC))
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $@
+	$(info $(GREEN)All done$(NOC))
+
 $(DIRS):
-	@mkdir -p $@
+	mkdir -p $@
 
-$(BUILD)/%.o : srcs/%.c | $$(@D)
-	$(if $(filter $(NB_COMPIL),0), @echo -e "$(BLUE)Compiling$(NOC)")
-	$(eval NB_COMPIL=$(shell expr $(NB_COMPIL) + 1))
-	@echo -e "[$(NB_COMPIL)/$(TOTAL_COMPIL)] $(PURPLE)Compiling $< $(NOC)"
-	@$(CC) $(CFLAGS) -o $@ -c $<
-
-$(NAME) : $(OBJS)
-	@make -C libft
-	@cd MLX42 && cmake -DBUILD_TESTS=ON -B build && cmake --build build --parallel
-	@make -sC MLX42/build
-	@echo -e "$(BLUE)Creation of binary$(NOC)"
-	@$(CC) $(CFLAGS) $^ $(LIBFLAGS) $(LIBFTFLAGS) -o $@
-	@echo -e "$(GREEN)Done$(NOC)"
-
-all : $(NAME)
-
-clean :
-	@echo -e "$(RED)Deleting objects$(NOC)"
-	@rm -rf $(DIRS)
-	@make clean -C libft
-	@rm -rf MLX42/build
-
-fclean : clean
-	@echo -e "$(RED)Deleting binary$(NOC)"
-	@rm -f $(NAME)
-	@make fclean -C libft
-
-re :
-	@make fclean
-	@make $(NAME) RECURSIVE=1 TOTAL_COMPIL=$(words $(OBJS))
-
-norm:
-	@echo -ne "$(RED)"
-	@{ ! norminette includes srcs libft | grep Error; } && echo -e "$(GREEN)All normed !";
-	@echo -ne "$(NOC)"
-
-.PHONY: all clean fclean re norm
+$(OBJS): $(BUILD)/%.o: $(SRC)/%.c | $$(@D)
+	$(progress-log)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 -include $(DEPS)
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+NOC			:=	$(shell echo "\033[0m")
+RED			:=	$(shell echo "\e[1m\e[38;5;196m")
+BLUE		:=	$(shell echo "\e[1m\e[38;5;33m")
+GREEN		:=	$(shell echo "\e[1m\e[38;5;76m")
+PURPLE		:=	$(shell echo "\033[1;35m")
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% PROGRESS LOG UTILS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+objs: export N		:=	0
+objs: export NTOTAL	?=	$(shell make NTOTAL=1 -n $(OBJS) | grep clang | wc -l)
+
+define progress-log =
+	$(info [$(words $(N))/$(NTOTAL)] $(PURPLE)Building $< $(NOC))
+	$(eval N += 1)
+endef
