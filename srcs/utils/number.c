@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   number.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 11:49:20 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 16:00:38 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/28 16:24:31 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+static int	nb_point_int_str(char const *str);
 
 bool	is_int(char const *str)
 {
@@ -21,7 +23,7 @@ bool	is_int(char const *str)
 	if (!str)
 		return (false);
 	start = 0;
-	if (str[0] == '-' || str[0] == '+')
+	if (str[0] == '-')
 		start++;
 	if (start == 1 && str[start] == '\0')
 		return (false);
@@ -42,41 +44,43 @@ bool	is_int(char const *str)
 
 bool	is_float(char const *str)
 {
-	int		start;
-	int		len;
 	char	*part;
+	char	*saveptr;
+	char	*dup_str;
 
 	if (!str)
 		return (false);
-	start = 0;
-	len = 0;
-	if (str[0] == '-' || str[0] == '+')
-		start++;
-	while (str[start + len] >= '0' && str[start + len] <= '9')
-		len++;
-	if (str[start + len] != '.' && str[start + len] != '\0')
+	if (nb_point_int_str(str) > 1)
 		return (false);
-	part = ft_substr(str, start, len);
-	if (!is_int(part))
+	dup_str = ft_strdup(str);
+	part = ft_strtok_r(dup_str, ".", &saveptr);
+	if (is_int(part) == false)
 	{
-		free(part);
+		free(dup_str);
 		return (false);
 	}
-	free(part);
-	if (str[start + len] == '\0')
-		return (true);
-	start += len + 1;
-	len = 0;
-	while (str[start + len] >= '0' && str[start + len] <= '9')
-		len++;
-	if (str[start + len] != '\0')
-		return (false);
-	part = ft_substr(str, start, len);
-	if (!is_int(part))
+	part = ft_strtok_r(NULL, ".", &saveptr);
+	if (part != NULL && is_int(part) == false)
 	{
-		free(part);
+		free(dup_str);
 		return (false);
 	}
-	free(part);
+	free(dup_str);
 	return (true);
+}
+
+static int	nb_point_int_str(char const *str)
+{
+	int	i;
+	int	cpt;
+
+	i = 0;
+	cpt = 0;
+	while (str[i])
+	{
+		if (str[i] == '.')
+			cpt++;
+		i++;
+	}
+	return (cpt);
 }

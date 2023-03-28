@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 15:50:31 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:27:15 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static t_result	init_struct(t_all *all);
+static void		init_struct(t_all *all);
 static float	get_delta_time(t_all *all);
 void			hook(void *param);
 
@@ -29,7 +29,10 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 	if (parse_file(argv[1], &all.scene) == FAILURE)
+	{
+		ft_printf_fd("Error\nParsing error\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
+	}
 	init_struct(&all);
 	all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
 	all.img = mlx_new_image(all.mlx, WIDTH, HEIGHT);
@@ -43,7 +46,7 @@ int	main(int argc, char **argv)
 	return (EXIT_SUCCESS);
 }
 
-static t_result	init_struct(t_all *all)
+static void	init_struct(t_all *all)
 {
 	all->last_time = 0.0;
 	all->scene.ppr = 1;
@@ -51,14 +54,14 @@ static t_result	init_struct(t_all *all)
 	if (all->ray_tab == NULL)
 	{
 		rtlst_free(&all->scene.objects);
-		return (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 	all->colors_tab = alloc_color_tab();
 	if (all->colors_tab == NULL)
 	{
 		rtlst_free(&all->scene.objects);
 		free_ray_tab(all->ray_tab, HEIGHT);
-		return (EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	}
 }
 

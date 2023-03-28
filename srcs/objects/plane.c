@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 12:27:59 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/28 16:38:42 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	intersect_plane(t_plane *plane, t_ray *ray, t_dst_and_nrm *dst_nrm)
 {
 	float		denom;
 	float		dst;
-	t_vector	tmp;
+	t_vector 	tmp;
 
 	dup_vec(&tmp, &plane->origin);
 	sub_vec_vec(&tmp, &ray->origin);
