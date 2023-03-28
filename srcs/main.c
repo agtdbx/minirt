@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 14:50:48 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/28 15:50:31 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static void		check_param(int argc, char **argv, t_all *all);
+static t_result	init_struct(t_all *all);
 static float	get_delta_time(t_all *all);
-static void		ppr_gestion(t_all *all, float delta_time);
-static void		ppr_gestion(t_all *all, float delta_time);
 void			hook(void *param);
 
 int	main(int argc, char **argv)
@@ -32,14 +30,7 @@ int	main(int argc, char **argv)
 	}
 	if (parse_file(argv[1], &all.scene) == FAILURE)
 		exit(EXIT_FAILURE);
-	all.last_time = 0.0;
-	all.scene.ppr = 1;
-	all.ray_tab = alloc_ray_tab();
-	if (all.ray_tab == NULL)
-	{
-		rtlst_free(&all.scene.objects);
-		return (EXIT_FAILURE);
-	}
+	init_struct(&all);
 	all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
 	all.img = mlx_new_image(all.mlx, WIDTH, HEIGHT);
 	mlx_image_to_window(all.mlx, all.img, 0, 0);
@@ -48,7 +39,27 @@ int	main(int argc, char **argv)
 	mlx_terminate(all.mlx);
 	rtlst_free(&all.scene.objects);
 	free_ray_tab(all.ray_tab, HEIGHT);
+	free_color_tab(all.colors_tab, HEIGHT);
 	return (EXIT_SUCCESS);
+}
+
+static t_result	init_struct(t_all *all)
+{
+	all->last_time = 0.0;
+	all->scene.ppr = 1;
+	all->ray_tab = alloc_ray_tab();
+	if (all->ray_tab == NULL)
+	{
+		rtlst_free(&all->scene.objects);
+		return (EXIT_FAILURE);
+	}
+	all->colors_tab = alloc_color_tab();
+	if (all->colors_tab == NULL)
+	{
+		rtlst_free(&all->scene.objects);
+		free_ray_tab(all->ray_tab, HEIGHT);
+		return (EXIT_FAILURE);
+	}
 }
 
 static float	get_delta_time(t_all *all)
@@ -65,30 +76,6 @@ static float	get_delta_time(t_all *all)
 		time_for_fps -= 1.0f;
 	}
 	return (delta_time);
-}
-
-static void	ppr_gestion(t_all *all, float delta_time)
-{
-	static float	time_ignore_input = 0.0f;
-
-	if (time_ignore_input > 0.0f)
-	{
-		time_ignore_input -= delta_time;
-		if (time_ignore_input < 0.0f)
-			time_ignore_input = 0.0f;
-	}
-	if (mlx_is_key_down(all->mlx, MLX_KEY_EQUAL) && all->scene.ppr < 10
-		&& time_ignore_input == 0.0f)
-	{
-		all->scene.ppr++;
-		time_ignore_input = 1.0f;
-	}
-	if (mlx_is_key_down(all->mlx, MLX_KEY_MINUS) && all->scene.ppr > 1
-		&& time_ignore_input == 0.0f)
-	{
-		all->scene.ppr--;
-		time_ignore_input = 1.0f;
-	}
 }
 
 void	hook(void *param)

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 12:48:03 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/28 15:51:24 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ typedef struct s_all
 	t_scene		scene;
 	t_ray		**ray_tab;
 	double		last_time;
-	int			colors_tab[HEIGHT][WIDTH];
+	int			**colors_tab;
 }	t_all;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -213,6 +213,9 @@ void		camera_rotations(t_all *all, float delta_time);
 
 /*=====================================DRAW===================================*/
 
+//image/ppr.c
+void		ppr_gestion(t_all *all, float delta_time);
+
 //image/draw.c
 int			get_rgb(int r, int g, int b);
 void		draw(t_all *all);
@@ -223,6 +226,10 @@ t_ray		**alloc_ray_tab(void);
 
 //image/antialiasing.c
 void		apply_antialiasing(t_all *all);
+
+//image/color_tab.c
+void		free_color_tab(int **color_tab, int max_alloc);
+int			**alloc_color_tab(void);
 
 /*====================================PARSING=================================*/
 
@@ -262,7 +269,8 @@ bool		is_xyz_in_range(t_vector const *vec, float min, float max);
 /*====================================UTILS===================================*/
 
 // utils/vector.c
-void		fill_vec(t_vector *vec, float const x, float const y, float const z);
+void		fill_vec(t_vector *vec, float const x, float const y,
+				float const z);
 void		dup_vec(t_vector *vec, t_vector const *vec_to_dup);
 float		get_length_vec(t_vector *vec);
 void		normalize_vec(t_vector *vec);

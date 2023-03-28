@@ -1,48 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray_tab.c                                          :+:      :+:    :+:   */
+/*   color_tab.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 10:56:58 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 15:24:02 by aderouba         ###   ########.fr       */
+/*   Created: 2023/03/28 15:23:51 by aderouba          #+#    #+#             */
+/*   Updated: 2023/03/28 15:53:30 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	free_ray_tab(t_ray **ray_tab, int max_alloc)
+void	free_color_tab(int **color_tab, int max_alloc)
 {
 	int	i;
 
 	i = 0;
 	while (i < max_alloc)
 	{
-		free(ray_tab[i]);
+		free(color_tab[i]);
 		i++;
 	}
-	free(ray_tab);
+	free(color_tab);
 }
 
-t_ray	**alloc_ray_tab(void)
+int	**alloc_color_tab(void)
 {
-	int		y;
-	t_ray	**ray_tab;
+	int	y;
+	int	**color_tab;
 
-	ray_tab = malloc(sizeof(t_ray *) * HEIGHT);
-	if (ray_tab == NULL)
+	color_tab = malloc(sizeof(int *) * HEIGHT);
+	if (color_tab == NULL)
 		return (NULL);
 	y = 0;
 	while (y < HEIGHT)
 	{
-		ray_tab[y] = malloc(sizeof(t_ray) * WIDTH);
-		if (ray_tab[y] == NULL)
+		color_tab[y] = malloc(sizeof(int) * WIDTH);
+		if (color_tab[y] == NULL)
 		{
-			free_ray_tab(ray_tab, y);
+			free_color_tab(color_tab, y);
 			return (NULL);
 		}
 		y++;
 	}
-	return (ray_tab);
+	return (color_tab);
 }

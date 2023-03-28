@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/28 13:10:18 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/28 15:42:18 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,9 +55,12 @@ endif
 
 # SRCS	:=	$(shell find $(SRC) -name '*.c')#TODO
 
-SRCS	:=	srcs/image/draw.c					\
-			srcs/image/ray_tab.c				\
-			srcs/image/antialiasing.c			\
+SRCS	:=	srcs/image/ppr.c			\
+			srcs/image/draw.c			\
+			srcs/image/ray_tab.c		\
+			srcs/image/color_tab.c		\
+			srcs/image/antialiasing.c	\
+			\
 			srcs/maths/is_xyz_in_range.c		\
 			srcs/maths/compute_screen_basis.c	\
 			\
