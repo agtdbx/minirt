@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_camera.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 17:14:29 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/27 18:52:49 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/28 12:26:10 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,8 @@ t_result	parse_camera(t_scene *ret_scene)
 	if (parse_vec(tok, &ret_scene->camera.pos) == FAILURE)
 		return (FAILURE);
 	tok = ft_strtok(NULL, " \n");
-	if (parse_vec(tok, &ret_scene->camera.basis[2]) == FAILURE)
+	if (parse_direction(tok, &ret_scene->camera.basis[2]) == FAILURE)
 		return (FAILURE);
-	if (is_xyz_in_range(&ret_scene->camera.basis[2], -1.0f, 1.0f) == false)
-		return (FAILURE);
-	normalize_vec(&ret_scene->camera.basis[2]);
 	tok = ft_strtok(NULL, " \n");
 	if (parse_fov(tok, &ret_scene->camera.fov) == FAILURE)
 		return (FAILURE);

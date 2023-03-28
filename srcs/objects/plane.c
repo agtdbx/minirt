@@ -6,13 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/23 12:57:47 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/28 12:27:59 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_plane	create_plane(t_vector origin, t_vector normal, int color)
+t_plane	create_plane(t_vector origin, t_vector normal, t_color color)
 {
 	t_plane	res;
 

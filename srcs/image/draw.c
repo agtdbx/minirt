@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 16:09:22 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/28 13:01:02 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,9 @@ void	draw(t_all *all)
 		{
 			res.dst = -1.0f;
 			fill_vec(&res.nrm, 0.0f, 0.0f, 0.0f);
-			res.color = 0x000000FF;
+			res.color.r = 0;
+			res.color.g = 0;
+			res.color.b = 0;
 			do_intersections(all, &res, x, y);
 			draw_result(all, &res, x, y);
 			x++;
@@ -118,9 +120,9 @@ static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
 		// all->ray_tab[y][x].direction = tmp;
 		intensity = -dot_product(&res->nrm, &tmp);
 		intensity *= all->scene.ambient_light.brightness;
-		r = (res->color >> 24 & 0XFF) * intensity;
-		g = (res->color >> 16 & 0XFF) * intensity;
-		b = (res->color >> 8 & 0XFF) * intensity;
+		r = res->color.r * intensity;
+		g = res->color.g * intensity;
+		b = res->color.b * intensity;
 		r *= all->scene.ambient_light.intensity_r;
 		g *= all->scene.ambient_light.intensity_g;
 		b *= all->scene.ambient_light.intensity_b;

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 18:42:12 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/28 12:48:03 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,13 +185,13 @@ void		intersect_sphere(t_sphere *sphere, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
 
 // objets/plane.c
-t_plane		create_plane(t_vector origin, t_vector normal, int color);
+t_plane		create_plane(t_vector origin, t_vector normal, t_color color);
 void		intersect_plane(t_plane *plane, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
 
 // objets/cylinder.c
 t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
-				int color);
+				t_color color);
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm);
 
@@ -235,15 +235,21 @@ t_result	parse_light(t_scene *ret_scene);
 
 // parsing/parse_objects.c
 t_result	parse_camera(t_scene *ret_scene);
-t_result	parse_sphere(t_scene *scene);
-bool		parse_plane(t_scene *scene);
-bool		parse_cylinder(t_scene *scene);
+t_result	parse_sphere(t_scene *ret_scene);
+t_result	parse_plane(t_scene *ret_scene);
+t_result	parse_cylinder(t_scene *ret_scene);
 
 // parsing/parse_color.c
 t_result	parse_color(char *rgb_str, t_color *ret_color);
 
 // parsing/parse_vec.c
 t_result	parse_vec(char *xyz_str, t_vector *ret_vec);
+
+// parsing/parse_vec.c
+t_result	parse_direction(char *xyz_str, t_vector *ret_vec);
+
+// parsing/parse_float.c
+t_result	parse_float(char const *nptr, float *ret_float);
 
 /*====================================MATHS===================================*/
 

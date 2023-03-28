@@ -1,6 +1,7 @@
-/.vscode
+.vscode
 /.cache
-/.build
+.build
+build
 
 /minirt
 /compile_commands.json

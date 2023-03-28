@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:34:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 16:05:27 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/28 12:59:54 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,73 +26,34 @@ void	print_ray(t_ray *ray)
 
 void	print_sphere(t_sphere *sphere)
 {
-	int	color;
-	int	r;
-	int	g;
-	int	b;
-
-	color = sphere->color;
-	g = color >> 16;
-	r = (color >> 24) & 0XFF;
-	g = (color >> 16) & 0XFF;
-	b = (color >> 8) & 0XFF;
 	printf("sphere (%03.3f, %03.3f, % 03.3f), r = %03.3f, color = (%i, %i, %i)\n",
 		sphere->origin.x, sphere->origin.y, sphere->origin.z,
 		sphere->radius,
-		r, g, b);
+		sphere->color.r, sphere->color.g, sphere->color.b);
 }
 
 void	print_plane(t_plane *plane)
 {
-	int	color;
-	int	r;
-	int	g;
-	int	b;
-
-	color = plane->color;
-	g = color >> 16;
-	r = (color >> 24) & 0XFF;
-	g = (color >> 16) & 0XFF;
-	b = (color >> 8) & 0XFF;
 	printf("plane (%03.3f, %03.3f, %03.3f), nrm = (%03.3f, %03.3f, %03.3f), color = (%i, %i, %i)\n",
 		plane->origin.x, plane->origin.y, plane->origin.z,
 		plane->normal.x, plane->normal.y, plane->normal.z,
-		r, g, b);
+		plane->color.r, plane->color.g, plane->color.b);
 }
 
 void	print_cylinder(t_cylinder *cylinder)
 {
-	int	color;
-	int	r;
-	int	g;
-	int	b;
-
-	color = cylinder->color;
-	g = color >> 16;
-	r = (color >> 24) & 0XFF;
-	g = (color >> 16) & 0XFF;
-	b = (color >> 8) & 0XFF;
 	printf("cylinder (%03.3f, %03.3f, %03.3f), axis = (%03.3f, %03.3f, %03.3f), d = %03.3f, length = %03.3f, color = (%i, %i, %i)\n",
 		cylinder->origin.x, cylinder->origin.y, cylinder->origin.z,
 		cylinder->axis.x, cylinder->axis.y, cylinder->axis.z,
 		cylinder->radius * 2, cylinder->height,
-		r, g, b);
+		cylinder->color.r, cylinder->color.g, cylinder->color.b);
 }
 
 void	print_ambiant_light(t_scene *scene)
 {
-	int	color;
-	int	r;
-	int	g;
-	int	b;
-
-	color = scene->ambient_light.color;
-	g = color >> 16;
-	r = (color >> 24) & 0XFF;
-	g = (color >> 16) & 0XFF;
-	b = (color >> 8) & 0XFF;
 	printf("Ambient light : intensity = %03.3f, color = (%i, %i, %i)\n",
-		scene->ambient_light.brightness, r, g, b);
+		scene->ambient_light.brightness, scene->ambient_light.color.r,
+		scene->ambient_light.color.g, scene->ambient_light.color.b);
 }
 
 void	print_camera(t_scene *scene)
@@ -105,19 +66,9 @@ void	print_camera(t_scene *scene)
 
 void	print_light(t_scene *scene)
 {
-	int	color;
-	int	r;
-	int	g;
-	int	b;
-
-	color = scene->light.color;
-	g = color >> 16;
-	r = (color >> 24) & 0XFF;
-	g = (color >> 16) & 0XFF;
-	b = (color >> 8) & 0XFF;
 	printf("Light : pos = (%03.3f, %03.3f, %03.3f), intensity = %03.3f, color = (%i, %i, %i)\n",
 		scene->light.pos.x, scene->light.pos.y, scene->light.pos.z,
-		scene->light.brightness, r, g, b);
+		scene->light.brightness, scene->light.color.r, scene->light.color.g, scene->light.color.b);
 }
 
 void	print_rtlst(t_rtlst *rtlst)

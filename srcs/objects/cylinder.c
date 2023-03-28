@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/24 14:52:48 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/28 12:47:26 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 				t_dst_and_nrm *dst_nrm, t_dst_and_nrm *dst0);
 
 t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
-				int color)
+				t_color color)
 {
 	t_cylinder	res;
 	t_vector	rev_axis;
