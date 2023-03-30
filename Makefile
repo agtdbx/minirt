@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/28 15:42:18 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/30 17:03:52 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,43 +53,43 @@ endif
 #==============================================================================#
 #=== SOURCES ==================================================================#
 
-# SRCS	:=	$(shell find $(SRC) -name '*.c')#TODO
+SRCS	:=	$(shell find $(SRC) -name '*.c')#TODO
 
-SRCS	:=	srcs/image/ppr.c			\
-			srcs/image/draw.c			\
-			srcs/image/ray_tab.c		\
-			srcs/image/color_tab.c		\
-			srcs/image/antialiasing.c	\
-			\
-			srcs/maths/is_xyz_in_range.c		\
-			srcs/maths/compute_screen_basis.c	\
-			\
-			srcs/objects/plane.c			\
-			srcs/objects/sphere.c			\
-			srcs/objects/camera.c			\
-			srcs/objects/cylinder.c			\
-			srcs/objects/space_rotation.c	\
-			srcs/objects/camera_movement.c	\
-			\
-			srcs/parsing/parse_vec.c		\
-			srcs/parsing/parse_file.c		\
-			srcs/parsing/parse_color.c		\
-			srcs/parsing/parse_float.c		\
-			srcs/parsing/parse_plane.c		\
-			srcs/parsing/parse_sphere.c		\
-			srcs/parsing/parse_camera.c		\
-			srcs/parsing/parse_lights.c		\
-			srcs/parsing/parse_cylinder.c	\
-			srcs/parsing/parse_direction.c	\
-			\
-			srcs/utils/rtlst.c		\
-			srcs/utils/print.c		\
-			srcs/utils/number.c		\
-			srcs/utils/string.c		\
-			srcs/utils/vector.c		\
-			srcs/utils/math_utils.c	\
-			\
-			srcs/main.c
+# SRCS	:=	srcs/image/ppr.c			\
+# 			srcs/image/draw.c			\
+# 			srcs/image/ray_tab.c		\
+# 			srcs/image/color_tab.c		\
+# 			srcs/image/antialiasing.c	\
+# 			\
+# 			srcs/maths/is_xyz_in_range.c		\
+# 			srcs/maths/compute_screen_basis.c	\
+# 			\
+# 			srcs/objects/plane.c			\
+# 			srcs/objects/sphere.c			\
+# 			srcs/objects/camera.c			\
+# 			srcs/objects/cylinder.c			\
+# 			srcs/objects/space_rotation.c	\
+# 			srcs/objects/camera_movement.c	\
+# 			\
+# 			srcs/parsing/parse_vec.c		\
+# 			srcs/parsing/parse_file.c		\
+# 			srcs/parsing/parse_color.c		\
+# 			srcs/parsing/parse_float.c		\
+# 			srcs/parsing/parse_plane.c		\
+# 			srcs/parsing/parse_sphere.c		\
+# 			srcs/parsing/parse_camera.c		\
+# 			srcs/parsing/parse_lights.c		\
+# 			srcs/parsing/parse_cylinder.c	\
+# 			srcs/parsing/parse_direction.c	\
+# 			\
+# 			srcs/utils/rtlst.c		\
+# 			srcs/utils/print.c		\
+# 			srcs/utils/number.c		\
+# 			srcs/utils/string.c		\
+# 			srcs/utils/vector.c		\
+# 			srcs/utils/math_utils.c	\
+# 			\
+# 			srcs/main.c
 
 #==============================================================================#
 #=== BUILD FILES ==============================================================#

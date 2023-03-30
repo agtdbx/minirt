@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 15:40:39 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:15:02 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,12 @@ void	draw(t_all *all)
 			res.color.r = 0;
 			res.color.g = 0;
 			res.color.b = 0;
+			res.intensity_r = 0.0f;
+			res.intensity_g = 0.0f;
+			res.intensity_b = 0.0f;
 			do_intersections(all, &res, x, y);
+			apply_dymamic_light(all, &res, &all->ray_tab[y][x]);
+			apply_ambiant_light(all, &res);
 			draw_result(all, &res, x, y);
 			x++;
 		}
@@ -104,24 +109,15 @@ static void	draw_pixels(t_all *all, int x, int y, int color)
 
 static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
 {
-	int			r;
-	int			g;
-	int			b;
-	float		intensity;
-	t_vector	tmp;
+	int	r;
+	int	g;
+	int	b;
 
 	if (res->dst != -1.0f)
 	{
-		dup_vec(&tmp, &all->ray_tab[y][x].direction);
-		normalize_vec(&tmp);
-		intensity = -dot_product(&res->nrm, &tmp);
-		intensity *= all->scene.ambient_light.brightness;
-		r = res->color.r * intensity;
-		g = res->color.g * intensity;
-		b = res->color.b * intensity;
-		r *= all->scene.ambient_light.intensity_r;
-		g *= all->scene.ambient_light.intensity_g;
-		b *= all->scene.ambient_light.intensity_b;
+		r = res->color.r * res->intensity_r;
+		g = res->color.g * res->intensity_g;
+		b = res->color.b * res->intensity_b;
 		draw_pixels(all, x, y, get_rgb(r, g, b));
 	}
 	else

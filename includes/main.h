@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 16:38:49 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/30 17:03:11 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 
 # define WIDTH_DIV_2 960
 # define HEIGHT_DIV_2 540
+
+# define LIGHT_DIFFUSE_RADIUS 100.0f
 
 // Define for pre-calculate value
 # define PI 3.141592
@@ -103,6 +105,9 @@ typedef struct s_dst_and_nrm
 	t_vector	nrm;
 	float		dst;
 	t_color		color;
+	float		intensity_r;
+	float		intensity_g;
+	float		intensity_b;
 }	t_dst_and_nrm;
 
 // Camera Struct
@@ -231,6 +236,9 @@ void		apply_antialiasing(t_all *all);
 void		free_color_tab(int **color_tab, int max_alloc);
 int			**alloc_color_tab(void);
 
+//image/calculate_light.c
+void		apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray);
+void		apply_ambiant_light(t_all *all, t_dst_and_nrm *res);
 /*====================================PARSING=================================*/
 
 // parsing/parse_file.c
