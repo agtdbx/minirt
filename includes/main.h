@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 11:47:38 by aderouba         ###   ########.fr       */
+/*   Created: 2023/03/31 15:41:46 by tdubois           #+#    #+#             */
+/*   Updated: 2023/03/31 15:42:17 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,6 +217,8 @@ void		translate(t_vector *vector, float x, float y, float z);
 void		absolute_rotate(t_vector *vector, float angle, char axis);
 void		my_rot_around(t_vector *restrict vect,
 				t_vector const *restrict axis, float angle);
+
+void		my_vect_cpy(t_vector *restrict dst, t_vector const *restrict src);
 
 // objets/camera_operation.c
 void		camera_translations(t_all *all, float delta_time);

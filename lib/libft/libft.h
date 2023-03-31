@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:33:14 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 12:12:13 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/31 13:16:40 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int		ft_strlcat(char *dst, const char *src, int size);
 size_t	ft_strspn(char const *str, char const *accept);
 size_t	ft_strcspn(char const *str, char const *reject);
 bool	ft_strendswith(char const *str, char const *suffix);
+float	ft_strtof(char const *str, char **endptr);
 
 // list string
 char	**ft_add_str(char **lstr, char *str);

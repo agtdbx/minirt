@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+function get_suites
+{
+	[[ "$#" -gt 0 ]] && gcc -E -fpreprocessed -P "$@" \
+		| sed -nr 's|^\s*SUITE\s*\(\s*(\w+)\s*\).*|\1|p'
+}
+
+function main
+{
+	mapfile -t suites < <(get_suites "${@}")
+
+	cat <<-MAIN.GEN.C
+	#include "greatest.h"
+
+	$(for suite in "${suites[@]}"; do echo "extern SUITE(${suite});"; done)
+
+	GREATEST_MAIN_DEFS();
+	int main(int argc, char **argv)
+	{
+	GREATEST_MAIN_BEGIN();
+	$(for suite in "${suites[@]}"; do echo "RUN_SUITE(${suite});"; done)
+	GREATEST_MAIN_END();
+	}
+	MAIN.GEN.C
+}
+
+main "$@"

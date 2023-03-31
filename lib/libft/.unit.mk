@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    .unit.mk                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/31 09:53:28 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/31 12:20:47 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,23 +23,19 @@ MAKEFLAGS		:=	--no-print-directory
 #==============================================================================#
 #=== GOALS ====================================================================#
 
-NAME		:=	libft.a
+NAME		:=	unit.a
 
 #==============================================================================#
 #=== DIRECTORIES ==============================================================#
 
-BUILD		:=	.build
+BUILD		:=	.build-unit
 
 #==============================================================================#
 #=== COMPILATION ==============================================================#
 
 CC			:=	clang
-CFLAGS		:=	-Wall -Wextra -Werror -O3
-CPPFLAGS	:=	-MP -MMD -I .
-
-ifdef DEBUG
-CFLAGS		+=	-ggdb3
-endif
+CFLAGS		:=	-Wall -Wextra -Werror -ggdb3
+CPPFLAGS	:=	-MP -MMD -I . -I tests
 
 #==============================================================================#
 #=== SOURCES ==================================================================#
@@ -114,7 +110,7 @@ SRCS	:=	ft_atof.c \
 			printf_fd.c \
 			printf.c
 
-SRCS	:=	$(sort $(SRCS) $(shell fd -g '*.c' -E '*.test.c'))
+SRCS	:=	$(sort $(SRCS) $(shell fd -g '*.c'))
 
 #==============================================================================#
 #=== BUILD FILES ==============================================================#
@@ -133,7 +129,7 @@ DIRS		:=	$(BUILD)
 all: objs $(NAME)
 
 objs:								#build objs in parallel
-	$(MAKE) -j$(nproc) $(OBJS)
+	$(MAKE) -f .unit.mk -j$(nproc) $(OBJS)
 
 clean:
 	rm -rf $(BUILD)
@@ -173,7 +169,8 @@ PURPLE		:=	$(shell echo "\033[1;35m")
 #%%% PROGRESS LOG UTILS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 objs: export N		:=	0
-objs: export NTOTAL	?=	$(shell make NTOTAL=1 -n $(OBJS) | grep clang | wc -l)
+objs: export NTOTAL	?=	\
+	$(shell make NTOTAL=1 -f .unit.mk -n $(OBJS) | grep clang | wc -l)
 
 define progress-log =
 	$(info [$(words $(N))/$(NTOTAL)] $(PURPLE)Building $< $(NOC))

@@ -6,11 +6,17 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:34:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/22 12:11:00 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 10:07:18 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+static inline float	loc_dot_prod(float x, float y, float z,
+						t_vector const *restrict v);
+
+static inline void	vect_cpy(t_vector *restrict dst,
+						t_vector const *restrict src);
 
 void	absolute_rotate(t_vector *vector, float angle, char axis)
 {
@@ -36,18 +42,6 @@ void	absolute_rotate(t_vector *vector, float angle, char axis)
 	}
 }
 
-inline void	my_vect_cpy(t_vector *restrict dst, t_vector const *restrict src)
-{
-	dst->x = src->x;
-	dst->y = src->y;
-	dst->z = dst->z;
-}
-
-static inline float	loc_dot_prod(float x, float y, float z,
-					t_vector const *restrict v)
-{
-	return ((x * v->x) + (y * v->y) + (z * v->z));
-}
 
 /** my_rot_around:
  *   rotate `vect' around normalized `axis' with `angle' (in radians).
@@ -76,5 +70,19 @@ void	my_rot_around(t_vector *restrict vect,
 	ret.x = loc_dot_prod(t[0] + t[1] * t[2], t[4] - t[6], t[7] + t[8], vect);
 	ret.y = loc_dot_prod(t[4] + t[6], t[0] + t[1] * t[9], t[10] - t[11], vect);
 	ret.z = loc_dot_prod(t[7] - t[8], t[10] + t[11], t[0] + t[1] * t[12], vect);
-	my_vect_cpy(vect, &ret);
+	vect_cpy(vect, &ret);
+}
+
+static inline void	vect_cpy(t_vector *restrict dst,
+						t_vector const *restrict src)
+{
+	dst->x = src->x;
+	dst->y = src->y;
+	dst->z = src->z;
+}
+
+static inline float	loc_dot_prod(float x, float y, float z,
+						t_vector const *restrict v)
+{
+	return ((x * v->x) + (y * v->y) + (z * v->z));
 }

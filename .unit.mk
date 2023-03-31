@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    .unit.mk                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/31 09:53:28 by tdubois          ###   ########.fr        #
+#    Updated: 2023/03/31 12:21:47 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,139 +23,107 @@ MAKEFLAGS		:=	--no-print-directory
 #==============================================================================#
 #=== GOALS ====================================================================#
 
-NAME		:=	libft.a
+NAME		:=	unit
+
+LIBMLX42	:=	lib/mlx42/build/libmlx42.a
+LIBFT		:=	lib/libft/unit.a
 
 #==============================================================================#
 #=== DIRECTORIES ==============================================================#
 
-BUILD		:=	.build
+SRC			:=	srcs
+BUILD		:=	.build-unit
+
+INCLUDES	:=	-Iincludes -Ilib/libft -I/usr/include -Ilib/mlx42/include \
+				-Itests
 
 #==============================================================================#
 #=== COMPILATION ==============================================================#
 
 CC			:=	clang
-CFLAGS		:=	-Wall -Wextra -Werror -O3
-CPPFLAGS	:=	-MP -MMD -I .
-
-ifdef DEBUG
-CFLAGS		+=	-ggdb3
-endif
+CFLAGS		:=	-Wall -Wextra -Werror -Wno-unused-function -ggdb3
+CPPFLAGS	:=	-MP -MMD $(INCLUDES)
+LDFLAGS		:=	-Llib/libft -l:unit.a		\
+				-Llib/mlx42/build -lmlx42	\
+				-ldl -lglfw -pthread -lm	\
 
 #==============================================================================#
 #=== SOURCES ==================================================================#
 
-SRCS	:=	ft_atof.c \
-			ft_atoi_base.c \
-			ft_atoi.c \
-			ft_atol.c \
-			ft_bzero.c \
-			ft_calloc.c \
-			ft_ftoa.c \
-			ft_isalnum.c \
-			ft_isalpha.c \
-			ft_isascii.c \
-			ft_isdigit.c \
-			ft_isprime.c \
-			ft_isprint.c \
-			ft_itoa_base.c \
-			ft_itoa.c \
-			ft_lstadd_back.c \
-			ft_lstadd_front.c \
-			ft_lstclear.c \
-			ft_lstdelone.c \
-			ft_lstiter.c \
-			ft_lstlast.c \
-			ft_lstmap.c \
-			ft_lstnew.c \
-			ft_lstr.c \
-			ft_lstsize.c \
-			ft_memchr.c \
-			ft_memcmp.c \
-			ft_memcpy.c \
-			ft_memmove.c \
-			ft_memset.c \
-			ft_pow.c \
-			ft_putchar_fd.c \
-			ft_putendl_fd.c \
-			ft_putnbr_base_fd.c \
-			ft_putnbr_fd.c \
-			ft_putstr_fd.c \
-			ft_putunbr_base_fd.c \
-			ft_putunbr_fd.c \
-			ft_split.c \
-			ft_sqrt.c \
-			ft_strcat.c \
-			ft_strchr.c \
-			ft_strcmp.c \
-			ft_strcpy.c \
-			ft_strcspn.c \
-			ft_strdup.c \
-			ft_striteri.c \
-			ft_strjoin_free_1st_p.c \
-			ft_strjoin.c \
-			ft_strlcat.c \
-			ft_strlcpy.c \
-			ft_strlen.c \
-			ft_strmapi.c \
-			ft_strncmp.c \
-			ft_strnstr.c \
-			ft_strrchr.c \
-			ft_strspn.c \
-			ft_strstr.c \
-			ft_strendswith.c\
-			ft_strsuperjoin_free_1st_p.c \
-			ft_strsuperjoin.c \
-			ft_strtrim.c \
-			ft_substr.c \
-			ft_supersplit.c \
-			ft_tolower.c \
-			ft_toupper.c \
-			gnl.c \
-			printf_fd.c \
-			printf.c
+#TODO
+SRCS	:=	$(shell fd -g '*.c' -E 'main.c' $(SRC))
 
-SRCS	:=	$(sort $(SRCS) $(shell fd -g '*.c' -E '*.test.c'))
+TESTS	:=	$(shell fd -g '*.test.c' $(SRC) $(dir $(LIBFT)))
 
 #==============================================================================#
 #=== BUILD FILES ==============================================================#
 
-OBJS		:=	$(SRCS:%.c=$(BUILD)/%.o)
-DEPS		:=	$(SRCS:%.c=$(BUILD)/%.d)
-DIRS		:=	$(BUILD)
+MAIN	:=	$(BUILD)/main.gen.c
+MAINOBJ	:=	$(BUILD)/main.gen.o
+
+OBJS	:=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.o)
+DEPS	:=	$(SRCS:$(SRC)/%.c=$(BUILD)/%.d)
+DIRS	:=	$(sort $(shell dirname $(OBJS)))
 
 #******************************************************************************#
 #*** PHONY RULES **************************************************************#
 
 .PHONY:	all				\
-		objs			\
-		clean fclean re
+		libft objs		\
+		clean fclean re	\
 
-all: objs $(NAME)
+all: | $(LIBMLX42)					#build mlx42 once (and first)
+all: libft objs $(NAME)				#build other targets every time needed
+
+libft:
+	$(MAKE) -C lib/libft -f .unit.mk
 
 objs:								#build objs in parallel
-	$(MAKE) -j$(nproc) $(OBJS)
+	$(MAKE) -f .unit.mk -j$(nproc) $(OBJS)
 
 clean:
+	#clean libft
+	$(MAKE) -C lib/libft -f .unit.mk clean
+	#clean minirt
+	$(info $(RED)Deleting objects$(NOC))
 	rm -rf $(BUILD)
 
 fclean: clean
-	rm -f $(NAME)
+	#full clean libft
+	$(MAKE) -C lib/libft -f .unit.mk fclean
+	#clean libmlx42
+	rm -rf lib/mlx42/build
+	#full clean minirt
+	$(info $(RED)Deleting binary$(NOC))
+	rm -rf $(NAME)
 
 re: fclean all
 
 #******************************************************************************#
 #*** BUILD RULES **************************************************************#
 
-$(NAME): $(OBJS)
-	$(info $(BLUE)Linking C static library $@$(NOC))
-	ar rcs $@ $(OBJS)
+$(LIBMLX42):
+	cmake lib/mlx42 -B lib/mlx42/build						\
+		&& cmake --build lib/mlx42/build -j$(nproc) -- -s
+
+$(NAME): $(MAINOBJ) $(OBJS) $(LIBFT) $(LIBMLX42)
+	$(info $(BLUE)Linking C executable $@$(NOC))
+	$(CC) $(CFLAGS) $(MAINOBJ) $(OBJS) $(LDFLAGS) -o $@
 	$(info $(GREEN)All done$(NOC))
 
 $(DIRS):
 	mkdir -p $@
 
-$(OBJS): $(BUILD)/%.o: %.c | $$(@D)
+$(OBJS): $(BUILD)/%.o: $(SRC)/%.c | $$(@D)
 	$(progress-log)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(MAIN): $(TESTS) | $$(@D)
+	$(info $(PURPLE)Building $@ $(NOC))
+	./tests/gt-gen $(TESTS) > $@
+
+$(MAINOBJ): $(MAIN) | $$(@D)
+	$(info $(PURPLE)Building $@ $(NOC))
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 -include $(DEPS)
@@ -173,9 +141,10 @@ PURPLE		:=	$(shell echo "\033[1;35m")
 #%%% PROGRESS LOG UTILS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 objs: export N		:=	0
-objs: export NTOTAL	?=	$(shell make NTOTAL=1 -n $(OBJS) | grep clang | wc -l)
+objs: export NTOTAL	?=	\
+	$(shell make NTOTAL=1 -f .unit.mk -n $(OBJS) | grep clang | wc -l)
 
 define progress-log =
-	$(info [$(words $(N))/$(NTOTAL)] $(PURPLE)Building $< $(NOC))
+	$(info [$(words $(N))/$(NTOTAL)] $(PURPLE)Building $@ $(NOC))
 	$(eval N += 1)
 endef
