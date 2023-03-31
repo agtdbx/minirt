@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:34:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 10:07:18 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/31 15:36:07 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	absolute_rotate(t_vector *vector, float angle, char axis)
 		vector->y = -sin(rad) * x + cos(rad) * y;
 	}
 }
-
 
 /** my_rot_around:
  *   rotate `vect' around normalized `axis' with `angle' (in radians).
