@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:08:01 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/28 12:41:51 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:06:00 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 
 #include "libft.h"
 
+static t_result	add_sphere(t_scene *ret_scene, t_sphere sphere);
+
 t_result	parse_sphere(t_scene *ret_scene)
 {
-	t_rtlst		*sphere;
+	t_sphere	sphere;
 	char		*tok;
 	float		radius;
 	t_color		color;
@@ -35,9 +37,28 @@ t_result	parse_sphere(t_scene *ret_scene)
 		return (FAILURE);
 	if (ft_strtok(NULL, " \n") != NULL)
 		return (FAILURE);
-	sphere = rtlst_new(SPHERE, (t_rtlst_v)create_sphere(pos, radius, color));
-	if (sphere == NULL)
+	sphere = create_sphere(pos, radius, color);
+	if (add_sphere(ret_scene, sphere) == FAILURE)
 		return (FAILURE);
-	rtlst_add_back(&ret_scene->objects, sphere);
+	return (SUCCESS);
+}
+
+static t_result	add_sphere(t_scene *ret_scene, t_sphere sphere)
+{
+	t_rtlst	*obj;
+	int		nb_obj;
+
+	nb_obj = 0;
+	obj = ret_scene->objects;
+	while (obj)
+	{
+		nb_obj++;
+		obj = obj->next;
+	}
+	sphere.id = nb_obj;
+	obj = rtlst_new(SPHERE, (t_rtlst_v)sphere, nb_obj);
+	if (obj == NULL)
+		return (FAILURE);
+	rtlst_add_back(&ret_scene->objects, obj);
 	return (SUCCESS);
 }

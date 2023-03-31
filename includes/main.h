@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 15:41:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/31 15:42:17 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/10 11:10:04 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@
 # include "libft.h"
 
 # define WIDTH 1920
-# define HEIGHT 1080
+# define HEIGHT 995
 
 # define WIDTH_DIV_2 960
-# define HEIGHT_DIV_2 540
+# define HEIGHT_DIV_2 497.5
 
 # define LIGHT_DIFFUSE_RADIUS 100.0f
 
@@ -76,6 +76,7 @@ typedef struct s_sphere
 	float		radius2;
 	float		reflexion_intensity;
 	t_color		color;
+	int			id;
 }	t_sphere;
 
 // Plane struct
@@ -86,6 +87,7 @@ typedef struct s_plane
 	t_vector	rev_normal;
 	t_color		color;
 	float		reflexion_intensity;
+	int			id;
 }	t_plane;
 
 // Cylinder struct
@@ -102,19 +104,21 @@ typedef struct s_cylinder
 	float		height;
 	float		reflexion_intensity;
 	t_color		color;
+	int			id;
 }	t_cylinder;
 
 // Intersect result struct
-typedef struct s_dst_and_nrm
+typedef struct s_intersect_ret
 {
 	t_vector	nrm;
-	float		dst;
 	t_color		color;
+	float		dst;
 	float		intensity_r;
 	float		intensity_g;
 	float		intensity_b;
 	float		reflexion_intensity;
-}	t_dst_and_nrm;
+	int			id;
+}	t_intersect_ret;
 
 // Camera Struct
 typedef struct s_camera
@@ -158,6 +162,7 @@ typedef struct s_rtlst
 	t_rtlst_t		type;
 	t_rtlst_v		value;
 	struct s_rtlst	*next;
+	int				id;
 }	t_rtlst;
 
 // Scene Struct
@@ -179,6 +184,8 @@ typedef struct s_all
 	t_ray		**ray_tab;
 	double		last_time;
 	int			**colors_tab;
+	bool		show_menu;
+	int			id_obj_select;
 }	t_all;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -193,18 +200,18 @@ int			main(int argc, char **argv);
 // objets/sphere.c
 t_sphere	create_sphere(t_vector origin, float diameter, t_color color);
 void		intersect_sphere(t_sphere *sphere, t_ray *ray,
-				t_dst_and_nrm *dst_nrm);
+				t_intersect_ret *intersect_ret);
 
 // objets/plane.c
 t_plane		create_plane(t_vector origin, t_vector normal, t_color color);
 void		intersect_plane(t_plane *plane, t_ray *ray,
-				t_dst_and_nrm *dst_nrm);
+				t_intersect_ret *intersect_ret);
 
 // objets/cylinder.c
 t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
 				t_color color);
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
-				t_dst_and_nrm *dst_nrm);
+				t_intersect_ret *intersect_ret);
 
 // objets/camera.c
 void		get_screen_basis(t_vector const *camera, t_vector ret_basis[2],
@@ -245,13 +252,19 @@ void		free_color_tab(int **color_tab, int max_alloc);
 int			**alloc_color_tab(void);
 
 //image/calculate_light.c
-void		apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray,
+void		apply_dymamic_light(t_all *all, t_intersect_ret *res, t_ray *ray,
 				int reflect);
-void		apply_ambiant_light(t_all *all, t_dst_and_nrm *res);
+void		apply_ambiant_light(t_all *all, t_intersect_ret *res);
 
 //image/reflexion.c
-void		apply_reflexion(t_all *all, t_dst_and_nrm *res,
+void		apply_reflexion(t_all *all, t_intersect_ret *res,
 				t_vector const *intersection_point, int reflect);
+
+/*=====================================DRAW===================================*/
+
+//menu/menu.c
+void		check_tab_pressed(t_all *all, float const delta_time);
+void		draw_menu(t_all *all);
 
 /*====================================PARSING=================================*/
 
@@ -305,9 +318,10 @@ void		cross_product(t_vector const *v1, t_vector const *v2,
 void		get_normals_of_vect(t_vector const *vect, t_vector nrm[2]);
 
 // utils/rtlst.c
-t_rtlst		*rtlst_new(t_rtlst_t type, t_rtlst_v value);
+t_rtlst		*rtlst_new(t_rtlst_t type, t_rtlst_v value, int id);
 void		rtlst_add_back(t_rtlst **rtlst, t_rtlst *new);
 void		rtlst_free(t_rtlst **rtlst);
+t_rtlst		*get_obj_by_index(t_rtlst *rtlst, int id);
 
 // utils/print.c
 void		print_vect(t_vector *vector);
@@ -333,6 +347,6 @@ char		*ft_strtok_r(char *str, char const *sep, char **saveptr);
 char		*ft_strtok(char *str, char const *sep);
 
 // utils/dst_and_nrm.c
-void		init_dst_and_nrm(t_dst_and_nrm *to_init);
+void		init_intersect_ret(t_intersect_ret *to_init);
 
 #endif

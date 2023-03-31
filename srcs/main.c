@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 16:27:15 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:46:30 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	main(int argc, char **argv)
 	init_struct(&all);
 	all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
 	all.img = mlx_new_image(all.mlx, WIDTH, HEIGHT);
+	mlx_set_window_pos(all.mlx, 0, 0);
 	mlx_image_to_window(all.mlx, all.img, 0, 0);
+	mlx_set_window_title(all.mlx, "minirt");
 	mlx_loop_hook(all.mlx, &hook, &all);
 	mlx_loop(all.mlx);
 	mlx_terminate(all.mlx);
@@ -48,7 +50,9 @@ int	main(int argc, char **argv)
 
 static void	init_struct(t_all *all)
 {
+	all->show_menu = false;
 	all->last_time = 0.0;
+	all->id_obj_select = -1;
 	all->scene.ppr = 1;
 	all->ray_tab = alloc_ray_tab();
 	if (all->ray_tab == NULL)
@@ -83,8 +87,8 @@ static float	get_delta_time(t_all *all)
 
 void	hook(void *param)
 {
-	float			delta_time;
-	t_all			*all;
+	float	delta_time;
+	t_all	*all;
 
 	all = param;
 	delta_time = get_delta_time(all);
@@ -93,5 +97,8 @@ void	hook(void *param)
 	camera_translations(all, delta_time);
 	camera_rotations(all, delta_time);
 	ppr_gestion(all, delta_time);
+	check_tab_pressed(all, delta_time);
 	draw(all);
+	if (all->show_menu)
+		draw_menu(all);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
+#    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:41:02 by tdubois           #+#    #+#              #
-#    Updated: 2023/03/31 15:41:27 by tdubois          ###   ########.fr        #
+#    Updated: 2023/04/10 11:09:52 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,47 @@ endif
 
 #TODO
 SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
+
+# SRCS	:=	srcs/image/ppr.c				\
+# 			srcs/image/draw.c				\
+# 			srcs/image/ray_tab.c			\
+# 			srcs/image/reflexion.c			\
+# 			srcs/image/color_tab.c			\
+# 			srcs/image/antialiasing.c		\
+# 			srcs/image/calculate_light.c	\
+# 			\
+# 			srcs/menu/menu.c	\
+# 			\
+# 			srcs/maths/is_xyz_in_range.c		\
+# 			srcs/maths/compute_screen_basis.c	\
+# 			\
+# 			srcs/objects/plane.c			\
+# 			srcs/objects/sphere.c			\
+# 			srcs/objects/camera.c			\
+# 			srcs/objects/cylinder.c			\
+# 			srcs/objects/space_rotation.c	\
+# 			srcs/objects/camera_movement.c	\
+# 			\
+# 			srcs/parsing/parse_vec.c		\
+# 			srcs/parsing/parse_file.c		\
+# 			srcs/parsing/parse_color.c		\
+# 			srcs/parsing/parse_float.c		\
+# 			srcs/parsing/parse_plane.c		\
+# 			srcs/parsing/parse_sphere.c		\
+# 			srcs/parsing/parse_camera.c		\
+# 			srcs/parsing/parse_lights.c		\
+# 			srcs/parsing/parse_cylinder.c	\
+# 			srcs/parsing/parse_direction.c	\
+# 			\
+# 			srcs/utils/rtlst.c			\
+# 			srcs/utils/print.c			\
+# 			srcs/utils/number.c			\
+# 			srcs/utils/string.c			\
+# 			srcs/utils/vector.c			\
+# 			srcs/utils/math_utils.c		\
+# 			srcs/utils/intersect_ret.c	\
+# 			\
+# 			srcs/main.c
 
 #==============================================================================#
 #=== BUILD FILES ==============================================================#

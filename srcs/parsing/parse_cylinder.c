@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 14:31:30 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 13:01:22 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:06:03 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,17 @@ t_result	parse_cylinder(t_scene *ret_scene)
 static t_result	add_cylinder(t_scene *ret_scene, t_cylinder cylinder)
 {
 	t_rtlst		*obj;
+	int		nb_obj;
 
-	obj = rtlst_new(CYLINDER, (t_rtlst_v)cylinder);
+	nb_obj = 0;
+	obj = ret_scene->objects;
+	while (obj)
+	{
+		nb_obj++;
+		obj = obj->next;
+	}
+	cylinder.id = nb_obj;
+	obj = rtlst_new(CYLINDER, (t_rtlst_v)cylinder, nb_obj);
 	if (obj == NULL)
 		return (FAILURE);
 	rtlst_add_back(&ret_scene->objects, obj);

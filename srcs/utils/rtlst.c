@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   rtlst.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:19:27 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 18:50:33 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:14:07 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-t_rtlst	*rtlst_new(t_rtlst_t type, t_rtlst_v value)
+t_rtlst	*rtlst_new(t_rtlst_t type, t_rtlst_v value, int id)
 {
 	t_rtlst	*new;
 
@@ -22,6 +22,7 @@ t_rtlst	*rtlst_new(t_rtlst_t type, t_rtlst_v value)
 	new->type = type;
 	new->value = value;
 	new->next = NULL;
+	new->id = id;
 	return (new);
 }
 
@@ -55,4 +56,20 @@ void	rtlst_free(t_rtlst **rtlst)
 		*rtlst = next;
 	}
 	*rtlst = NULL;
+}
+
+t_rtlst	*get_obj_by_index(t_rtlst *rtlst, int id)
+{
+	t_rtlst	*tmp;
+
+	if (id < 0)
+		return (NULL);
+	tmp = rtlst;
+	while (tmp)
+	{
+		if (tmp->id == id)
+			return (tmp);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

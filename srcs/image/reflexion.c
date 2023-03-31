@@ -6,18 +6,18 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:49:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 11:43:55 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:48:34 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	merge_color(t_dst_and_nrm *res, t_dst_and_nrm const *reflect_res);
+static void	merge_color(t_intersect_ret *res, t_intersect_ret const *reflect_res);
 
-void	apply_reflexion(t_all *all, t_dst_and_nrm *res,
+void	apply_reflexion(t_all *all, t_intersect_ret *res,
 			t_vector const *intersection_point, int reflect)
 {
-	t_dst_and_nrm	reflect_res;
+	t_intersect_ret	reflect_res;
 	t_ray			reflect_ray;
 	t_rtlst			*obj;
 
@@ -25,7 +25,7 @@ void	apply_reflexion(t_all *all, t_dst_and_nrm *res,
 		return ;
 	dup_vec(&reflect_ray.origin, intersection_point);
 	dup_vec(&reflect_ray.direction, &res->nrm);
-	init_dst_and_nrm(&reflect_res);
+	init_intersect_ret(&reflect_res);
 	obj = all->scene.objects;
 	while (obj)
 	{
@@ -43,7 +43,7 @@ void	apply_reflexion(t_all *all, t_dst_and_nrm *res,
 	merge_color(res, &reflect_res);
 }
 
-static void	merge_color(t_dst_and_nrm *res, t_dst_and_nrm const *reflect_res)
+static void	merge_color(t_intersect_ret *res, t_intersect_ret const *reflect_res)
 {
 	float const	inv_intensity = 1.0f - res->reflexion_intensity;
 

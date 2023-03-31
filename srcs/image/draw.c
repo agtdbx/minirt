@@ -6,15 +6,16 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 11:22:42 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:59:38 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	do_intersections(t_all *all, t_dst_and_nrm *res, int x, int y);
+static void	do_intersections(t_all *all, t_intersect_ret *res, int x, int y);
 static void	draw_pixels(t_all *all, int x, int y, int color);
-static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y);
+static void	draw_result(t_all *all, t_intersect_ret *res, int x, int y);
+static void	set_mouse_pos(t_all *all, int m_pos[2]);
 
 int	get_rgb(int r, int g, int b)
 {
@@ -37,30 +38,36 @@ void	draw(t_all *all)
 {
 	const int		number_ray = WIDTH / all->scene.ppr;
 	const int		number_line = HEIGHT / all->scene.ppr;
-	int				x;
-	int				y;
-	t_dst_and_nrm	res;
+	int				ray_pos[2];
+	int				m_pos[2];
+	t_intersect_ret	res;
 
+	set_mouse_pos(all, m_pos);
 	fill_tab_ray(all->ray_tab, &all->scene, number_ray, number_line);
-	y = 0;
-	while (y < number_line)
+	ray_pos[1] = 0;
+	while (ray_pos[1] < number_line)
 	{
-		x = 0;
-		while (x < number_ray)
+		ray_pos[0] = 0;
+		while (ray_pos[0] < number_ray)
 		{
-			init_dst_and_nrm(&res);
-			do_intersections(all, &res, x, y);
-			apply_dymamic_light(all, &res, &all->ray_tab[y][x], MAX_REFLECT);
+			init_intersect_ret(&res);
+			do_intersections(all, &res, ray_pos[0], ray_pos[1]);
+			apply_dymamic_light(all, &res, &all->ray_tab[ray_pos[1]][ray_pos[0]], MAX_REFLECT);
 			apply_ambiant_light(all, &res);
-			draw_result(all, &res, x, y);
-			x++;
+			draw_result(all, &res, ray_pos[0], ray_pos[1]);
+			if (m_pos[0] == ray_pos[0] && m_pos[1] == ray_pos[1])
+			{
+				all->id_obj_select = res.id;
+				mlx_image_to_window(all->mlx, all->img, 0, 0);
+			}
+			ray_pos[0]++;
 		}
-		y++;
+		ray_pos[1]++;
 	}
 	apply_antialiasing(all);
 }
 
-static void	do_intersections(t_all *all, t_dst_and_nrm *res, int x, int y)
+static void	do_intersections(t_all *all, t_intersect_ret *res, int x, int y)
 {
 	t_rtlst	*obj;
 
@@ -100,7 +107,7 @@ static void	draw_pixels(t_all *all, int x, int y, int color)
 	}
 }
 
-static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
+static void	draw_result(t_all *all, t_intersect_ret *res, int x, int y)
 {
 	int	r;
 	int	g;
@@ -115,4 +122,24 @@ static void	draw_result(t_all *all, t_dst_and_nrm *res, int x, int y)
 	}
 	else
 		draw_pixels(all, x, y, 0x000000FF);
+}
+
+static void	set_mouse_pos(t_all *all, int m_pos[2])
+{
+	int	x;
+	int	y;
+
+	x = -1;
+	y = -1;
+	if (mlx_is_mouse_down(all->mlx, MLX_MOUSE_BUTTON_LEFT))
+	{
+		mlx_get_mouse_pos(all->mlx, &x, &y);
+		if (0 <= x && x <= WIDTH - 420 && 0 <= y && y <= HEIGHT)
+		{
+			x /= all->scene.ppr;
+			y /= all->scene.ppr;
+		}
+	}
+	m_pos[0] = x;
+	m_pos[1] = y;
 }

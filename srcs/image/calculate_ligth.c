@@ -6,17 +6,17 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:00:03 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 11:23:56 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:48:23 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 static bool	is_shadow(t_all *all, t_ray *ray, float distance);
-static void	apply_ligth_effect(t_all *all, t_dst_and_nrm *res, float intensity,
+static void	apply_ligth_effect(t_all *all, t_intersect_ret *res, float intensity,
 				float distance);
 
-void	apply_ambiant_light(t_all *all, t_dst_and_nrm *res)
+void	apply_ambiant_light(t_all *all, t_intersect_ret *res)
 {
 	float	intensity_r;
 	float	intensity_g;
@@ -38,7 +38,7 @@ void	apply_ambiant_light(t_all *all, t_dst_and_nrm *res)
 		res->intensity_b = intensity_b;
 }
 
-void	apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray, int reflect)
+void	apply_dymamic_light(t_all *all, t_intersect_ret *res, t_ray *ray, int reflect)
 {
 	t_vector		intersection_point;
 	t_ray			light_ray;
@@ -67,10 +67,10 @@ void	apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray, int reflect
 
 static bool	is_shadow(t_all *all, t_ray *ray, float distance)
 {
-	t_dst_and_nrm	res;
+	t_intersect_ret	res;
 	t_rtlst			*obj;
 
-	init_dst_and_nrm(&res);
+	init_intersect_ret(&res);
 	obj = all->scene.objects;
 	while (obj)
 	{
@@ -87,7 +87,7 @@ static bool	is_shadow(t_all *all, t_ray *ray, float distance)
 	return (res.dst + 0.1 < distance);
 }
 
-static void	apply_ligth_effect(t_all *all, t_dst_and_nrm *res, float intensity,
+static void	apply_ligth_effect(t_all *all, t_intersect_ret *res, float intensity,
 				float distance)
 {
 	res->intensity_r = all->scene.light.intensity_r;
