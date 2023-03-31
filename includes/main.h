@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/30 17:03:11 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:47:38 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define HEIGHT_DIV_2 540
 
 # define LIGHT_DIFFUSE_RADIUS 100.0f
+
+# define MAX_REFLECT 2
 
 // Define for pre-calculate value
 # define PI 3.141592
@@ -72,6 +74,7 @@ typedef struct s_sphere
 	t_vector	origin;
 	float		radius;
 	float		radius2;
+	float		reflexion_intensity;
 	t_color		color;
 }	t_sphere;
 
@@ -82,6 +85,7 @@ typedef struct s_plane
 	t_vector	normal;
 	t_vector	rev_normal;
 	t_color		color;
+	float		reflexion_intensity;
 }	t_plane;
 
 // Cylinder struct
@@ -96,6 +100,7 @@ typedef struct s_cylinder
 	float		radius;
 	float		radius2;
 	float		height;
+	float		reflexion_intensity;
 	t_color		color;
 }	t_cylinder;
 
@@ -108,6 +113,7 @@ typedef struct s_dst_and_nrm
 	float		intensity_r;
 	float		intensity_g;
 	float		intensity_b;
+	float		reflexion_intensity;
 }	t_dst_and_nrm;
 
 // Camera Struct
@@ -237,8 +243,14 @@ void		free_color_tab(int **color_tab, int max_alloc);
 int			**alloc_color_tab(void);
 
 //image/calculate_light.c
-void		apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray);
+void		apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray,
+				int reflect);
 void		apply_ambiant_light(t_all *all, t_dst_and_nrm *res);
+
+//image/reflexion.c
+void		apply_reflexion(t_all *all, t_dst_and_nrm *res,
+				t_vector const *intersection_point, int reflect);
+
 /*====================================PARSING=================================*/
 
 // parsing/parse_file.c
@@ -317,5 +329,8 @@ bool		is_float(char const *str);
 // utils/string.c
 char		*ft_strtok_r(char *str, char const *sep, char **saveptr);
 char		*ft_strtok(char *str, char const *sep);
+
+// utils/dst_and_nrm.c
+void		init_dst_and_nrm(t_dst_and_nrm *to_init);
 
 #endif

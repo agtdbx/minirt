@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 16:38:42 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:04:00 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_plane	create_plane(t_vector origin, t_vector normal, t_color color)
 	dup_vec(&res.rev_normal, &res.normal);
 	multiply_vec_number(&res.rev_normal, -1.0f);
 	res.color = color;
+	res.reflexion_intensity = 0.0f;
 	return (res);
 }
 
@@ -44,6 +45,7 @@ void	intersect_plane(t_plane *plane, t_ray *ray, t_dst_and_nrm *dst_nrm)
 			dst_nrm->dst = dst;
 			dst_nrm->nrm = plane->normal;
 			dst_nrm->color = plane->color;
+			dst_nrm->reflexion_intensity = plane->reflexion_intensity;
 		}
 	}
 	else if (denom > -0.000001f)
@@ -54,6 +56,7 @@ void	intersect_plane(t_plane *plane, t_ray *ray, t_dst_and_nrm *dst_nrm)
 			dst_nrm->dst = dst;
 			dst_nrm->nrm = plane->rev_normal;
 			dst_nrm->color = plane->color;
+			dst_nrm->reflexion_intensity = plane->reflexion_intensity;
 		}
 	}
 }

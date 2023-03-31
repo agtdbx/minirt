@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:00:03 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/30 17:18:57 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:23:56 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	apply_ambiant_light(t_all *all, t_dst_and_nrm *res)
 		res->intensity_b = intensity_b;
 }
 
-void	apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray)
+void	apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray, int reflect)
 {
 	t_vector		intersection_point;
 	t_ray			light_ray;
@@ -47,7 +47,7 @@ void	apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray)
 
 	if (res->dst == -1.0f || all->scene.light.brightness == 0.0f)
 		return ;
-	intersection_point = get_point_on_ray(ray, res->dst);
+	intersection_point = get_point_on_ray(ray, res->dst - 0.001);
 	dup_vec(&light_ray.origin, &all->scene.light.pos);
 	dup_vec(&light_ray.direction, &intersection_point);
 	sub_vec_vec(&light_ray.direction, &all->scene.light.pos);
@@ -61,6 +61,8 @@ void	apply_dymamic_light(t_all *all, t_dst_and_nrm *res, t_ray *ray)
 	if (is_shadow(all, &light_ray, distance))
 		return ;
 	apply_ligth_effect(all, res, intensity, distance);
+	if (reflect > 0)
+		apply_reflexion(all, res, &intersection_point, reflect - 1);
 }
 
 static bool	is_shadow(t_all *all, t_ray *ray, float distance)
@@ -68,14 +70,7 @@ static bool	is_shadow(t_all *all, t_ray *ray, float distance)
 	t_dst_and_nrm	res;
 	t_rtlst			*obj;
 
-	res.dst = -1.0f;
-	fill_vec(&res.nrm, 0.0f, 0.0f, 0.0f);
-	res.color.r = 0;
-	res.color.g = 0;
-	res.color.b = 0;
-	res.intensity_r = 0.0f;
-	res.intensity_g = 0.0f;
-	res.intensity_b = 0.0f;
+	init_dst_and_nrm(&res);
 	obj = all->scene.objects;
 	while (obj)
 	{

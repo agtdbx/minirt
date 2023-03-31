@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/30 17:03:52 by aderouba         ###   ########.fr        #
+#    Updated: 2023/03/31 11:03:55 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,11 +55,13 @@ endif
 
 SRCS	:=	$(shell find $(SRC) -name '*.c')#TODO
 
-# SRCS	:=	srcs/image/ppr.c			\
-# 			srcs/image/draw.c			\
-# 			srcs/image/ray_tab.c		\
-# 			srcs/image/color_tab.c		\
-# 			srcs/image/antialiasing.c	\
+# SRCS	:=	srcs/image/ppr.c				\
+# 			srcs/image/draw.c				\
+# 			srcs/image/ray_tab.c			\
+# 			srcs/image/reflexion.c			\
+# 			srcs/image/color_tab.c			\
+# 			srcs/image/antialiasing.c		\
+# 			srcs/image/calculate_light.c	\
 # 			\
 # 			srcs/maths/is_xyz_in_range.c		\
 # 			srcs/maths/compute_screen_basis.c	\
@@ -82,12 +84,13 @@ SRCS	:=	$(shell find $(SRC) -name '*.c')#TODO
 # 			srcs/parsing/parse_cylinder.c	\
 # 			srcs/parsing/parse_direction.c	\
 # 			\
-# 			srcs/utils/rtlst.c		\
-# 			srcs/utils/print.c		\
-# 			srcs/utils/number.c		\
-# 			srcs/utils/string.c		\
-# 			srcs/utils/vector.c		\
-# 			srcs/utils/math_utils.c	\
+# 			srcs/utils/rtlst.c			\
+# 			srcs/utils/print.c			\
+# 			srcs/utils/number.c			\
+# 			srcs/utils/string.c			\
+# 			srcs/utils/vector.c			\
+# 			srcs/utils/math_utils.c		\
+# 			srcs/utils/dst_and_nrm.c	\
 # 			\
 # 			srcs/main.c
 

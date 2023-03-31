@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 12:47:26 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 12:04:09 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
 	res.top = create_plane(res.top_origin, axis, color);
 	dup_vec(&res.axis, &axis);
 	res.color = color;
+	res.reflexion_intensity = 0.0f;
 	return (res);
 }
 
@@ -90,6 +91,7 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 	fill_vec(&dst_nrm->nrm, x.x, x.y, x.z);
 	normalize_vec(&dst_nrm->nrm);
 	dst_nrm->color = cylinder->color;
+	dst_nrm->reflexion_intensity = cylinder->reflexion_intensity;
 }
 
 static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
@@ -120,6 +122,7 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 		dst_nrm->dst = dst1.dst;
 		dst_nrm->nrm = cylinder->top.normal;
 		dst_nrm->color = cylinder->color;
+		dst_nrm->reflexion_intensity = cylinder->reflexion_intensity;
 	}
 }
 
@@ -144,5 +147,6 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 		dst_nrm->dst = dst0->dst;
 		dst_nrm->nrm = cylinder->bot.normal;
 		dst_nrm->color = cylinder->color;
+		dst_nrm->reflexion_intensity = cylinder->reflexion_intensity;
 	}
 }

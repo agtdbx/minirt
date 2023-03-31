@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 12:29:09 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/30 17:15:02 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/03/31 11:22:42 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,9 @@ void	draw(t_all *all)
 		x = 0;
 		while (x < number_ray)
 		{
-			res.dst = -1.0f;
-			fill_vec(&res.nrm, 0.0f, 0.0f, 0.0f);
-			res.color.r = 0;
-			res.color.g = 0;
-			res.color.b = 0;
-			res.intensity_r = 0.0f;
-			res.intensity_g = 0.0f;
-			res.intensity_b = 0.0f;
+			init_dst_and_nrm(&res);
 			do_intersections(all, &res, x, y);
-			apply_dymamic_light(all, &res, &all->ray_tab[y][x]);
+			apply_dymamic_light(all, &res, &all->ray_tab[y][x], MAX_REFLECT);
 			apply_ambiant_light(all, &res);
 			draw_result(all, &res, x, y);
 			x++;

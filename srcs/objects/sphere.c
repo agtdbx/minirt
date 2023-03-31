@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 18:40:41 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/03/31 12:04:04 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_sphere	create_sphere(t_vector origin, float diameter, t_color color)
 	res.radius = diameter / 2.0f;
 	res.radius2 = res.radius * res.radius;
 	res.color = color;
+	res.reflexion_intensity = 0.0f;
 	return (res);
 }
 
@@ -50,5 +51,6 @@ void	intersect_sphere(t_sphere *sphere, t_ray *ray,
 		fill_vec(&dst_nrm->nrm, x.x, x.y, x.z);
 		normalize_vec(&dst_nrm->nrm);
 		dst_nrm->color = sphere->color;
+		dst_nrm->reflexion_intensity = sphere->reflexion_intensity;
 	}
 }
