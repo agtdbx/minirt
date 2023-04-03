@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:10:51 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:11:20 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@
 # define ROTATE_AROUND_X 'x'
 # define ROTATE_AROUND_Y 'y'
 # define ROTATE_AROUND_Z 'z'
+
+// Define for objet selected
+# define SELECT_NONE -1
+# define SELECT_CAMERA -2
+# define SELECT_AMBIANT_LIGHT -3
+# define SELECT_LIGHT -4
 
 ////////////////////////////////////////////////////////////////////////////////
 // STRUCTS
@@ -175,17 +181,50 @@ typedef struct s_scene
 	t_rtlst		*objects;
 }	t_scene;
 
+// Button Struct
+typedef struct s_button
+{
+	int		x;
+	int		y;
+	int		width;
+	int		height;
+	int		color;
+	char	*text;
+}	t_button;
+
+// Scene Struct
+typedef struct s_menu
+{
+	t_button	but_camera;
+	t_button	but_ambiant_ligth;
+	t_button	but_ligth;
+	t_button	but_minus;
+	t_button	but_plus;
+	int			id_obj_select;
+}	t_menu;
+
+// Mouse struct
+typedef struct s_mouse
+{
+	bool	pressed;
+	int		x;
+	int		y;
+	int		tab_x;
+	int		tab_y;
+}	t_mouse;
+
 // Main struct
 typedef struct s_all
 {
 	mlx_t		*mlx;
 	mlx_image_t	*img;
 	t_scene		scene;
+	t_menu		menu;
 	t_ray		**ray_tab;
 	double		last_time;
 	int			**colors_tab;
 	bool		show_menu;
-	int			id_obj_select;
+	t_mouse		mouse;
 }	t_all;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -265,11 +304,30 @@ void		apply_ambiant_light(t_all *all, t_intersect_ret *res);
 void		apply_reflexion(t_all *all, t_intersect_ret *res,
 				t_ray const *ray, int reflect);
 
-/*=====================================DRAW===================================*/
+//image/buttons.c
+void		but_set_pos(t_button *but, int const x, int const y);
+void		but_draw(t_all *all, t_button const *but);
+bool		but_over(t_all *all, t_button *but);
+bool		but_click(t_all *all, t_button *but);
+
+/*=====================================MENU===================================*/
 
 //menu/menu.c
 void		check_tab_pressed(t_all *all, float const delta_time);
+void		init_menu(t_all *all);
 void		draw_menu(t_all *all);
+
+//menu/display_camera.c
+void	display_camera(t_all *all, t_camera *camera);
+
+//menu/display_light.c
+void	display_ambiant_light(t_all *all, t_light *ambiant_light);
+void	display_light(t_all *all, t_light *light);
+
+//menu/display_object.c
+void	display_sphere(t_all *all, t_sphere *sphere);
+void	display_plane(t_all *all, t_plane *plane);
+void	display_cylinder(t_all *all, t_cylinder *cylinder);
 
 /*====================================PARSING=================================*/
 

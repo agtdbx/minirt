@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 10:57:22 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/03 16:14:17 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 static void		init_struct(t_all *all);
 static float	get_delta_time(t_all *all);
 void			hook(void *param);
+static void		set_mouse_state(t_all *all);
 
 int	main(int argc, char **argv)
 {
@@ -50,9 +51,9 @@ int	main(int argc, char **argv)
 
 static void	init_struct(t_all *all)
 {
+	init_menu(all);
 	all->show_menu = false;
 	all->last_time = 0.0;
-	all->id_obj_select = -1;
 	all->scene.ppr = 1;
 	all->ray_tab = alloc_ray_tab();
 	if (all->ray_tab == NULL)
@@ -98,7 +99,25 @@ void	hook(void *param)
 	camera_rotations(all, delta_time);
 	ppr_gestion(all, delta_time);
 	check_tab_pressed(all, delta_time);
+	set_mouse_state(all);
 	calculate_image(all);
 	if (all->show_menu)
 		draw_menu(all);
+}
+
+static void	set_mouse_state(t_all *all)
+{
+	mlx_get_mouse_pos(all->mlx, &all->mouse.x, &all->mouse.y);
+	if (mlx_is_mouse_down(all->mlx, MLX_MOUSE_BUTTON_LEFT))
+	{
+		all->mouse.pressed = true;
+		if (0 <= all->mouse.x && all->mouse.x <= WIDTH - 420
+			&& 0 <= all->mouse.y && all->mouse.y <= HEIGHT)
+		{
+			all->mouse.tab_x = all->mouse.x / all->scene.ppr;
+			all->mouse.tab_y = all->mouse.y / all->scene.ppr;
+		}
+	}
+	else
+		all->mouse.pressed = false;
 }
