@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_memdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 00:20:05 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 00:33:05 by tdubois          ###   ########.fr       */
+/*   Created: 2023/04/01 19:07:37 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/03 09:00:39 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,14 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-char	*ft_substr(
-			char const *src,
-			size_t start,
-			size_t len)
+void	ft_memdel(void *bufptr)
 {
-	char	*substr;
+	char	**cbufptr;
 
-	if (ft_strlen(src) < start)
-		return (ft_strdup(""));
-	substr = malloc(len + 1);
-	if (substr == NULL)
-		return (NULL);
-	ft_strlcpy(substr, src + start, len);
-	return (substr);
+	cbufptr = bufptr;
+	if (*cbufptr != NULL)
+	{
+		free(*cbufptr);
+	}
+	*cbufptr = NULL;
 }

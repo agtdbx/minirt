@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   itok_del.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 00:20:05 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 00:33:05 by tdubois          ###   ########.fr       */
+/*   Created: 2023/04/03 15:27:18 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/03 15:32:46 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "parser.h"
+
 #include "libft.h"
 
-#include <stdlib.h>
-#include <stddef.h>
-
-char	*ft_substr(
-			char const *src,
-			size_t start,
-			size_t len)
+void	itok_del(
+			t_itok **toks)
 {
-	char	*substr;
-
-	if (ft_strlen(src) < start)
-		return (ft_strdup(""));
-	substr = malloc(len + 1);
-	if (substr == NULL)
-		return (NULL);
-	ft_strlcpy(substr, src + start, len);
-	return (substr);
+	if ((*toks)->next != NULL)
+		itok_del(&(*toks)->next);
+	ft_memdel(&(*toks)->token);
+	ft_memdel(toks);
 }

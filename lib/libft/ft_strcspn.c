@@ -3,23 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcspn.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 14:48:57 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/01 14:52:42 by aderouba         ###   ########.fr       */
+/*   Created: 2023/04/01 19:53:39 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/01 19:56:40 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-size_t	ft_strcspn(char const *str, char const *reject)
-{
-	size_t	i;
+#include <stddef.h>
 
-	i = 0;
-	while (str[i] != '\0' && ft_strchr(reject, str[i]) == NULL)
+size_t	ft_strcspn(
+			char const *str,
+			char const *reject)
+{
+	register size_t	len;
+
+	len = 0;
+	while (str[len] != '\0')
 	{
-		i++;
+		if (ft_strchr(reject, str[len]) != NULL)
+			return (len);
+		len++;
 	}
-	return (i);
+	return (len);
 }

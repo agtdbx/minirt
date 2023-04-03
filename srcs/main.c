@@ -6,11 +6,12 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/28 16:27:15 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/03 17:36:05 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+#include "parser.h"
 
 #include <stdlib.h>
 #include <unistd.h>
@@ -25,24 +26,21 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_printf_fd("Error\nUsage: minirt file.rt\n", STDERR_FILENO);
+		ft_printf_fd("Error\n\nUsage: minirt <%%.rt>\n", STDERR_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	if (parse_file(argv[1], &all.scene) == FAILURE)
-	{
-		ft_printf_fd("Error\nParsing error\n", STDERR_FILENO);
+	if (parse_file(argv[1], &all.scene) == PARSING_ERROR)
 		exit(EXIT_FAILURE);
-	}
-	init_struct(&all);
-	all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
-	all.img = mlx_new_image(all.mlx, WIDTH, HEIGHT);
-	mlx_image_to_window(all.mlx, all.img, 0, 0);
-	mlx_loop_hook(all.mlx, &hook, &all);
-	mlx_loop(all.mlx);
-	mlx_terminate(all.mlx);
-	rtlst_free(&all.scene.objects);
-	free_ray_tab(all.ray_tab, HEIGHT);
-	free_color_tab(all.colors_tab, HEIGHT);
+	// init_struct(&all);
+	// all.mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true);
+	// all.img = mlx_new_image(all.mlx, WIDTH, HEIGHT);
+	// mlx_image_to_window(all.mlx, all.img, 0, 0);
+	// mlx_loop_hook(all.mlx, &hook, &all);
+	// mlx_loop(all.mlx);
+	// mlx_terminate(all.mlx);
+	// rtlst_free(&all.scene.objects);
+	// free_ray_tab(all.ray_tab, HEIGHT);
+	// free_color_tab(all.colors_tab, HEIGHT);
 	return (EXIT_SUCCESS);
 }
 

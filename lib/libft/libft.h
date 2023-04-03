@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:33:14 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 13:16:40 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/03 16:45:50 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 256
 # endif
+
+# ifndef GNL_BUFFER_SIZE
+#  define GNL_BUFFER_SIZE 64
+# endif//GNL_BUFFER_SIZE
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -54,32 +58,114 @@ int		ft_toupper(int c);
 int		ft_tolower(int c);
 
 // string
-int		ft_strcmp(const char *s1, const char *s2);
-int		ft_strncmp(const char *s1, const char *s2, int n);
-void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-char	*ft_strchr(const char *s, int c);
-char	*ft_strrchr(const char *s, int c);
-char	*ft_strstr(const char *big, const char *little);
-char	*ft_strnstr(const char *big, const char *little, int len);
-char	*ft_strdup(const char *s);
-char	*ft_substr(char const *s, unsigned int start, int len);
-char	*ft_strjoin(char const *s1, char const *s2);
-char	*ft_strjoin_free_1st_p(char *s1, char *s2);
-char	*ft_strsuperjoin(char *s1, char *s2, char *sep);
-char	*ft_strsuperjoin_free_1st_p(char *s1, char *s2, char *sep);
-char	*ft_strtrim(char const *s1, char const *set);
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
-char	**ft_split(char const *s, char c);
-char	**ft_supersplit(char const *s, char *sep);
-int		ft_strlen(const char *str);
-int		ft_strcpy(char *dst, const char *src);
-int		ft_strlcpy(char *dst, const char *src, int size);
-int		ft_strcat(char *dst, const char *src);
-int		ft_strlcat(char *dst, const char *src, int size);
-size_t	ft_strspn(char const *str, char const *accept);
-size_t	ft_strcspn(char const *str, char const *reject);
-bool	ft_strendswith(char const *str, char const *suffix);
-float	ft_strtof(char const *str, char **endptr);
+int		ft_strcmp(
+			const char *s1,
+			const char *s2);
+
+int		ft_strncmp(
+			const char *s1,
+			const char *s2,
+			int n);
+
+void	ft_striteri(
+			char *s,
+			void (*f)(unsigned int, char*));
+
+char	*ft_strchr(
+			const char *s,
+			int c);
+
+char	*ft_strrchr(
+			const char *s,
+			int c);
+
+char	*ft_strstr(
+			const char *big,
+			const char *little);
+
+char	*ft_strnstr(
+			const char *big,
+			const char *little,
+			int len);
+
+char	*ft_strdup(
+			const char *s);
+
+char	*ft_substr(
+			char const *src,
+			size_t start,
+			size_t len);
+
+char	*ft_strjoin(
+			char const *s1,
+			char const *s2);
+
+char	*ft_strjoin_free_1st_p(
+			char *s1,
+			char *s2);
+
+char	*ft_strsuperjoin(
+			char *s1,
+			char *s2,
+			char *sep);
+
+char	*ft_strsuperjoin_free_1st_p(
+			char *s1,
+			char *s2,
+			char *sep);
+
+char	*ft_strtrim(
+			char const *s1,
+			char const *set);
+
+char	*ft_strmapi(
+			char const *s,
+			char (*f)(unsigned int, char));
+
+char	**ft_split(
+			char const *s,
+			char c);
+
+char	**ft_supersplit(
+			char const *s,
+			char *sep);
+
+size_t	ft_strlen(
+			char const *str);
+
+int		ft_strcpy(
+			char *dst,
+			const char *src);
+
+void	ft_strlcpy(
+			char *restrict dst,
+			char const *restrict src,
+			size_t dst_size);
+
+int		ft_strcat(
+			char *dst,
+			const char *src);
+
+int		ft_strlcat(
+			char *dst,
+			const char *src,
+			int size);
+
+size_t	ft_strspn(
+			char const *str,
+			char const *accept);
+
+size_t	ft_strcspn(
+			char const *str,
+			char const *reject);
+
+bool	ft_strendswith(
+			char const *str,
+			char const *suffix);
+
+float	ft_strtof(
+			char const *str,
+			char **endptr);
 
 // list string
 char	**ft_add_str(char **lstr, char *str);
@@ -87,12 +173,38 @@ void	ft_put_lstr_fd(char **lstr, int fd);
 void	ft_lstr_free(char **lstr);
 
 // memory
-void	*ft_memset(void *s, int c, int n);
-void	*ft_memcpy(void *dest, const void *src, int n);
-void	*ft_memmove(void *dest, const void *src, int n);
-void	*ft_memchr(const void *s, int c, int n);
-int		ft_memcmp(const void *s1, const void *s2, int n);
-void	ft_bzero(void *s, int n);
+
+void	ft_memdel(
+			void *bufptr);
+
+void	*ft_memset(
+			void *s,
+			int c,
+			int n);
+
+void	*ft_memcpy(
+			void *dst,
+			void const *src,
+			size_t src_size);
+
+void	*ft_memmove(
+			void *dest,
+			const void *src,
+			int n);
+
+void	*ft_memchr(
+			const void *s,
+			int c,
+			int n);
+
+int		ft_memcmp(
+			const void *s1,
+			const void *s2,
+			int n);
+
+void	ft_bzero(
+			void *s,
+			int n);
 
 // number
 int		ft_atoi(const char *nptr);
@@ -112,13 +224,25 @@ double	ft_sqrt(double nb);
 void	*ft_calloc(int nmemb, int size);
 
 // print
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
+void	ft_putchar_fd(
+			char c,
+			int fd);
+
+void	ft_putstr_fd(
+			char const *str,
+			int fd);
+
+void	ft_putstr_rpt_fd(
+			char const *str,
+			size_t niter,
+			int fd);
+
 void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putunbr_fd(unsigned int n, int fd);
 void	ft_putnbr_base_fd(int n, int fd, char *base);
 void	ft_putunbr_base_fd(unsigned int n, int fd, char *base);
+
 
 // chain list
 int		ft_lstsize(t_list *lst);
@@ -133,6 +257,10 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 // get next line
 char	*get_next_line(int fd);
+
+char	*ft_gnl_r(
+			int fd,
+			char save_buffer[GNL_BUFFER_SIZE]);
 
 // printf
 void	ft_printf(const char *str, ...);

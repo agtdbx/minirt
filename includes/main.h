@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 15:41:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/31 15:42:17 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/03 15:44:11 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,10 +256,10 @@ void		apply_reflexion(t_all *all, t_dst_and_nrm *res,
 /*====================================PARSING=================================*/
 
 // parsing/parse_file.c
-t_result	parse_file(char const *filename, t_scene *ret_scene);
+// t_result	parse_file(char const *filename, t_scene *ret_scene);
 
 // parsing/parse_lights.c
-t_result	parse_ambient_light(t_scene *ret_scene);
+// t_result	parse_ambient_light(t_scene *ret_scene);
 t_result	parse_light(t_scene *ret_scene);
 
 // parsing/parse_objects.c

@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   itok_hilight_error.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 00:20:05 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 00:33:05 by tdubois          ###   ########.fr       */
+/*   Created: 2023/04/03 16:37:05 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/03 17:34:43 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parser.h"
 
-#include <stdlib.h>
 #include <stddef.h>
 
-char	*ft_substr(
-			char const *src,
-			size_t start,
-			size_t len)
-{
-	char	*substr;
+#define RED "\033[91m"
+#define NC  "\033[0m"
 
-	if (ft_strlen(src) < start)
-		return (ft_strdup(""));
-	substr = malloc(len + 1);
-	if (substr == NULL)
-		return (NULL);
-	ft_strlcpy(substr, src + start, len);
-	return (substr);
+void	itok_hilight_error(
+			t_itok const *toks,
+			size_t index)
+{
+	size_t	i;
+
+	i = 0;
+	while (toks != NULL)
+	{
+		if (i == index)
+			printf(RED);
+		printf("%s", toks->token);
+		if (toks->next != NULL)
+			printf(" ");
+		if (i == index)
+			printf(NC);
+		toks = toks->next;
+		i++;
+	}
+	printf("\n");
 }

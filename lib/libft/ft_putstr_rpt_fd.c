@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_rpt_fd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 00:20:05 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 00:33:05 by tdubois          ###   ########.fr       */
+/*   Created: 2023/04/03 16:23:51 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/03 16:45:09 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#include <stdlib.h>
 #include <stddef.h>
 
-char	*ft_substr(
-			char const *src,
-			size_t start,
-			size_t len)
+void	ft_putstr_rpt_fd(
+			char const *str,
+			size_t niter,
+			int fd)
 {
-	char	*substr;
+	size_t	i;
 
-	if (ft_strlen(src) < start)
-		return (ft_strdup(""));
-	substr = malloc(len + 1);
-	if (substr == NULL)
-		return (NULL);
-	ft_strlcpy(substr, src + start, len);
-	return (substr);
+	i = 0;
+	while (i < niter)
+	{
+		ft_putstr_fd(str, fd);
+		i++;
+	}
 }

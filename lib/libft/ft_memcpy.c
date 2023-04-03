@@ -3,34 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/27 14:22:56 by aderouba          #+#    #+#             */
-/*   Updated: 2022/11/15 13:11:38 by aderouba         ###   ########.fr       */
+/*   Created: 2023/04/03 00:13:27 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/03 00:18:57 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_memcpy(void *dest, const void *src, int n)
-{
-	int				i;
-	unsigned char	*tmp;
-	unsigned char	*dst;
+#include <stddef.h>
 
-	if (dest == NULL && src == NULL)
-		return (NULL);
-	if (dest == NULL)
-		dest = 0;
+void	*ft_memcpy(
+			void *dst,
+			void const *src,
+			size_t src_size)
+{
+	char		*c_dst;
+	char const	*c_src;
+	size_t		i;
+
+	c_dst = dst;
+	c_src = src;
 	i = 0;
-	tmp = (unsigned char *) src;
-	dst = (unsigned char *) dest;
-	if (n == 0)
-		return (dest);
-	while (i < n)
+	while (i < src_size)
 	{
-		dst[i] = tmp[i];
+		c_dst[i] = c_src[i];
 		i++;
 	}
-	return ((void *) dst);
+	return (dst);
 }

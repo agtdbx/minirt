@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_substr.c                                        :+:      :+:    :+:   */
+/*   parse_ambient_light.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/03 00:20:05 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 00:33:05 by tdubois          ###   ########.fr       */
+/*   Created: 2023/04/03 11:32:43 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/03 17:00:39 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "parser.h"
 
-#include <stdlib.h>
 #include <stddef.h>
 
-char	*ft_substr(
-			char const *src,
-			size_t start,
-			size_t len)
+t_parsing_error	parse_ambient_light(
+					size_t lineno,
+					char const *filename,
+					t_itok const *toks,
+					t_scene *ret_scene)
 {
-	char	*substr;
-
-	if (ft_strlen(src) < start)
-		return (ft_strdup(""));
-	substr = malloc(len + 1);
-	if (substr == NULL)
-		return (NULL);
-	ft_strlcpy(substr, src + start, len);
-	return (substr);
+	(void) lineno;
+	(void) filename;
+	(void) toks;
+	(void) ret_scene;
+	return (PARSING_SUCCESS);
 }

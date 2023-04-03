@@ -3,87 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   parse_file.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/28 09:53:06 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 18:51:55 by tdubois          ###   ########.fr       */
+/*   Created: 2023/04/01 18:33:27 by tdubois           #+#    #+#             */
+/*   Updated: 2023/04/03 17:49:08 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "main.h"
+#include "parser.h"
 
+#include <fcntl.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <errno.h>
 #include <unistd.h>
 
+#include "main.h"
 #include "libft.h"
 
-static t_result	parse_lines(int fd, t_scene *ret_scene);
-static t_result	parse_line(char const *identifier, t_scene *ret_scene);
+////////////////////////////////////////////////////////////////////////////////
 
-t_result	parse_file(char const *filename, t_scene *ret_scene)
+t_parsing_error			parse_file(
+							char const *filename,
+							t_scene *ret_scene);
+
+static t_parsing_error	loc_parse_lines(
+							int fd,
+							char const *filename,
+							t_scene *ret_scene);
+
+////////////////////////////////////////////////////////////////////////////////
+
+/** parse_file
+ *   parse *.rt file into t_scene object.
+ */
+t_parsing_error	parse_file(
+					char const *filename,
+					t_scene *ret_scene)
 {
-	int	fd;
+	int				fd;
+	t_parsing_error	err;
 
-	*ret_scene = (t_scene){0};
 	if (ft_strlen(filename) <= 3 || !ft_strendswith(filename, ".rt"))
 	{
 		ft_printf_fd("Error\n", STDERR_FILENO);
 		ft_printf_fd("Invalid file name `%s'\n", STDERR_FILENO, filename);
-		return (FAILURE);
+		return (PARSING_ERROR);
 	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
-		ft_printf_fd("Error\n", STDERR_FILENO);
-		ft_printf_fd("Couldn't open `%s'\n", STDERR_FILENO, filename);
-		return (FAILURE);
+		ft_putstr_fd("Error\n", STDERR_FILENO);
+		perror(filename);
+		return (PARSING_ERROR);
 	}
-	if (parse_lines(fd, ret_scene) == FAILURE)
-	{
-		close(fd);
-		rtlst_free(&ret_scene->objects);
-		return (FAILURE);
-	}
+	err = loc_parse_lines(fd, filename, ret_scene);
 	close(fd);
-	return (SUCCESS);
+	return (err);
 }
 
-static t_result	parse_lines(int fd, t_scene *ret_scene)
+static t_parsing_error	loc_parse_lines(
+							int fd,
+							char const *filename,
+							t_scene *ret_scene)
 {
-	char	*line;
-	char	*identifier;
+	char			*line;
+	size_t			line_no;
+	char			gnl_save_buffer[GNL_BUFFER_SIZE];
+	t_parsing_error	err;
 
-	line = get_next_line(fd);
-	while (line != NULL)
+	err = PARSING_SUCCESS;
+	gnl_save_buffer[0] = '\0';
+	line_no = 0;
+	while (err != PARSING_ERROR)
 	{
-		identifier = ft_strtok(line, " ");
-		if (parse_line(identifier, ret_scene) == FAILURE)
+		errno = 0;
+		line = ft_gnl_r(fd, gnl_save_buffer);
+		if (line == NULL && errno != 0)
 		{
-			free(line);
-			return (FAILURE);
+			ft_putstr_fd("Error\n", STDERR_FILENO);
+			perror(filename);
+			return (PARSING_ERROR);
 		}
-		free(line);
-		line = get_next_line(fd);
+		if (line == NULL)
+			return (PARSING_SUCCESS);
+		err = parse_directive(line_no, filename, line, ret_scene);
+		ft_memdel(&line);
+		line_no++;
 	}
-	return (SUCCESS);
-}
-
-static t_result	parse_line(char const *identifier, t_scene *ret_scene)
-{
-	if (ft_strcmp("A", identifier) == 0)
-		return (parse_ambient_light(ret_scene));
-	else if (ft_strcmp("C", identifier) == 0)
-		return (parse_camera(ret_scene));
-	else if (ft_strcmp("L", identifier) == 0)
-		return (parse_light(ret_scene));
-	else if (ft_strcmp("sp", identifier) == 0)
-		return (parse_sphere(ret_scene));
-	else if (ft_strcmp("pl", identifier) == 0)
-		return (parse_plane(ret_scene));
-	else if (ft_strcmp("cy", identifier) == 0)
-		return (parse_cylinder(ret_scene));
-	else if (ft_strcmp("\n", identifier) == 0)
-		return (SUCCESS);
-	ft_printf_fd("Error\n", STDERR_FILENO);
-	ft_printf_fd("Unexpected identifier `%s'\n", STDERR_FILENO, identifier);
-	return (FAILURE);
+	return (PARSING_ERROR);
 }
