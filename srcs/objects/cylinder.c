@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 16:01:13 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/03 10:25:59 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
 	dup_vec(&res.axis, &axis);
 	res.color = color;
 	res.id = -1;
-	res.reflexion_intensity = 0.0f;
+	res.reflexion_intensity = 0.3f;
 	return (res);
 }
 

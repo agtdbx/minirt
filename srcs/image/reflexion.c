@@ -6,44 +6,38 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:49:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 15:48:34 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/03 10:48:08 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	merge_color(t_intersect_ret *res, t_intersect_ret const *reflect_res);
+static void	merge_color(t_intersect_ret *res,
+				t_intersect_ret const *reflect_res);
 
 void	apply_reflexion(t_all *all, t_intersect_ret *res,
-			t_vector const *intersection_point, int reflect)
+			t_ray const *ray, int reflect)
 {
 	t_intersect_ret	reflect_res;
 	t_ray			reflect_ray;
-	t_rtlst			*obj;
+	t_vector		tmp;
 
 	if (res->reflexion_intensity == 0.0f)
 		return ;
-	dup_vec(&reflect_ray.origin, intersection_point);
-	dup_vec(&reflect_ray.direction, &res->nrm);
+	dup_vec(&tmp, &res->nrm);
+	multiply_vec_number(&tmp, 2 * dot_product(&ray->direction, &res->nrm));
+	reflect_ray.origin = get_point_on_ray(ray, res->dst - 0.001);
+	dup_vec(&reflect_ray.direction, &ray->direction);
+	sub_vec_vec(&reflect_ray.direction, &tmp);
 	init_intersect_ret(&reflect_res);
-	obj = all->scene.objects;
-	while (obj)
-	{
-		if (obj->type == SPHERE)
-			intersect_sphere(&obj->value.as_sphere, &reflect_ray, &reflect_res);
-		else if (obj->type == PLANE)
-			intersect_plane(&obj->value.as_plane, &reflect_ray, &reflect_res);
-		else if (obj->type == CYLINDER)
-			intersect_cylinder(&obj->value.as_cylinder, &reflect_ray,
-				&reflect_res);
-		obj = obj->next;
-	}
+	do_intersections(all, &reflect_res, &reflect_ray);
 	apply_dymamic_light(all, &reflect_res, &reflect_ray, reflect);
 	apply_ambiant_light(all, &reflect_res);
 	merge_color(res, &reflect_res);
 }
 
-static void	merge_color(t_intersect_ret *res, t_intersect_ret const *reflect_res)
+static void	merge_color(t_intersect_ret *res,
+				t_intersect_ret const *reflect_res)
 {
 	float const	inv_intensity = 1.0f - res->reflexion_intensity;
 

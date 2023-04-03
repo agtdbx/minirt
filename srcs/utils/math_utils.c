@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   math_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 15:02:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/02/27 11:55:19 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/03 10:24:31 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ float	solve_quadratic(float a, float b, float c)
 	return (res[1]);
 }
 
-t_vector	get_point_on_ray(t_ray *ray, float dist)
+t_vector	get_point_on_ray(t_ray const *ray, float const dist)
 {
 	t_vector	point;
 

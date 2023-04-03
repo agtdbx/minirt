@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 16:01:46 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/03 10:31:56 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_sphere	create_sphere(t_vector origin, float diameter, t_color color)
 	res.radius2 = res.radius * res.radius;
 	res.color = color;
 	res.id = -1;
-	res.reflexion_intensity = 0.0f;
+	res.reflexion_intensity = 0.4f;
 	return (res);
 }
 

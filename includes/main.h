@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 15:41:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/10 11:10:04 by aderouba         ###   ########.fr       */
+/*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
+/*   Updated: 2023/04/10 11:10:51 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,12 @@ void		ppr_gestion(t_all *all, float delta_time);
 
 //image/draw.c
 int			get_rgb(int r, int g, int b);
-void		draw(t_all *all);
+void		draw_pixels(t_all *all, int x, int y, int color);
+void		draw_result(t_all *all, t_intersect_ret *res, int x, int y);
+
+//image/calculate_image.c
+void		calculate_image(t_all *all);
+void		do_intersections(t_all *all, t_intersect_ret *res, t_ray *ray);
 
 //image/ray_tab.c
 void		free_ray_tab(t_ray **ray_tab, int max_alloc);
@@ -258,7 +263,7 @@ void		apply_ambiant_light(t_all *all, t_intersect_ret *res);
 
 //image/reflexion.c
 void		apply_reflexion(t_all *all, t_intersect_ret *res,
-				t_vector const *intersection_point, int reflect);
+				t_ray const *ray, int reflect);
 
 /*=====================================DRAW===================================*/
 
@@ -336,7 +341,7 @@ void		print_rtlst(t_rtlst *rtlst);
 
 // utils/math_utils.c
 float		solve_quadratic(float a, float b, float c);
-t_vector	get_point_on_ray(t_ray *ray, float dist);
+t_vector	get_point_on_ray(t_ray const *ray, float const dist);
 
 // utils/number.c
 bool		is_int(char const *str);

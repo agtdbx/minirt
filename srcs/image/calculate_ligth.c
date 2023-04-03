@@ -6,15 +6,15 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 17:00:03 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 15:48:23 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/03 10:49:41 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 static bool	is_shadow(t_all *all, t_ray *ray, float distance);
-static void	apply_ligth_effect(t_all *all, t_intersect_ret *res, float intensity,
-				float distance);
+static void	apply_ligth_effect(t_all *all, t_intersect_ret *res,
+				float intensity, float distance);
 
 void	apply_ambiant_light(t_all *all, t_intersect_ret *res)
 {
@@ -38,7 +38,8 @@ void	apply_ambiant_light(t_all *all, t_intersect_ret *res)
 		res->intensity_b = intensity_b;
 }
 
-void	apply_dymamic_light(t_all *all, t_intersect_ret *res, t_ray *ray, int reflect)
+void	apply_dymamic_light(t_all *all, t_intersect_ret *res, t_ray *ray,
+			int reflect)
 {
 	t_vector		intersection_point;
 	t_ray			light_ray;
@@ -62,7 +63,7 @@ void	apply_dymamic_light(t_all *all, t_intersect_ret *res, t_ray *ray, int refle
 		return ;
 	apply_ligth_effect(all, res, intensity, distance);
 	if (reflect > 0)
-		apply_reflexion(all, res, &intersection_point, reflect - 1);
+		apply_reflexion(all, res, ray, reflect - 1);
 }
 
 static bool	is_shadow(t_all *all, t_ray *ray, float distance)
@@ -80,15 +81,15 @@ static bool	is_shadow(t_all *all, t_ray *ray, float distance)
 			intersect_plane(&obj->value.as_plane, ray, &res);
 		else if (obj->type == CYLINDER)
 			intersect_cylinder(&obj->value.as_cylinder, ray, &res);
-		if (res.dst != -1 && res.dst + 0.1 < distance)
+		if (res.dst != -1 && res.dst + 0.001 < distance)
 			return (true);
 		obj = obj->next;
 	}
 	return (res.dst + 0.1 < distance);
 }
 
-static void	apply_ligth_effect(t_all *all, t_intersect_ret *res, float intensity,
-				float distance)
+static void	apply_ligth_effect(t_all *all, t_intersect_ret *res,
+				float intensity, float distance)
 {
 	res->intensity_r = all->scene.light.intensity_r;
 	res->intensity_g = all->scene.light.intensity_g;

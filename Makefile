@@ -5,8 +5,8 @@
 #                                                     +:+ +:+         +:+      #
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/03/31 15:41:02 by tdubois           #+#    #+#              #
-#    Updated: 2023/04/10 11:09:52 by aderouba         ###   ########.fr        #
+#    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
+#    Updated: 2023/04/10 11:10:46 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/image/color_tab.c			\
 # 			srcs/image/antialiasing.c		\
 # 			srcs/image/calculate_light.c	\
+# 			srcs/image/calculate_image.c	\
 # 			\
 # 			srcs/menu/menu.c	\
 # 			\
