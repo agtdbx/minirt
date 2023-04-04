@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:25:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 17:38:14 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/04 15:36:52 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,29 @@ t_parsing_error	parse_directive(
 					char const *line,
 					t_scene *ret_scene)
 {
-	size_t			i;
-	t_parsing_error	err;
-	t_itok			*toks;
+	size_t				i;
+	t_parsing_error		err;
+	t_directive_info	info;
 
 	if (ft_strspn(line, " \n") == ft_strlen(line))
 		return (PARSING_SUCCESS);
-	toks = itok_split(line, " \n");
-	if (toks == NULL)
+	info.tokens = itok_split(line, " \n");
+	if (info.tokens == NULL)
 		return (PARSING_ERROR);
 	i = 0;
 	while (g_directives[i].identifier != NULL
-		&& strcmp(g_directives[i].identifier, toks->token) != 0)
+		&& strcmp(g_directives[i].identifier, info.tokens->token) != 0)
 		i++;
+	err = PARSING_ERROR;
 	if (g_directives[i].identifier == NULL)
-	{
-		loc_put_err(line_no, filename, toks);
-		err = PARSING_ERROR;
-	}
+		loc_put_err(line_no, filename, info.tokens);
 	else
-		err = g_directives[i].parser(line_no, filename, toks, ret_scene);
-	itok_del(&toks);
+	{
+		info.lineno = i;
+		info.filename = filename;
+		err = g_directives[i].parser(&info, ret_scene);
+	}
+	itok_del((void *)&info.tokens);
 	return (err);
 }
 
@@ -80,15 +82,12 @@ static void	loc_put_err(
 				char const *filename,
 				t_itok const *toks)
 {
-	printf("Error\n");
-	printf("\n");
-	printf("%s: line %lu, col %lu:\n", filename, line_no, toks->index);
+	itok_hilight_error(filename, line_no, toks, toks);
 	printf("│\n");
-	printf("│  ");
-	itok_hilight_error(toks, 0);
+	printf("│  %s\n", toks->token);
 	printf("│  ┬");
 	fflush(stdout);
-	ft_putstr_rpt_fd("─", ft_strlen(toks->token) - 1, 0);
+	ft_putstr_rpt_fd("─", ft_strlen(toks->token) - 1, 1);
 	printf("\n");
 	printf("│  ╰╴unknown identifier `%s'\n", toks->token);
 }

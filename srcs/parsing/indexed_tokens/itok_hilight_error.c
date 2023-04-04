@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:37:05 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 17:34:43 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/04 15:25:18 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,26 @@
 
 #include <stddef.h>
 
-#define RED "\033[91m"
-#define NC  "\033[0m"
-
+//TODO remove printf
 void	itok_hilight_error(
+			char const *filename,
+			size_t line_no,
 			t_itok const *toks,
-			size_t index)
+			t_itok const *tok_to_hilight)
 {
-	size_t	i;
-
-	i = 0;
+	printf("Error\n");
+	printf("\n");
+	printf("%s: line %lu, col %lu: ", filename, line_no, toks->index);
 	while (toks != NULL)
 	{
-		if (i == index)
+		if (toks == tok_to_hilight)
 			printf(RED);
 		printf("%s", toks->token);
 		if (toks->next != NULL)
 			printf(" ");
-		if (i == index)
+		if (toks == tok_to_hilight)
 			printf(NC);
 		toks = toks->next;
-		i++;
 	}
 	printf("\n");
 }
