@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:11:20 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:12:02 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,16 @@ typedef struct s_button
 	char	*text;
 }	t_button;
 
+// Cursor Struct
+typedef struct s_cursor
+{
+	int		x;
+	int		y;
+	int		width;
+	int		height;
+	int		select;
+}	t_cursor;
+
 // Scene Struct
 typedef struct s_menu
 {
@@ -200,6 +210,9 @@ typedef struct s_menu
 	t_button	but_ligth;
 	t_button	but_minus;
 	t_button	but_plus;
+	t_cursor	cur_fov;
+	t_cursor	cur_color;
+	t_cursor	cur_float;
 	int			id_obj_select;
 }	t_menu;
 
@@ -224,6 +237,8 @@ typedef struct s_all
 	double		last_time;
 	int			**colors_tab;
 	bool		show_menu;
+	bool		need_draw;
+	bool		text_draw;
 	t_mouse		mouse;
 }	t_all;
 
@@ -304,13 +319,18 @@ void		apply_ambiant_light(t_all *all, t_intersect_ret *res);
 void		apply_reflexion(t_all *all, t_intersect_ret *res,
 				t_ray const *ray, int reflect);
 
+/*=====================================MENU===================================*/
+
 //image/buttons.c
 void		but_set_pos(t_button *but, int const x, int const y);
 void		but_draw(t_all *all, t_button const *but);
 bool		but_over(t_all *all, t_button *but);
 bool		but_click(t_all *all, t_button *but);
 
-/*=====================================MENU===================================*/
+//image/cursor.c
+void		cur_set_pos(t_cursor *cur, int const x, int const y);
+void		cur_draw(t_all *all, t_cursor const *cur);
+void		cur_tick(t_all *all, t_cursor *cur);
 
 //menu/menu.c
 void		check_tab_pressed(t_all *all, float const delta_time);
@@ -318,16 +338,25 @@ void		init_menu(t_all *all);
 void		draw_menu(t_all *all);
 
 //menu/display_camera.c
-void	display_camera(t_all *all, t_camera *camera);
+void		display_camera(t_all *all, t_camera *camera);
+
+//menu/display_ambiant_light.c
+void		display_ambiant_light(t_all *all, t_light *ambiant_light);
 
 //menu/display_light.c
-void	display_ambiant_light(t_all *all, t_light *ambiant_light);
-void	display_light(t_all *all, t_light *light);
+void		display_light(t_all *all, t_light *light);
 
-//menu/display_object.c
-void	display_sphere(t_all *all, t_sphere *sphere);
-void	display_plane(t_all *all, t_plane *plane);
-void	display_cylinder(t_all *all, t_cylinder *cylinder);
+//menu/display_sphere.c
+void		display_sphere(t_all *all, t_sphere *sphere);
+
+//menu/display_plane.c
+void		display_plane(t_all *all, t_plane *plane);
+
+//menu/display_cylinder.c
+void		display_cylinder(t_all *all, t_cylinder *cylinder);
+
+//menu/display_color.c
+void		display_color(t_all *all, t_color *color, int y_start);
 
 /*====================================PARSING=================================*/
 

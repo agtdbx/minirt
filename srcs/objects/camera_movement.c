@@ -6,7 +6,11 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 12:12:15 by aderouba          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2023/03/31 15:35:47 by tdubois          ###   ########.fr       */
+=======
+/*   Updated: 2023/04/04 11:21:16 by aderouba         ###   ########.fr       */
+>>>>>>> Button and cursor
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,17 +35,35 @@ void	camera_translations(t_all *all, float delta_time)
 	multiply_vec_number(&go_y, speed);
 	multiply_vec_number(&go_z, speed);
 	if (mlx_is_key_down(all->mlx, MLX_KEY_W))
+	{
 		add_vec_vec(&all->scene.camera.pos, &go_z);
+		all->need_draw = true;
+	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_S))
+	{
 		sub_vec_vec(&all->scene.camera.pos, &go_z);
+		all->need_draw = true;
+	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_A))
+	{
 		sub_vec_vec(&all->scene.camera.pos, &go_x);
+		all->need_draw = true;
+	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_D))
+	{
 		add_vec_vec(&all->scene.camera.pos, &go_x);
+		all->need_draw = true;
+	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_SPACE))
+	{
 		sub_vec_vec(&all->scene.camera.pos, &go_y);
+		all->need_draw = true;
+	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_LEFT_SHIFT))
+	{
 		add_vec_vec(&all->scene.camera.pos, &go_y);
+		all->need_draw = true;
+	}
 }
 
 void	camera_rotations(t_all *all, float delta_time)
@@ -66,6 +88,7 @@ static void	camera_rotations_arrond_x(t_all *all, const float degrees)
 		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
 		multiply_vec_number(&all->scene.camera.orientation, len);
+		all->need_draw = true;
 	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_DOWN))
 	{
@@ -76,6 +99,7 @@ static void	camera_rotations_arrond_x(t_all *all, const float degrees)
 		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
 		multiply_vec_number(&all->scene.camera.orientation, len);
+		all->need_draw = true;
 	}
 }
 
@@ -91,6 +115,7 @@ static void	camera_rotations_arrond_y(t_all *all, const float degrees)
 		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
 		multiply_vec_number(&all->scene.camera.orientation, len);
+		all->need_draw = true;
 	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_RIGHT))
 	{
@@ -100,5 +125,6 @@ static void	camera_rotations_arrond_y(t_all *all, const float degrees)
 		len = WIDTH / (tan(all->scene.camera.fov * PI_DIV_360) * 2.0f);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
 		multiply_vec_number(&all->scene.camera.orientation, len);
+		all->need_draw = true;
 	}
 }

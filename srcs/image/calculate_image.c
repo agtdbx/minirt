@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 10:52:58 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 16:20:06 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/04 11:07:23 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	calculate_image(t_all *all)
 				&& all->mouse.tab_x == x && all->mouse.tab_y == y)
 			{
 				all->menu.id_obj_select = res.id;
-				mlx_image_to_window(all->mlx, all->img, 0, 0);
+				all->need_draw = true;
 			}
 			x++;
 		}

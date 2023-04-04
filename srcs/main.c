@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 16:14:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/04 12:04:46 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ static void	init_struct(t_all *all)
 	init_menu(all);
 	all->show_menu = false;
 	all->last_time = 0.0;
-	all->scene.ppr = 1;
+	all->scene.ppr = 4;
 	all->ray_tab = alloc_ray_tab();
+	all->need_draw = false;
+	all->text_draw = false;
 	if (all->ray_tab == NULL)
 	{
 		rtlst_free(&all->scene.objects);
@@ -103,6 +105,14 @@ void	hook(void *param)
 	calculate_image(all);
 	if (all->show_menu)
 		draw_menu(all);
+	if (all->text_draw)
+		all->text_draw = false;
+	if (all->need_draw)
+	{
+		mlx_image_to_window(all->mlx, all->img, 0, 0);
+		all->need_draw = false;
+		all->text_draw = true;
+	}
 }
 
 static void	set_mouse_state(t_all *all)
