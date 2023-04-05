@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 16:02:48 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/05 14:45:34 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/05 17:47:25 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ t_parsing_error	parse_color(
 
 	ret = PARSING_SUCCESS;
 	channels = itok_split(tok->token, ",");
-	if (assert_itok_lst_size_is(directive, channels, 3) == PARSING_ERROR)
+	if (assert_sub_itok_lst_size_is(directive, tok, channels, 3)
+		== PARSING_ERROR)
+	{
 		ret = PARSING_ERROR;
+	}
 	if (ret != PARSING_ERROR)
 		ret = loc_parse_channel(directive, tok, channels, &ret_color->r);
 	if (ret != PARSING_ERROR)

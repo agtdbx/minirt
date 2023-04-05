@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:25:38 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/05 14:05:56 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/05 17:17:59 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static const t_directive	g_directives[] = {
 ////////////////////////////////////////////////////////////////////////////////
 
 t_parsing_error	parse_directive(
-					size_t line_no,
+					size_t lineno,
 					char const *filename,
 					char const *line,
 					t_scene *ret_scene);
@@ -41,7 +41,7 @@ t_parsing_error	parse_directive(
 ////////////////////////////////////////////////////////////////////////////////
 
 t_parsing_error	parse_directive(
-					size_t line_no,
+					size_t lineno,
 					char const *filename,
 					char const *line,
 					t_scene *ret_scene)
@@ -52,7 +52,7 @@ t_parsing_error	parse_directive(
 
 	if (ft_strspn(line, " \n") == ft_strlen(line))
 		return (PARSING_SUCCESS);
-	info = (t_directive_info){line_no, filename, itok_split(line, " \n")};
+	info = (t_directive_info){lineno, filename, itok_split_uniq(line, " \n")};
 	if (info.tokens == NULL)
 		return (PARSING_ERROR);
 	i = 0;

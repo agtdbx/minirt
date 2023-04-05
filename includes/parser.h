@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 11:27:35 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/05 14:49:01 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/05 17:26:39 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ typedef struct s_itok
 }	t_itok;
 
 t_itok			*itok_split(
+					char const *str,
+					char const *sep);
+
+t_itok			*itok_split_uniq(
 					char const *str,
 					char const *sep);
 
@@ -90,6 +94,12 @@ void			put_directive_error(
 
 t_parsing_error	assert_itok_lst_size_is(
 					t_directive_info const *directive,
+					t_itok const *toks,
+					size_t expected_size);
+
+t_parsing_error	assert_sub_itok_lst_size_is(
+					t_directive_info const *directive,
+					t_itok const *container,
 					t_itok const *toks,
 					size_t expected_size);
 
