@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/04 12:04:46 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:55:30 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,7 @@ static void	init_struct(t_all *all)
 	all->last_time = 0.0;
 	all->scene.ppr = 4;
 	all->ray_tab = alloc_ray_tab();
-	all->need_draw = false;
-	all->text_draw = false;
+	all->draw_state = DRAW_PIXELS;
 	if (all->ray_tab == NULL)
 	{
 		rtlst_free(&all->scene.objects);
@@ -105,18 +104,19 @@ void	hook(void *param)
 	calculate_image(all);
 	if (all->show_menu)
 		draw_menu(all);
-	if (all->text_draw)
-		all->text_draw = false;
-	if (all->need_draw)
+	if (all->draw_state == DRAW_TEXT)
+		all->draw_state = DRAW_PIXELS;
+	if (all->draw_state == NEED_REDRAW)
 	{
 		mlx_image_to_window(all->mlx, all->img, 0, 0);
-		all->need_draw = false;
-		all->text_draw = true;
+		all->draw_state = DRAW_TEXT;
 	}
 }
 
 static void	set_mouse_state(t_all *all)
 {
+	if (all->show_menu == false)
+		return ;
 	mlx_get_mouse_pos(all->mlx, &all->mouse.x, &all->mouse.y);
 	if (mlx_is_mouse_down(all->mlx, MLX_MOUSE_BUTTON_LEFT))
 	{
@@ -126,6 +126,11 @@ static void	set_mouse_state(t_all *all)
 		{
 			all->mouse.tab_x = all->mouse.x / all->scene.ppr;
 			all->mouse.tab_y = all->mouse.y / all->scene.ppr;
+		}
+		else
+		{
+			all->mouse.tab_x = -1;
+			all->mouse.tab_y = -1;
 		}
 	}
 	else

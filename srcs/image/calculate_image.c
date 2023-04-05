@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 10:52:58 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/04 11:07:23 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:55:52 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	calculate_image(t_all *all)
 				&& all->mouse.tab_x == x && all->mouse.tab_y == y)
 			{
 				all->menu.id_obj_select = res.id;
-				all->need_draw = true;
+				all->draw_state = NEED_REDRAW;
 			}
 			x++;
 		}
@@ -45,6 +45,8 @@ void	calculate_image(t_all *all)
 
 static void	compute_pixel(t_all *all, t_intersect_ret *res, int x, int y)
 {
+	if (all->show_menu == true && x > (WIDTH - 420) / all->scene.ppr)
+		return ;
 	init_intersect_ret(res);
 	do_intersections(all, res, &all->ray_tab[y][x]);
 	apply_dymamic_light(all, res, &all->ray_tab[y][x], MAX_REFLECT);

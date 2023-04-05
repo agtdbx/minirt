@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 10:18:05 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:49:00 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_plane	create_plane(t_vector origin, t_vector normal, t_color color)
 	multiply_vec_number(&res.rev_normal, -1.0f);
 	res.color = color;
 	res.id = -1;
-	res.reflexion_intensity = 0.2f;
+	res.reflexion_intensity = 0.0f;
 	return (res);
 }
 

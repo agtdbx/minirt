@@ -6,15 +6,15 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:57:01 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 11:42:57 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:58:30 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	minus_color_channel(t_all *all, int *channel, int y);
-static void	plus_color_channel(t_all *all, int *channel, int y);
-static void	cursor_color_channel(t_all *all, int *channel, int y);
+static bool	minus_color_channel(t_all *all, int *channel, int y);
+static bool	plus_color_channel(t_all *all, int *channel, int y);
+static bool	cursor_color_channel(t_all *all, int *channel, int y);
 
 /*
  * Draw each color channel in differents lines in the menu
@@ -46,29 +46,33 @@ void	display_color(t_all *all, t_color *color, int y_start)
 /*
  * Draw and manage button for each color channel in the menu
  */
-void	manage_color(t_all *all, t_color *color, int y_start)
+bool	manage_color(t_all *all, t_color *color, int y_start)
 {
+	bool	modify;
+
 	all->menu.cur_color.select = color->r / 2;
-	minus_color_channel(all, &color->r, y_start);
-	plus_color_channel(all, &color->r, y_start);
-	cursor_color_channel(all, &color->r, y_start);
-
+	modify = minus_color_channel(all, &color->r, y_start);
+	modify += plus_color_channel(all, &color->r, y_start);
+	modify += cursor_color_channel(all, &color->r, y_start);
 	all->menu.cur_color.select = color->g / 2;
-	minus_color_channel(all, &color->g, y_start + 20);
-	plus_color_channel(all, &color->g, y_start + 20);
-	cursor_color_channel(all, &color->g, y_start + 20);
-
+	modify += minus_color_channel(all, &color->g, y_start + 20);
+	modify += plus_color_channel(all, &color->g, y_start + 20);
+	modify += cursor_color_channel(all, &color->g, y_start + 20);
 	all->menu.cur_color.select = color->b / 2;
-	minus_color_channel(all, &color->b, y_start + 40);
-	plus_color_channel(all, &color->b, y_start + 40);
-	cursor_color_channel(all, &color->b, y_start + 40);
+	modify += minus_color_channel(all, &color->b, y_start + 40);
+	modify += plus_color_channel(all, &color->b, y_start + 40);
+	modify += cursor_color_channel(all, &color->b, y_start + 40);
+	return (modify);
 }
 
 /*
  * Draw and manage minus button for one color channel
  */
-static void	minus_color_channel(t_all *all, int *channel, int y)
+static bool	minus_color_channel(t_all *all, int *channel, int y)
 {
+	bool	modify;
+
+	modify = false;
 	but_set_pos(&all->menu.but_minus, WIDTH - 132, y);
 	if (*channel == 0)
 		all->menu.but_minus.color = 0x333333FF;
@@ -80,16 +84,21 @@ static void	minus_color_channel(t_all *all, int *channel, int y)
 	{
 		(*channel)--;
 		all->menu.cur_color.select = (*channel) / 2;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
+		modify = true;
 	}
 	but_draw(all, &all->menu.but_minus);
+	return (modify);
 }
 
 /*
  * Draw and manage plus button for one color channel
  */
-static void	plus_color_channel(t_all *all, int *channel, int y)
+static bool	plus_color_channel(t_all *all, int *channel, int y)
 {
+	bool	modify;
+
+	modify = false;
 	but_set_pos(&all->menu.but_plus, WIDTH - 112, y);
 	if (*channel == 255)
 		all->menu.but_plus.color = 0x333333FF;
@@ -101,16 +110,21 @@ static void	plus_color_channel(t_all *all, int *channel, int y)
 	{
 		(*channel)++;
 		all->menu.cur_color.select = (*channel) / 2;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
+		modify = true;
 	}
 	but_draw(all, &all->menu.but_plus);
+	return (modify);
 }
 
 /*
  * Draw and manage scroll for one color channel
  */
-static void	cursor_color_channel(t_all *all, int *channel, int y)
+static bool	cursor_color_channel(t_all *all, int *channel, int y)
 {
+	bool	modify;
+
+	modify = false;
 	cur_set_pos(&all->menu.cur_color, WIDTH - 260, y);
 	cur_tick(all, &all->menu.cur_color);
 	if ((*channel) / 2 != all->menu.cur_color.select)
@@ -118,7 +132,9 @@ static void	cursor_color_channel(t_all *all, int *channel, int y)
 		*channel = all->menu.cur_color.select * 2;
 		if (*channel > 255)
 			*channel = 255;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
+		modify = true;
 	}
 	cur_draw(all, &all->menu.cur_color);
+	return (modify);
 }

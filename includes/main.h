@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:13:47 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:14:12 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 // STRUCTS
 
+// Draw state enem
+typedef enum e_draw_state
+{
+	DRAW_PIXELS,
+	NEED_REDRAW,
+	DRAW_TEXT
+}	t_draw_state;
+
+// Color struct
 typedef struct s_color
 {
 	int	r;
@@ -229,17 +238,16 @@ typedef struct s_mouse
 // Main struct
 typedef struct s_all
 {
-	mlx_t		*mlx;
-	mlx_image_t	*img;
-	t_scene		scene;
-	t_menu		menu;
-	t_ray		**ray_tab;
-	double		last_time;
-	int			**colors_tab;
-	bool		show_menu;
-	bool		need_draw;
-	bool		text_draw;
-	t_mouse		mouse;
+	mlx_t			*mlx;
+	mlx_image_t		*img;
+	t_scene			scene;
+	t_menu			menu;
+	t_ray			**ray_tab;
+	double			last_time;
+	int				**colors_tab;
+	bool			show_menu;
+	t_draw_state	draw_state;
+	t_mouse			mouse;
 }	t_all;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -357,7 +365,7 @@ void		display_cylinder(t_all *all, t_cylinder *cylinder);
 
 //menu/display_color.c
 void		display_color(t_all *all, t_color *color, int y_start);
-void		manage_color(t_all *all, t_color *color, int y_start);
+bool		manage_color(t_all *all, t_color *color, int y_start);
 
 //menu/display_dir.c
 void		display_dir(t_all *all, t_vector *dir, int y_start);
@@ -366,6 +374,15 @@ void		manage_dir(t_all *all, t_vector *dir, int y_start);
 //menu/display_pos.c
 void		display_pos(t_all *all, t_vector *pos, int y_start);
 void		manage_pos(t_all *all, t_vector *pos, int y_start);
+
+//menu/display_float.c
+void		display_float(t_all *all, float number, int y_start, char *text);
+void		manage_float(t_all *all, float *number, int y_start, char *text);
+
+//menu/display_intensity.c
+void		display_intensity(t_all *all, float intensity, int y_start);
+void		manage_intensity(t_all *all, float *intensity, int y_start);
+
 
 /*====================================PARSING=================================*/
 

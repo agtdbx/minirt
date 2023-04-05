@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:14:50 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/04 15:37:01 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:59:57 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	check_tab_pressed(t_all *all, float const delta_time)
 	}
 	if (mlx_is_key_down(all->mlx, MLX_KEY_TAB) && last_time == 0.0f)
 	{
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 		all->show_menu = !all->show_menu;
 		last_time = 0.5f;
 	}
@@ -122,17 +122,17 @@ void	draw_menu(t_all *all)
 	if (but_click(all, &all->menu.but_camera))
 	{
 		all->menu.id_obj_select = SELECT_CAMERA;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	if (but_click(all, &all->menu.but_ambiant_ligth))
 	{
 		all->menu.id_obj_select = SELECT_AMBIANT_LIGHT;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	if (but_click(all, &all->menu.but_ligth))
 	{
 		all->menu.id_obj_select = SELECT_LIGHT;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 
 	display_selected(all);
@@ -146,7 +146,7 @@ static void	display_selected(t_all *all)
 {
 	t_rtlst	*obj;
 
-	if (all->text_draw)
+	if (all->draw_state == DRAW_TEXT)
 		mlx_put_string(all->mlx, "MENU", WIDTH - 230, 10);
 	if (all->menu.id_obj_select == SELECT_CAMERA)
 		display_camera(all, &all->scene.camera);
@@ -166,7 +166,7 @@ static void	display_selected(t_all *all)
 			if (obj->type == CYLINDER)
 				display_cylinder(all, &obj->value.as_cylinder);
 		}
-		else if (all->text_draw)
+		else if (all->draw_state == DRAW_TEXT)
 			mlx_put_string(all->mlx, "NONE", WIDTH - 230, 100);
 	}
 }

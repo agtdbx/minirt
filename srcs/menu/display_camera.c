@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:38:57 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/04 15:45:08 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:58:37 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	display_camera(t_all *all, t_camera *camera)
 	minus_fov(all, camera);
 	plus_fov(all, camera);
 	cursor_fov(all, camera);
-	if (all->text_draw == false)
+	if (all->draw_state != DRAW_TEXT)
 		return ;
 	mlx_put_string(all->mlx, "CAMERA", WIDTH - 240, 100);
 	to_print = display_const_vec("pos : ", &camera->pos);
@@ -65,7 +65,7 @@ static void	minus_fov(t_all *all, t_camera *camera)
 		len = WIDTH / (tan(camera->fov * PI_DIV_360) * 2.0f);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
 		multiply_vec_number(&all->scene.camera.orientation, len);
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	but_draw(all, &all->menu.but_minus);
 }
@@ -91,7 +91,7 @@ static void	plus_fov(t_all *all, t_camera *camera)
 		len = WIDTH / (tan(camera->fov * PI_DIV_360) * 2.0f);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
 		multiply_vec_number(&all->scene.camera.orientation, len);
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	but_draw(all, &all->menu.but_plus);
 }
@@ -110,7 +110,7 @@ static void	cursor_fov(t_all *all, t_camera *camera)
 		len = WIDTH / (tan(camera->fov * PI_DIV_360) * 2.0f);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
 		multiply_vec_number(&all->scene.camera.orientation, len);
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	cur_draw(all, &all->menu.cur_fov);
 }

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:57:01 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 12:09:18 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/05 16:58:20 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	minus_dir_axis(t_all *all, float *channel, int y)
 		if (*channel < -1.0f)
 			*channel = -1.0f;
 		all->menu.cur_color.select = ((*channel) * 20.0f) + 20.0f;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	but_draw(all, &all->menu.but_minus);
 }
@@ -105,7 +105,7 @@ static void	plus_dir_axis(t_all *all, float *channel, int y)
 		if (*channel > 1.0f)
 			*channel = 1.0f;
 		all->menu.cur_color.select = ((*channel) * 20.0f) + 20.0f;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	but_draw(all, &all->menu.but_plus);
 }
@@ -120,7 +120,7 @@ static void	cursor_dir_axis(t_all *all, float *channel, int y)
 	if (((*channel) * 20.0f) + 20.0f != all->menu.cur_float.select)
 	{
 		*channel = ((float)all->menu.cur_float.select - 20.0f) / 20.0f;
-		all->need_draw = true;
+		all->draw_state = NEED_REDRAW;
 	}
 	cur_draw(all, &all->menu.cur_float);
 }
