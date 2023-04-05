@@ -1,0 +1,111 @@
+#!/usr/bin/env bash
+#
+# gt-run: run your Greatest unit tests in parallel
+#
+# VERSION 0.1
+
+# run cmd with timeout and memory check
+function memcheck
+{
+	timeout						\
+		--verbose				\
+		--kill-after=5s 3s		\
+	valgrind					\
+		--quiet					\
+		--error-exitcode=1		\
+		--leak-check=full		\
+		--show-reachable=yes	\
+	"${@}"
+}
+
+# run suite and capture output
+function run_suite
+{
+	local -r runner="$1" tmpdir="$2" suite="$3"
+
+	if ! memcheck "${runner}" -e -s "${suite}" > "${tmpdir}/${suite}"; then
+		mv "${tmpdir}/${suite}" "${tmpdir}/${suite}.fail"
+	fi
+}
+
+# run at most nproc suites in parallel.
+function run_suites
+{
+	local -r jobsmax=$(nproc) runner="$1" tmpdir="$2" suites=("${@:3}")
+
+	for suite in "${suites[@]}"; do
+		[[ "$(jobs | wc -l)" -lt "${jobsmax:-1}" ]] || wait -n
+		run_suite "${runner}" "${tmpdir}" "${suite}" &
+	done
+	wait
+}
+
+# get suites listed in runner
+function get_suites
+{
+	sed -nr 's|^\* Suite (\w+):$|\1|p' | sort -u
+}
+
+# clean child processes and tmpdir before exit
+function teardown
+{
+	local -r ret="$?" tmpdir="$1"
+
+    trap "" EXIT TERM INT
+	kill -TERM -"$$"
+	wait
+	rm -rf "${tmpdir}"
+    trap - EXIT
+	exit "${ret}"
+} >/dev/null 2>&1
+
+# put results to terminal
+function put_results
+{
+	local -r tmpdir="${1}"
+
+	local -a logfiles=()
+	# show succesful logs if VERBOSE is set
+	if [[ -n "${VERBOSE:+1}" ]]; then
+		mapfile -t logfiles < <(fd . -E '*.fail' "${tmpdir}")
+	fi
+	# always show failures logs
+	mapfile -t -O ${#logfiles[@]} logfiles < <(fd -g '*.fail' "${tmpdir}")
+
+	local -r rule="$(printf -- '-%.s' $(seq "$(tput cols)"))"
+	for file in "${logfiles[@]}"; do
+		echo "${rule}"
+		if [[ "${file}" = *.fail ]]; then
+			echo -e "  \e[91mFAILURE\e[0m: $(basename "${file%.fail}")"
+		else
+			echo -e "  \e[92mSUCCESS\e[0m: $(basename "${file}")"
+		fi
+		echo "${rule}"
+		cat "${file}"
+	done
+
+	# quit with non-zero exit status if one test failed
+	! fd -q -g '*.fail' "${tmpdir}"
+}
+
+function main
+{
+	local -r runner="$1"
+
+	[[ -x "${runner}" ]] || exit 1
+
+	mapfile -t suites < <("${runner}" -l | get_suites)
+	[[ "${#suites[@]}" -gt 0 ]] || exit 0
+
+	local -r tmpdir=$(mktemp --tmpdir -d "${USER:+${USER}__}"gt-run__XXXXXXXX)
+	[[ -d "${tmpdir}" ]] || exit 1
+
+	# shellcheck disable=SC2064
+	trap "teardown '${tmpdir}'" EXIT TERM INT
+
+	run_suites "${runner}" "${tmpdir}" "${suites[@]}"
+
+	put_results "${tmpdir}"
+}
+
+main "$@"

@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    .unit.mk                                           :+:      :+:    :+:    #
+#    test.mk                                            :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: aderouba <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/03/31 12:20:47 by tdubois          ###   ########.fr        #
+#    Updated: 2023/04/05 11:32:43 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,101 +23,37 @@ MAKEFLAGS		:=	--no-print-directory
 #==============================================================================#
 #=== GOALS ====================================================================#
 
-NAME		:=	unit.a
+NAME		:=	test
 
 #==============================================================================#
 #=== DIRECTORIES ==============================================================#
 
-BUILD		:=	.build-unit
+SRC			:=	src
+BUILD		:=	.build-test
+INCLUDE		:=	include tests
 
 #==============================================================================#
 #=== COMPILATION ==============================================================#
 
 CC			:=	clang
 CFLAGS		:=	-Wall -Wextra -Werror -ggdb3
-CPPFLAGS	:=	-MP -MMD -I . -I tests
+CPPFLAGS	:=	-MP -MMD $(addprefix -I,$(INCLUDE))
 
 #==============================================================================#
 #=== SOURCES ==================================================================#
 
-SRCS	:=	ft_atof.c \
-			ft_atoi_base.c \
-			ft_atoi.c \
-			ft_atol.c \
-			ft_bzero.c \
-			ft_calloc.c \
-			ft_ftoa.c \
-			ft_isalnum.c \
-			ft_isalpha.c \
-			ft_isascii.c \
-			ft_isdigit.c \
-			ft_isprime.c \
-			ft_isprint.c \
-			ft_itoa_base.c \
-			ft_itoa.c \
-			ft_lstadd_back.c \
-			ft_lstadd_front.c \
-			ft_lstclear.c \
-			ft_lstdelone.c \
-			ft_lstiter.c \
-			ft_lstlast.c \
-			ft_lstmap.c \
-			ft_lstnew.c \
-			ft_lstr.c \
-			ft_lstsize.c \
-			ft_memchr.c \
-			ft_memcmp.c \
-			ft_memcpy.c \
-			ft_memmove.c \
-			ft_memset.c \
-			ft_pow.c \
-			ft_putchar_fd.c \
-			ft_putendl_fd.c \
-			ft_putnbr_base_fd.c \
-			ft_putnbr_fd.c \
-			ft_putstr_fd.c \
-			ft_putunbr_base_fd.c \
-			ft_putunbr_fd.c \
-			ft_split.c \
-			ft_sqrt.c \
-			ft_strcat.c \
-			ft_strchr.c \
-			ft_strcmp.c \
-			ft_strcpy.c \
-			ft_strcspn.c \
-			ft_strdup.c \
-			ft_striteri.c \
-			ft_strjoin_free_1st_p.c \
-			ft_strjoin.c \
-			ft_strlcat.c \
-			ft_strlcpy.c \
-			ft_strlen.c \
-			ft_strmapi.c \
-			ft_strncmp.c \
-			ft_strnstr.c \
-			ft_strrchr.c \
-			ft_strspn.c \
-			ft_strstr.c \
-			ft_strendswith.c\
-			ft_strsuperjoin_free_1st_p.c \
-			ft_strsuperjoin.c \
-			ft_strtrim.c \
-			ft_substr.c \
-			ft_supersplit.c \
-			ft_tolower.c \
-			ft_toupper.c \
-			gnl.c \
-			printf_fd.c \
-			printf.c
-
-SRCS	:=	$(sort $(SRCS) $(shell fd -g '*.c'))
+SRCS		:=	$(sort $(shell fd -g '*.c' $(SRC)))
+TESTS		:=	$(sort $(shell fd -g '*.test.c' $(SRC)))
 
 #==============================================================================#
 #=== BUILD FILES ==============================================================#
 
+MAIN		:=	$(BUILD)/main.gen.c
+MAINOBJ		:=	$(BUILD)/main.gen.o
+
 OBJS		:=	$(SRCS:%.c=$(BUILD)/%.o)
 DEPS		:=	$(SRCS:%.c=$(BUILD)/%.d)
-DIRS		:=	$(BUILD)
+DIRS		:=	$(sort $(shell dirname $(OBJS)))
 
 #******************************************************************************#
 #*** PHONY RULES **************************************************************#
@@ -128,8 +64,8 @@ DIRS		:=	$(BUILD)
 
 all: objs $(NAME)
 
-objs:								#build objs in parallel
-	$(MAKE) -f .unit.mk -j$(nproc) $(OBJS)
+objs:
+	$(MAKE) -f tests/test.mk -j$(nproc) $(OBJS)
 
 clean:
 	rm -rf $(BUILD)
@@ -142,9 +78,9 @@ re: fclean all
 #******************************************************************************#
 #*** BUILD RULES **************************************************************#
 
-$(NAME): $(OBJS)
-	$(info $(BLUE)Linking C static library $@$(NOC))
-	ar rcs $@ $(OBJS)
+$(NAME): $(MAINOBJ) $(OBJS)
+	$(info $(BLUE)Linking C binary $@$(NOC))
+	$(CC) $(CFLAGS) $(MAINOBJ) $(OBJS) -o $@
 	$(info $(GREEN)All done$(NOC))
 
 $(DIRS):
@@ -154,23 +90,31 @@ $(OBJS): $(BUILD)/%.o: %.c | $$(@D)
 	$(progress-log)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
+$(MAIN): $(TESTS) | $$(@D)
+	$(info $(PURPLE)Generating $@ $(NOC))
+	./tests/gt-gen $(TESTS) > $@
+
+$(MAINOBJ): $(MAIN) | $$(@D)
+	$(info $(PURPLE)Building $< $(NOC))
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
 -include $(DEPS)
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 #%%% COLORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
-NOC			:=	$(shell echo "\033[0m")
-RED			:=	$(shell echo "\e[1m\e[38;5;196m")
-BLUE		:=	$(shell echo "\e[1m\e[38;5;33m")
-GREEN		:=	$(shell echo "\e[1m\e[38;5;76m")
-PURPLE		:=	$(shell echo "\033[1;35m")
+NOC			:=	$(shell printf '\033[0m')
+RED			:=	$(shell printf '\033[1m\033[38;5;196m')
+BLUE		:=	$(shell printf '\033[1m\033[38;5;33m')
+GREEN		:=	$(shell printf '\033[1m\033[38;5;76m')
+PURPLE		:=	$(shell printf '\033[1;35m')
 
 #%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 #%%% PROGRESS LOG UTILS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
 
 objs: export N		:=	0
 objs: export NTOTAL	?=	\
-	$(shell make NTOTAL=1 -f .unit.mk -n $(OBJS) | grep clang | wc -l)
+	$(shell make NTOTAL=1 -f tests/test.mk -n $(OBJS) | grep clang | wc -l)
 
 define progress-log =
 	$(info [$(words $(N))/$(NTOTAL)] $(PURPLE)Building $< $(NOC))

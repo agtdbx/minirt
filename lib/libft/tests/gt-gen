@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+#
+# gt-gen: generate a main file to run your Greatest unit tests
+#
+# VERSION 0.1
+
+function get_suites
+{
+	[[ "$#" -gt 0 ]] && gcc -E -fpreprocessed -P "$@" \
+		| sed -nr 's|^\s*SUITE\s*\(\s*(\w+)\s*\).*|\1|p'
+}
+
+function format
+{
+	# shellcheck disable=SC2059
+	[[ "$#" -gt 1 ]] && printf "$@"
+}
+
+function main
+{
+	mapfile -t suites < <(get_suites "${@}")
+
+	cat <<-MAIN.GEN.C
+	#include "greatest.h"
+
+	$(format "extern SUITE(%s);\n" "${suites[@]}")\
+	
+	GREATEST_MAIN_DEFS();
+	int main(int argc, char **argv)
+	{
+	    GREATEST_MAIN_BEGIN();
+		
+	    $(format "RUN_SUITE(%s);\n    " "${suites[@]}")\
+
+	    GREATEST_MAIN_END();
+	}
+	MAIN.GEN.C
+}
+
+main "$@"

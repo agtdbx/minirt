@@ -6,7 +6,7 @@
 #    By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/03/31 15:41:02 by tdubois           #+#    #+#              #
-#    Updated: 2023/03/31 15:41:27 by tdubois          ###   ########.fr        #
+#    Updated: 2023/04/05 11:41:11 by tdubois          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,14 +34,14 @@ LIBFT		:=	lib/libft/libft.a
 SRC			:=	srcs
 BUILD		:=	.build
 
-INCLUDES	:=	-Iincludes -Ilib/libft -I/usr/include -Ilib/mlx42/include
+INCLUDES	:=	includes lib/libft/include /usr/include lib/mlx42/include
 
 #==============================================================================#
 #=== COMPILATION ==============================================================#
 
 CC			:=	clang
 CFLAGS		:=	-Wall -Wextra -Werror -Wno-unused-function -Ofast#TODO
-CPPFLAGS	:=	-MP -MMD $(INCLUDES)
+CPPFLAGS	:=	-MP -MMD $(addprefix -I,$(INCLUDES))
 LDFLAGS		:=	-Llib/libft -lft			\
 				-Llib/mlx42/build -lmlx42	\
 				-ldl -lglfw -pthread -lm	\

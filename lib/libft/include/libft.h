@@ -6,7 +6,7 @@
 /*   By: aderouba <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/26 14:33:14 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 16:45:50 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/05 11:29:48 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,10 @@ bool	ft_strendswith(
 			char const *str,
 			char const *suffix);
 
+int		ft_strtoi(
+			char const *nptr,
+			char **endptr);
+
 float	ft_strtof(
 			char const *str,
 			char **endptr);
@@ -242,7 +246,6 @@ void	ft_putnbr_fd(int n, int fd);
 void	ft_putunbr_fd(unsigned int n, int fd);
 void	ft_putnbr_base_fd(int n, int fd, char *base);
 void	ft_putunbr_base_fd(unsigned int n, int fd, char *base);
-
 
 // chain list
 int		ft_lstsize(t_list *lst);

@@ -1,0 +1,58 @@
+
+#%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+#%%% CONFIGURATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%#
+
+[private]
+@default:
+	just --list --unsorted --list-prefix '‧‧‧‧ '
+
+GREEN	:=	`printf '\e[92m'`
+NC		:=	`printf '\e[0m'`
+
+#==============================================================================#
+#=== BUILD ====================================================================#
+
+#build project
+@build:
+	make
+
+#rebuild project
+@re:
+	make clean all
+
+#clean project
+@clean:
+	make fclean
+
+#==============================================================================#
+#=== TESTS ====================================================================#
+
+#run all tests
+@test: unit lint
+	echo "{{GREEN}}TESTS OK!{{NC}}"
+
+#rebuild unit tests and run all tests
+@re-test: re-unit lint
+	echo "{{GREEN}}TESTS OK!{{NC}}"
+
+#*** LINT *********************************************************************#
+
+SOURCES	:=	```{
+	fd -g '*.c' -E '*.test.c' src
+	fd -g '*.h' -E 'greatest.h' include
+} | xargs```
+
+#run static analysis (norminette)
+@lint:
+	norminette {{SOURCES}} | { ! grep Error; }
+
+#*** UNIT *********************************************************************#
+
+#run unit tests
+@unit:
+	make -f tests/test.mk
+	./tests/gt-run ./test
+
+#rebuild, then run unit tests
+@re-unit:  && unit
+	make -f tests/test.mk clean
