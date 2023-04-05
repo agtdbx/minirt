@@ -6,7 +6,7 @@
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 15:41:46 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/03 15:44:11 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/05 13:18:00 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,7 +269,7 @@ t_result	parse_plane(t_scene *ret_scene);
 t_result	parse_cylinder(t_scene *ret_scene);
 
 // parsing/parse_color.c
-t_result	parse_color(char *rgb_str, t_color *ret_color);
+// t_result	parse_color(char *rgb_str, t_color *ret_color);
 
 // parsing/parse_vec.c
 t_result	parse_vec(char *xyz_str, t_vector *ret_vec);

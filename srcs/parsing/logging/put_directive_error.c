@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   itok_hilight_error.c                               :+:      :+:    :+:   */
+/*   put_directive_error.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tdubois <tdubois@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:37:05 by tdubois           #+#    #+#             */
-/*   Updated: 2023/04/04 15:25:18 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/05 14:11:30 by tdubois          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,28 @@
 
 #include <stddef.h>
 
-//TODO remove printf
-void	itok_hilight_error(
-			char const *filename,
-			size_t line_no,
-			t_itok const *toks,
+void	put_directive_error(
+			t_directive_info const *directive,
+			char const *msg,
 			t_itok const *tok_to_hilight)
 {
-	printf("Error\n");
-	printf("\n");
-	printf("%s: line %lu, col %lu: ", filename, line_no, toks->index);
+	t_itok const	*toks;
+
+	printf(
+		"Error\n"
+		"\n"
+		"%s: line %lu: ", directive->filename, directive->lineno);
+	toks = directive->tokens;
 	while (toks != NULL)
 	{
 		if (toks == tok_to_hilight)
-			printf(RED);
-		printf("%s", toks->token);
-		if (toks->next != NULL)
-			printf(" ");
-		if (toks == tok_to_hilight)
-			printf(NC);
+			printf(RED"%s "NC, toks->token);
+		else
+			printf("%s ", toks->token);
 		toks = toks->next;
 	}
-	printf("\n");
+	printf(
+		"\n"
+		"│\n"
+		"│  %s\n", msg);
 }
