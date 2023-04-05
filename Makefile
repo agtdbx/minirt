@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/10 11:11:59 by aderouba         ###   ########.fr        #
+#    Updated: 2023/04/10 11:13:49 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,8 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/menu/menu.c					\
 # 			srcs/menu/cursor.c					\
 # 			srcs/menu/buttons.c					\
+# 			srcs/menu/display_dir.c				\
+# 			srcs/menu/display_pos.c				\
 # 			srcs/menu/display_color.c			\
 # 			srcs/menu/display_light.c			\
 # 			srcs/menu/display_plane.c			\

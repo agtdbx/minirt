@@ -1,0 +1,124 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display_color.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/04 13:57:01 by aderouba          #+#    #+#             */
+/*   Updated: 2023/04/05 11:42:57 by aderouba         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "main.h"
+
+static void	minus_color_channel(t_all *all, int *channel, int y);
+static void	plus_color_channel(t_all *all, int *channel, int y);
+static void	cursor_color_channel(t_all *all, int *channel, int y);
+
+/*
+ * Draw each color channel in differents lines in the menu
+ */
+void	display_color(t_all *all, t_color *color, int y_start)
+{
+	char	*tmp;
+	char	*to_print;
+
+	tmp = ft_itoa(color->r);
+	to_print = ft_strjoin("color : r ", tmp);
+	mlx_put_string(all->mlx, to_print, WIDTH - 400, y_start);
+	free(tmp);
+	free(to_print);
+
+	tmp = ft_itoa(color->g);
+	to_print = ft_strjoin("g ", tmp);
+	mlx_put_string(all->mlx, to_print, WIDTH - 320, y_start + 20);
+	free(tmp);
+	free(to_print);
+
+	tmp = ft_itoa(color->b);
+	to_print = ft_strjoin("b ", tmp);
+	mlx_put_string(all->mlx, to_print, WIDTH - 320, y_start + 40);
+	free(tmp);
+	free(to_print);
+}
+
+/*
+ * Draw and manage button for each color channel in the menu
+ */
+void	manage_color(t_all *all, t_color *color, int y_start)
+{
+	all->menu.cur_color.select = color->r / 2;
+	minus_color_channel(all, &color->r, y_start);
+	plus_color_channel(all, &color->r, y_start);
+	cursor_color_channel(all, &color->r, y_start);
+
+	all->menu.cur_color.select = color->g / 2;
+	minus_color_channel(all, &color->g, y_start + 20);
+	plus_color_channel(all, &color->g, y_start + 20);
+	cursor_color_channel(all, &color->g, y_start + 20);
+
+	all->menu.cur_color.select = color->b / 2;
+	minus_color_channel(all, &color->b, y_start + 40);
+	plus_color_channel(all, &color->b, y_start + 40);
+	cursor_color_channel(all, &color->b, y_start + 40);
+}
+
+/*
+ * Draw and manage minus button for one color channel
+ */
+static void	minus_color_channel(t_all *all, int *channel, int y)
+{
+	but_set_pos(&all->menu.but_minus, WIDTH - 132, y);
+	if (*channel == 0)
+		all->menu.but_minus.color = 0x333333FF;
+	else if (but_over(all, &all->menu.but_minus))
+		all->menu.but_minus.color = 0x999999FF;
+	else
+		all->menu.but_minus.color = 0x666666FF;
+	if (*channel > 0 && but_click(all, &all->menu.but_minus))
+	{
+		(*channel)--;
+		all->menu.cur_color.select = (*channel) / 2;
+		all->need_draw = true;
+	}
+	but_draw(all, &all->menu.but_minus);
+}
+
+/*
+ * Draw and manage plus button for one color channel
+ */
+static void	plus_color_channel(t_all *all, int *channel, int y)
+{
+	but_set_pos(&all->menu.but_plus, WIDTH - 112, y);
+	if (*channel == 255)
+		all->menu.but_plus.color = 0x333333FF;
+	else if (but_over(all, &all->menu.but_plus))
+		all->menu.but_plus.color = 0x999999FF;
+	else
+		all->menu.but_plus.color = 0x666666FF;
+	if (*channel < 255 && but_click(all, &all->menu.but_plus))
+	{
+		(*channel)++;
+		all->menu.cur_color.select = (*channel) / 2;
+		all->need_draw = true;
+	}
+	but_draw(all, &all->menu.but_plus);
+}
+
+/*
+ * Draw and manage scroll for one color channel
+ */
+static void	cursor_color_channel(t_all *all, int *channel, int y)
+{
+	cur_set_pos(&all->menu.cur_color, WIDTH - 260, y);
+	cur_tick(all, &all->menu.cur_color);
+	if ((*channel) / 2 != all->menu.cur_color.select)
+	{
+		*channel = all->menu.cur_color.select * 2;
+		if (*channel > 255)
+			*channel = 255;
+		all->need_draw = true;
+	}
+	cur_draw(all, &all->menu.cur_color);
+}

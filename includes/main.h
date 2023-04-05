@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:12:02 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:13:47 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -357,6 +357,15 @@ void		display_cylinder(t_all *all, t_cylinder *cylinder);
 
 //menu/display_color.c
 void		display_color(t_all *all, t_color *color, int y_start);
+void		manage_color(t_all *all, t_color *color, int y_start);
+
+//menu/display_dir.c
+void		display_dir(t_all *all, t_vector *dir, int y_start);
+void		manage_dir(t_all *all, t_vector *dir, int y_start);
+
+//menu/display_pos.c
+void		display_pos(t_all *all, t_vector *pos, int y_start);
+void		manage_pos(t_all *all, t_vector *pos, int y_start);
 
 /*====================================PARSING=================================*/
 
