@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:57:01 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:58:30 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:07:30 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,11 @@ void	display_color(t_all *all, t_color *color, int y_start)
 	mlx_put_string(all->mlx, to_print, WIDTH - 400, y_start);
 	free(tmp);
 	free(to_print);
-
 	tmp = ft_itoa(color->g);
 	to_print = ft_strjoin("g ", tmp);
 	mlx_put_string(all->mlx, to_print, WIDTH - 320, y_start + 20);
 	free(tmp);
 	free(to_print);
-
 	tmp = ft_itoa(color->b);
 	to_print = ft_strjoin("b ", tmp);
 	mlx_put_string(all->mlx, to_print, WIDTH - 320, y_start + 40);

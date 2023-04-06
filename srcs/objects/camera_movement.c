@@ -8,6 +8,7 @@
 /*   Created: 2023/03/22 12:12:15 by aderouba          #+#    #+#             */
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 /*   Updated: 2023/03/31 15:35:47 by tdubois          ###   ########.fr       */
 =======
 /*   Updated: 2023/04/04 11:21:16 by aderouba         ###   ########.fr       */
@@ -15,6 +16,9 @@
 =======
 /*   Updated: 2023/04/05 17:00:23 by aderouba         ###   ########.fr       */
 >>>>>>> Ambiant light and light menu ok
+=======
+/*   Updated: 2023/04/06 10:35:16 by aderouba         ###   ########.fr       */
+>>>>>>> Menu finish and ftoi patch
 /*                                                                            */
 /* ************************************************************************** */
 

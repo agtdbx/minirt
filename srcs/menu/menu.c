@@ -6,12 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:14:50 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:59:57 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:17:31 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+static void	check_button_click(t_all *all);
 static void	display_selected(t_all *all);
 static void	draw_but_color(t_all *all, t_button *but, int check);
 
@@ -31,72 +32,6 @@ void	check_tab_pressed(t_all *all, float const delta_time)
 		all->show_menu = !all->show_menu;
 		last_time = 0.5f;
 	}
-}
-
-void	init_menu(t_all *all)
-{
-	all->menu.id_obj_select = SELECT_NONE;
-
-	// Camera button
-	all->menu.but_camera.x = WIDTH - 420;
-	all->menu.but_camera.y = 50;
-	all->menu.but_camera.width = 140;
-	all->menu.but_camera.height = 40;
-	all->menu.but_camera.text = "CAMERA";
-	all->menu.but_camera.color = 0X666666FF;
-
-	// Camera ambiant light
-	all->menu.but_ambiant_ligth.x = WIDTH - 280;
-	all->menu.but_ambiant_ligth.y = 50;
-	all->menu.but_ambiant_ligth.width = 140;
-	all->menu.but_ambiant_ligth.height = 40;
-	all->menu.but_ambiant_ligth.color = 0X666666FF;
-	all->menu.but_ambiant_ligth.text = "AMBIANT LIGHT";
-
-	// Camera light
-	all->menu.but_ligth.x = WIDTH - 140;
-	all->menu.but_ligth.y = 50;
-	all->menu.but_ligth.width = 140;
-	all->menu.but_ligth.height = 40;
-	all->menu.but_ligth.color = 0X666666FF;
-	all->menu.but_ligth.text = "LIGHT";
-
-	// Minus
-	all->menu.but_minus.x = WIDTH;
-	all->menu.but_minus.y = 150;
-	all->menu.but_minus.width = 20;
-	all->menu.but_minus.height = 20;
-	all->menu.but_minus.color = 0X666666FF;
-	all->menu.but_minus.text = "-";
-
-	// Plus
-	all->menu.but_plus.x = WIDTH;
-	all->menu.but_plus.y = 150;
-	all->menu.but_plus.width = 20;
-	all->menu.but_plus.height = 20;
-	all->menu.but_plus.color = 0X666666FF;
-	all->menu.but_plus.text = "+";
-
-	// fov cursor
-	all->menu.cur_fov.x = WIDTH - 300;
-	all->menu.cur_fov.y = 220;
-	all->menu.cur_fov.width = 180;
-	all->menu.cur_fov.height = 20;
-	all->menu.cur_fov.select = all->scene.camera.fov;
-
-	// color cursor
-	all->menu.cur_color.x = WIDTH - 300;
-	all->menu.cur_color.y = 220;
-	all->menu.cur_color.width = 128;
-	all->menu.cur_color.height = 20;
-	all->menu.cur_color.select = 0;
-
-	// float cursor
-	all->menu.cur_float.x = WIDTH - 300;
-	all->menu.cur_float.y = 220;
-	all->menu.cur_float.width = 40;
-	all->menu.cur_float.height = 20;
-	all->menu.cur_float.select = 0;
 }
 
 void	draw_menu(t_all *all)
@@ -119,6 +54,15 @@ void	draw_menu(t_all *all)
 		}
 		y++;
 	}
+	check_button_click(all);
+	display_selected(all);
+	draw_but_color(all, &all->menu.but_camera, SELECT_CAMERA);
+	draw_but_color(all, &all->menu.but_ambiant_ligth, SELECT_AMBIANT_LIGHT);
+	draw_but_color(all, &all->menu.but_ligth, SELECT_LIGHT);
+}
+
+static void	check_button_click(t_all *all)
+{
 	if (but_click(all, &all->menu.but_camera))
 	{
 		all->menu.id_obj_select = SELECT_CAMERA;
@@ -134,12 +78,6 @@ void	draw_menu(t_all *all)
 		all->menu.id_obj_select = SELECT_LIGHT;
 		all->draw_state = NEED_REDRAW;
 	}
-
-	display_selected(all);
-
-	draw_but_color(all, &all->menu.but_camera, SELECT_CAMERA);
-	draw_but_color(all, &all->menu.but_ambiant_ligth, SELECT_AMBIANT_LIGHT);
-	draw_but_color(all, &all->menu.but_ligth, SELECT_LIGHT);
 }
 
 static void	display_selected(t_all *all)

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:57:05 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/06 11:14:10 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,16 @@
 
 void	display_sphere(t_all *all, t_sphere *sphere)
 {
-	(void)sphere;
-
-	// Si on a pas d'update, on ne draw pas le text
+	manage_pos(all, &sphere->origin, 140);
+	if (manage_float(all, &sphere->radius, 220, "radius : "))
+		sphere->radius2 = sphere->radius * sphere->radius;
+	manage_color(all, &sphere->color, 260);
+	manage_float_range(all, &sphere->reflexion_intensity, 340, "reflexion : ");
 	if (all->draw_state != DRAW_TEXT)
 		return ;
-
 	mlx_put_string(all->mlx, "SPHERE", WIDTH - 240, 100);
+	display_pos(all, &sphere->origin, 140);
+	display_float(all, sphere->radius, 220, "radius : ");
+	display_color(all, &sphere->color, 260);
+	display_float_range(all, sphere->reflexion_intensity, 340, "reflexion : ");
 }

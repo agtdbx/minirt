@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:14:12 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:14:18 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,19 +369,21 @@ bool		manage_color(t_all *all, t_color *color, int y_start);
 
 //menu/display_dir.c
 void		display_dir(t_all *all, t_vector *dir, int y_start);
-void		manage_dir(t_all *all, t_vector *dir, int y_start);
+bool		manage_dir(t_all *all, t_vector *dir, int y_start);
 
 //menu/display_pos.c
 void		display_pos(t_all *all, t_vector *pos, int y_start);
-void		manage_pos(t_all *all, t_vector *pos, int y_start);
+bool		manage_pos(t_all *all, t_vector *pos, int y_start);
 
 //menu/display_float.c
 void		display_float(t_all *all, float number, int y_start, char *text);
-void		manage_float(t_all *all, float *number, int y_start, char *text);
+bool		manage_float(t_all *all, float *number, int y_start, char *text);
 
-//menu/display_intensity.c
-void		display_intensity(t_all *all, float intensity, int y_start);
-void		manage_intensity(t_all *all, float *intensity, int y_start);
+//menu/display_float_range.c
+void		display_float_range(t_all *all, float float_range, int y_start,
+				char *text);
+void		manage_float_range(t_all *all, float *float_range, int y_start,
+				char *text);
 
 
 /*====================================PARSING=================================*/

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:35:27 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:58:07 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/06 11:10:13 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	display_light(t_all *all, t_light *light)
 {
 	manage_pos(all, &light->pos, 140);
-	manage_intensity(all, &light->brightness, 220);
+	manage_float_range(all, &light->brightness, 220, "intensity : ");
 	if (manage_color(all, &light->color, 260))
 	{
 		light->intensity_r = light->color.r / 255.0f;
@@ -26,6 +26,6 @@ void	display_light(t_all *all, t_light *light)
 		return ;
 	mlx_put_string(all->mlx, "LIGHT", WIDTH - 230, 100);
 	display_pos(all, &light->pos, 140);
-	display_intensity(all, light->brightness, 220);
+	display_float_range(all, light->brightness, 220, "intensity : ");
 	display_color(all, &light->color, 260);
 }

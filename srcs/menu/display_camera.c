@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:38:57 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:58:37 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:07:10 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,20 +124,13 @@ static char	*display_const_vec(char *text, t_vector *vec)
 	char	*res;
 
 	res = ft_strdup(text);
-
-	// x pos
 	tmp = ft_ftoa(vec->x);
 	res = ft_strjoin_free_1st_p(res, tmp);
-
-	// y pos
 	tmp = ft_ftoa(vec->y);
 	res = ft_strsuperjoin_free_1st_p(res, tmp, ", ");
 	free(tmp);
-
-	// z pos
 	tmp = ft_ftoa(vec->z);
 	res = ft_strsuperjoin_free_1st_p(res, tmp, ", ");
 	free(tmp);
-
 	return (res);
 }

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 14:43:15 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/04 15:18:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:06:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	cur_draw(t_all *all, t_cursor const *cur)
 void	cur_tick(t_all *all, t_cursor *cur)
 {
 	if (all->mouse.pressed
-			&& cur->x <= all->mouse.x && all->mouse.x <= cur->x + cur->width
-			&& cur->y <= all->mouse.y && all->mouse.y <= cur->y + cur->height)
+		&& cur->x <= all->mouse.x && all->mouse.x <= cur->x + cur->width
+		&& cur->y <= all->mouse.y && all->mouse.y <= cur->y + cur->height)
 		cur->select = all->mouse.x - cur->x;
 }

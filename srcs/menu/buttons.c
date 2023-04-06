@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:34:34 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:59:23 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/06 12:06:34 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	but_draw(t_all *all, t_button const *but)
 bool	but_over(t_all *all, t_button *but)
 {
 	return (but->x <= all->mouse.x && all->mouse.x <= but->x + but->width
-			&& but->y <= all->mouse.y && all->mouse.y <= but->y + but->height);
+		&& but->y <= all->mouse.y && all->mouse.y <= but->y + but->height);
 }
 
 bool	but_click(t_all *all, t_button *but)
