@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:55:30 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 17:00:39 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ static void	init_struct(t_all *all)
 	all->scene.ppr = 4;
 	all->ray_tab = alloc_ray_tab();
 	all->draw_state = DRAW_PIXELS;
+	all->text_imgs = NULL;
+	all->mouse.pressed = false;
+	all->mouse.x = 0;
+	all->mouse.y = 0;
+	all->mouse.tab_x = 0;
+	all->mouse.tab_y = 0;
 	if (all->ray_tab == NULL)
 	{
 		rtlst_free(&all->scene.objects);
@@ -95,7 +101,11 @@ void	hook(void *param)
 	all = param;
 	delta_time = get_delta_time(all);
 	if (mlx_is_key_down(all->mlx, MLX_KEY_ESCAPE))
+	{
+		imglst_clear(all, &all->text_imgs);
 		mlx_close_window(all->mlx);
+		return ;
+	}
 	camera_translations(all, delta_time);
 	camera_rotations(all, delta_time);
 	ppr_gestion(all, delta_time);
@@ -106,9 +116,9 @@ void	hook(void *param)
 		draw_menu(all);
 	if (all->draw_state == DRAW_TEXT)
 		all->draw_state = DRAW_PIXELS;
-	if (all->draw_state == NEED_REDRAW)
+	else if (all->draw_state == NEED_REDRAW)
 	{
-		mlx_image_to_window(all->mlx, all->img, 0, 0);
+		imglst_clear(all, &all->text_imgs);
 		all->draw_state = DRAW_TEXT;
 	}
 }

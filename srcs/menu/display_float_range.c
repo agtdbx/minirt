@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 15:16:10 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 12:09:18 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:37:39 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	display_float_range(t_all *all, float float_range, int y_start,
 
 	tmp = ft_ftoa(float_range);
 	to_print = ft_strjoin(text, tmp);
-	mlx_put_string(all->mlx, to_print, WIDTH - 400, y_start);
+	my_put_string(all, to_print, WIDTH - 400, y_start);
 	free(tmp);
 	free(to_print);
 }

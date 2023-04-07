@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:57:01 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 12:08:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:37:37 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,17 +26,17 @@ void	display_dir(t_all *all, t_vector *dir, int y_start)
 
 	tmp = ft_ftoa(dir->x);
 	to_print = ft_strjoin("direction : x ", tmp);
-	mlx_put_string(all->mlx, to_print, WIDTH - 400, y_start);
+	my_put_string(all, to_print, WIDTH - 400, y_start);
 	free(tmp);
 	free(to_print);
 	tmp = ft_ftoa(dir->y);
 	to_print = ft_strjoin("y ", tmp);
-	mlx_put_string(all->mlx, to_print, WIDTH - 280, y_start + 20);
+	my_put_string(all, to_print, WIDTH - 280, y_start + 20);
 	free(tmp);
 	free(to_print);
 	tmp = ft_ftoa(dir->z);
 	to_print = ft_strjoin("z ", tmp);
-	mlx_put_string(all->mlx, to_print, WIDTH - 280, y_start + 40);
+	my_put_string(all, to_print, WIDTH - 280, y_start + 40);
 	free(tmp);
 	free(to_print);
 }

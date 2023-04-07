@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 12:10:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:37:35 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	calculate_ends(t_cylinder *cylinder);
 
 void	display_cylinder(t_all *all, t_cylinder *cylinder)
 {
-	mlx_put_string(all->mlx, "CYLINDER", WIDTH - 250, 100);
+	my_put_string(all, "CYLINDER", WIDTH - 250, 100);
 	if (manage_pos(all, &cylinder->origin, 140))
 		calculate_ends(cylinder);
 	if (manage_dir(all, &cylinder->axis, 220))
@@ -33,7 +33,7 @@ void	display_cylinder(t_all *all, t_cylinder *cylinder)
 		"reflexion : ");
 	if (all->draw_state != DRAW_TEXT)
 		return ;
-	mlx_put_string(all->mlx, "CYLINDER", WIDTH - 250, 100);
+	my_put_string(all, "CYLINDER", WIDTH - 250, 100);
 	display_pos(all, &cylinder->origin, 140);
 	display_dir(all, &cylinder->axis, 220);
 	display_float(all, cylinder->height, 300, "height : ");

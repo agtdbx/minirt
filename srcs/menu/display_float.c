@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 15:16:10 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 12:11:42 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:40:21 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	display_float(t_all *all, float number, int y_start, char *text)
 
 	tmp = ft_ftoa(number);
 	to_print = ft_strjoin(text, tmp);
-	mlx_put_string(all->mlx, to_print, WIDTH - 400, y_start);
+	my_put_string(all, to_print, WIDTH - 400, y_start);
 	free(tmp);
 	free(to_print);
 }

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:38:57 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 12:07:10 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:37:31 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,16 @@ void	display_camera(t_all *all, t_camera *camera)
 	cursor_fov(all, camera);
 	if (all->draw_state != DRAW_TEXT)
 		return ;
-	mlx_put_string(all->mlx, "CAMERA", WIDTH - 240, 100);
+	my_put_string(all, "CAMERA", WIDTH - 240, 100);
 	to_print = display_const_vec("pos : ", &camera->pos);
-	mlx_put_string(all->mlx, to_print, WIDTH - 400, 140);
+	my_put_string(all, to_print, WIDTH - 400, 140);
 	free(to_print);
 	to_print = display_const_vec("dir : ", &camera->basis[2]);
-	mlx_put_string(all->mlx, to_print, WIDTH - 400, 180);
+	my_put_string(all, to_print, WIDTH - 400, 180);
 	free(to_print);
 	tmp = ft_itoa(camera->fov);
 	to_print = ft_strjoin("fov : ", tmp);
-	mlx_put_string(all->mlx, to_print, WIDTH - 400, 220);
+	my_put_string(all, to_print, WIDTH - 400, 220);
 	free(tmp);
 	free(to_print);
 }

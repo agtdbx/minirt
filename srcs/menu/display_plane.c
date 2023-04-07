@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 11:45:10 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:37:49 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	display_plane(t_all *all, t_plane *plane)
 	manage_float_range(all, &plane->reflexion_intensity, 380, "reflexion : ");
 	if (all->draw_state != DRAW_TEXT)
 		return ;
-	mlx_put_string(all->mlx, "PLANE", WIDTH - 230, 100);
+	my_put_string(all, "PLANE", WIDTH - 230, 100);
 	display_pos(all, &plane->origin, 140);
 	display_dir(all, &plane->normal, 220);
 	display_color(all, &plane->color, 300);

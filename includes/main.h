@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:14:18 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:14:27 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,6 +235,14 @@ typedef struct s_mouse
 	int		tab_y;
 }	t_mouse;
 
+// Image lst
+typedef struct s_imglst
+{
+	mlx_image_t		*img;
+	struct s_imglst	*next;
+}	t_imglst;
+
+
 // Main struct
 typedef struct s_all
 {
@@ -248,6 +256,7 @@ typedef struct s_all
 	bool			show_menu;
 	t_draw_state	draw_state;
 	t_mouse			mouse;
+	t_imglst		*text_imgs;
 }	t_all;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -385,6 +394,8 @@ void		display_float_range(t_all *all, float float_range, int y_start,
 void		manage_float_range(t_all *all, float *float_range, int y_start,
 				char *text);
 
+//menu/my_put_string.c
+void		my_put_string(t_all *all, char *text, int x, int y);
 
 /*====================================PARSING=================================*/
 
@@ -442,6 +453,11 @@ t_rtlst		*rtlst_new(t_rtlst_t type, t_rtlst_v value, int id);
 void		rtlst_add_back(t_rtlst **rtlst, t_rtlst *new);
 void		rtlst_free(t_rtlst **rtlst);
 t_rtlst		*get_obj_by_index(t_rtlst *rtlst, int id);
+
+// utils/imglst.c
+t_imglst	*imglst_new(mlx_image_t *img);
+void		imglst_add_back(t_imglst **imglst, t_imglst *new);
+void		imglst_clear(t_all *all, t_imglst **imglst);
 
 // utils/print.c
 void		print_vect(t_vector *vector);

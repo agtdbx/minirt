@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/10 11:14:19 by aderouba         ###   ########.fr        #
+#    Updated: 2023/04/10 11:14:25 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/menu/init_menu.c				\
 # 			srcs/menu/display_dir.c				\
 # 			srcs/menu/display_pos.c				\
+# 			srcs/menu/my_put_string.c			\
 # 			srcs/menu/display_float.c			\
 # 			srcs/menu/display_color.c			\
 # 			srcs/menu/display_light.c			\
@@ -103,6 +104,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/parsing/parse_direction.c	\
 # 			\
 # 			srcs/utils/rtlst.c			\
+# 			srcs/utils/imglst.c			\
 # 			srcs/utils/print.c			\
 # 			srcs/utils/number.c			\
 # 			srcs/utils/string.c			\

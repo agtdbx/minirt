@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:34:34 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 12:06:34 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:37:28 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	but_draw(t_all *all, t_button const *but)
 	size_text = ft_strlen(but->text) * 10;
 	x = but->x + ((but->width - size_text) / 2);
 	y = but->y + ((but->height - 20) / 2);
-	mlx_put_string(all->mlx, but->text, x, y);
+	my_put_string(all, but->text, x, y);
 }
 
 bool	but_over(t_all *all, t_button *but)

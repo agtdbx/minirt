@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:35:27 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/06 11:09:33 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/07 16:37:30 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	display_ambiant_light(t_all *all, t_light *ambiant_light)
 	}
 	if (all->draw_state != DRAW_TEXT)
 		return ;
-	mlx_put_string(all->mlx, "AMBIANT LIGHT", WIDTH - 270, 100);
+	my_put_string(all, "AMBIANT LIGHT", WIDTH - 270, 100);
 	display_float_range(all, ambiant_light->brightness, 140, "intensity : ");
 	display_color(all, &ambiant_light->color, 180);
 }
