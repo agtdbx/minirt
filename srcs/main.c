@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 17:00:39 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:41:17 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ static float	get_delta_time(t_all *all)
 	static float	time_for_fps = 0.0f;
 	float			delta_time;
 
-	delta_time = mlx_get_time() - all->last_time;
-	all->last_time = mlx_get_time();
+	delta_time = all->mlx->delta_time;
 	time_for_fps += delta_time;
 	if (time_for_fps > 1.0f)
 	{

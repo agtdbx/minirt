@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 11:15:56 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:16:08 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/10 11:35:51 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	camera_translations(t_all *all, float delta_time)
 	dup_vec(&go_z, &all->scene.camera.basis[2]);
 	go_x.y = 0.0f;
 	go_z.y = 0.0f;
+	normalize_vec(&go_z);
 	go_y = (t_vector){0.0f, -1.0f, 0.0f};
 	multiply_vec_number(&go_x, speed);
 	multiply_vec_number(&go_y, speed);
@@ -75,7 +76,8 @@ static void	camera_rotations_arrond_x(t_all *all, const float degrees)
 	float		len;
 	const float	rad = degrees * PI_DIV_180;
 
-	if (mlx_is_key_down(all->mlx, MLX_KEY_UP))
+	if (all->scene.camera.basis[2].z > 0.1f
+		&& mlx_is_key_down(all->mlx, MLX_KEY_UP))
 	{
 		my_rot_around(
 			&all->scene.camera.basis[1], &all->scene.camera.basis[0], rad);
@@ -86,7 +88,8 @@ static void	camera_rotations_arrond_x(t_all *all, const float degrees)
 		multiply_vec_number(&all->scene.camera.orientation, len);
 		all->draw_state = NEED_REDRAW;
 	}
-	if (mlx_is_key_down(all->mlx, MLX_KEY_DOWN))
+	if (all->scene.camera.basis[2].z > 0.1f
+		&& mlx_is_key_down(all->mlx, MLX_KEY_DOWN))
 	{
 		my_rot_around(
 			&all->scene.camera.basis[1], &all->scene.camera.basis[0], -rad);
