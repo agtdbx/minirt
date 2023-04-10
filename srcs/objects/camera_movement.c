@@ -5,20 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 12:12:15 by aderouba          #+#    #+#             */
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-/*   Updated: 2023/03/31 15:35:47 by tdubois          ###   ########.fr       */
-=======
-/*   Updated: 2023/04/04 11:21:16 by aderouba         ###   ########.fr       */
->>>>>>> Button and cursor
-=======
-/*   Updated: 2023/04/05 17:00:23 by aderouba         ###   ########.fr       */
->>>>>>> Ambiant light and light menu ok
-=======
-/*   Updated: 2023/04/06 10:35:16 by aderouba         ###   ########.fr       */
->>>>>>> Menu finish and ftoi patch
+/*   Created: 2023/04/10 11:15:56 by aderouba          #+#    #+#             */
+/*   Updated: 2023/04/10 11:16:08 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +72,7 @@ void	camera_rotations(t_all *all, float delta_time)
 
 static void	camera_rotations_arrond_x(t_all *all, const float degrees)
 {
-	float		len;	
+	float		len;
 	const float	rad = degrees * PI_DIV_180;
 
 	if (mlx_is_key_down(all->mlx, MLX_KEY_UP))
