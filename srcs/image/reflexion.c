@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:49:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 10:48:08 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/11 14:28:12 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ static void	merge_color(t_intersect_ret *res,
 				t_intersect_ret const *reflect_res)
 {
 	float const	inv_intensity = 1.0f - res->reflexion_intensity;
+	float		tmp_intensity_r;
+	float		tmp_intensity_g;
+	float		tmp_intensity_b;
 
 	res->color.r = (float)res->color.r * inv_intensity
 		+ (float)reflect_res->color.r * res->reflexion_intensity;
@@ -47,10 +50,16 @@ static void	merge_color(t_intersect_ret *res,
 		+ (float)reflect_res->color.g * res->reflexion_intensity;
 	res->color.b = (float)res->color.b * inv_intensity
 		+ (float)reflect_res->color.b * res->reflexion_intensity;
-	res->intensity_r = res->intensity_r * inv_intensity
+	tmp_intensity_r = res->intensity_r * inv_intensity
 		+ reflect_res->intensity_r * res->reflexion_intensity;
-	res->intensity_g = res->intensity_g * inv_intensity
+	tmp_intensity_g = res->intensity_g * inv_intensity
 		+ reflect_res->intensity_g * res->reflexion_intensity;
-	res->intensity_b = res->intensity_b * inv_intensity
+	tmp_intensity_b = res->intensity_b * inv_intensity
 		+ reflect_res->intensity_b * res->reflexion_intensity;
+	res->intensity_r *= tmp_intensity_r;
+	res->intensity_g *= tmp_intensity_g;
+	res->intensity_b *= tmp_intensity_b;
+	res->intensity_r *= 2.0f;
+	res->intensity_g *= 2.0f;
+	res->intensity_b *= 2.0f;
 }
