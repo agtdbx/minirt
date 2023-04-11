@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:14:27 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/11 17:22:35 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,13 +328,16 @@ void		free_color_tab(int **color_tab, int max_alloc);
 int			**alloc_color_tab(void);
 
 //image/calculate_light.c
-void		apply_dymamic_light(t_all *all, t_intersect_ret *res, t_ray *ray,
+void		apply_dymamic_light_old(t_all *all, t_intersect_ret *res, t_ray *ray,
 				int reflect);
-void		apply_ambiant_light(t_all *all, t_intersect_ret *res);
+void		apply_ambiant_light_old(t_all *all, t_intersect_ret *res);
 
-//image/reflexion.c
-void		apply_reflexion(t_all *all, t_intersect_ret *res,
+//image/specular_reflexion.c
+void		apply_specular_reflexion_old(t_all *all, t_intersect_ret *res,
 				t_ray const *ray, int reflect);
+
+//image/compute_light.c
+void		compute_light(t_all *all, t_intersect_ret *res, t_ray *ray);
 
 /*=====================================MENU===================================*/
 

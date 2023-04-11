@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 10:52:58 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:55:52 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/11 17:21:13 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,13 @@ static void	compute_pixel(t_all *all, t_intersect_ret *res, int x, int y)
 		return ;
 	init_intersect_ret(res);
 	do_intersections(all, res, &all->ray_tab[y][x]);
-	apply_dymamic_light(all, res, &all->ray_tab[y][x], MAX_REFLECT);
-	apply_ambiant_light(all, res);
+
+	// apply_dymamic_light_old(all, res, &all->ray_tab[y][x], MAX_REFLECT);
+	// apply_ambiant_light_old(all, res);
+
+	if (res->dst != -1.0f)
+		compute_light(all, res, &all->ray_tab[y][x]);
+
 	draw_result(all, res, x, y);
 }
 
@@ -71,3 +76,5 @@ void	do_intersections(t_all *all, t_intersect_ret *res, t_ray *ray)
 		obj = obj->next;
 	}
 }
+
+

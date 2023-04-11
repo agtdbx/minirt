@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/10 11:14:25 by aderouba         ###   ########.fr        #
+#    Updated: 2023/04/11 17:20:37 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,9 +59,10 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # SRCS	:=	srcs/image/ppr.c				\
 # 			srcs/image/draw.c				\
 # 			srcs/image/ray_tab.c			\
-# 			srcs/image/reflexion.c			\
+# 			srcs/image/specular_reflexion.c			\
 # 			srcs/image/color_tab.c			\
 # 			srcs/image/antialiasing.c		\
+# 			srcs/image/compute_light.c		\
 # 			srcs/image/calculate_light.c	\
 # 			srcs/image/calculate_image.c	\
 # 			\
