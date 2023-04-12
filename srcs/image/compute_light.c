@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:20:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/12 13:15:30 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/12 14:39:04 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,9 @@ static void	add_specular_intensity(t_intersect_ret *res, t_light const *light,
 	t_vector	tmp;
 	float		angle_ratio;
 	float		intensity;
+
+	if (res->shininess_intensity == 0.0f)
+		return ;
 
 	dup_vec(&direction_from_light, pixel_pos);
 	sub_vec_vec(&direction_from_light, &light->pos);
@@ -187,7 +190,7 @@ void	compute_light(t_all *all, t_intersect_ret *res, t_ray *ray, int reflect)
 	{
 		calculate_specular = add_diffuse_intensity(all, res, &all->scene.light, &pixel_pos,
 			reflection_diffuse_light_ratio);
-		if (calculate_specular)
+		if (calculate_specular && reflect == MAX_REFLECT)
 			add_specular_intensity(res, &all->scene.light, ray, &pixel_pos,
 				reflection_specular_ratio);
 		i++;
