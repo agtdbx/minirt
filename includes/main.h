@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/12 12:06:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:53:57 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 # define LIGHT_DIFFUSE_RADIUS 100.0f
 
-# define MAX_REFLECT 2
+# define MAX_REFLECT 4
 
 // Define for pre-calculate value
 # define PI 3.141592
@@ -341,7 +341,8 @@ void		apply_specular_reflexion_old(t_all *all, t_intersect_ret *res,
 				t_ray const *ray, int reflect);
 
 //image/compute_light.c
-void		compute_light(t_all *all, t_intersect_ret *res, t_ray *ray);
+void		compute_light(t_all *all, t_intersect_ret *res, t_ray *ray,
+				int reflect);
 
 /*=====================================MENU===================================*/
 
