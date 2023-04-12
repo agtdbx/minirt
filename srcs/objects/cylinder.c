@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/05 16:49:05 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:09:34 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
 	dup_vec(&res.axis, &axis);
 	res.color = color;
 	res.id = -1;
+	res.shininess_intensity = 10.0f;
 	res.reflexion_intensity = 0.0f;
 	return (res);
 }
@@ -92,6 +93,7 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 	fill_vec(&intersect_ret->nrm, x.x, x.y, x.z);
 	normalize_vec(&intersect_ret->nrm);
 	intersect_ret->color = cylinder->color;
+	intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 	intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 	intersect_ret->id = cylinder->id;
 }
@@ -124,6 +126,7 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 		intersect_ret->dst = dst1.dst;
 		intersect_ret->nrm = cylinder->top.normal;
 		intersect_ret->color = cylinder->color;
+		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->id = cylinder->id;
 	}
@@ -150,6 +153,7 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 		intersect_ret->dst = dst0->dst;
 		intersect_ret->nrm = cylinder->bot.normal;
 		intersect_ret->color = cylinder->color;
+		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->id = cylinder->id;
 	}

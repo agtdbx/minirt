@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/11 17:22:35 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:06:16 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_sphere
 	t_vector	origin;
 	float		radius;
 	float		radius2;
+	float		shininess_intensity;
 	float		reflexion_intensity;
 	t_color		color;
 	int			id;
@@ -101,6 +102,7 @@ typedef struct s_plane
 	t_vector	normal;
 	t_vector	rev_normal;
 	t_color		color;
+	float		shininess_intensity;
 	float		reflexion_intensity;
 	int			id;
 }	t_plane;
@@ -117,6 +119,7 @@ typedef struct s_cylinder
 	float		radius;
 	float		radius2;
 	float		height;
+	float		shininess_intensity;
 	float		reflexion_intensity;
 	t_color		color;
 	int			id;
@@ -131,6 +134,7 @@ typedef struct s_intersect_ret
 	float		intensity_r;
 	float		intensity_g;
 	float		intensity_b;
+	float		shininess_intensity;
 	float		reflexion_intensity;
 	int			id;
 }	t_intersect_ret;

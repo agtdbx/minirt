@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 15:16:10 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 16:40:21 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/12 12:18:29 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	display_float(t_all *all, float number, int y_start, char *text)
  */
 bool	manage_float(t_all *all, float *number, int y_start, char *text)
 {
-	int const	x_gap = (ft_strlen(text) + 9) * 10;
+	int const	x_gap = (ft_strlen(text) + 12) * 10;
 	bool		modify;
 
 	modify = minus_float_axis(all, number, y_start, x_gap);
