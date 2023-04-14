@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/11 17:20:37 by aderouba         ###   ########.fr        #
+#    Updated: 2023/04/14 11:33:13 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,15 +56,18 @@ endif
 #TODO
 SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 
-# SRCS	:=	srcs/image/ppr.c				\
-# 			srcs/image/draw.c				\
-# 			srcs/image/ray_tab.c			\
-# 			srcs/image/specular_reflexion.c			\
-# 			srcs/image/color_tab.c			\
-# 			srcs/image/antialiasing.c		\
-# 			srcs/image/compute_light.c		\
-# 			srcs/image/calculate_light.c	\
-# 			srcs/image/calculate_image.c	\
+# SRCS	:=	srcs/image/ppr.c					\
+# 			srcs/image/draw.c					\
+# 			srcs/image/ray_tab.c				\
+# 			srcs/image/color_tab.c				\
+# 			srcs/image/antialiasing.c			\
+# 			srcs/image/compute_light.c			\
+# 			srcs/image/compute_pixel.c			\
+# 			srcs/image/calculate_image.c		\
+# 			srcs/image/mirror_reflection.c		\
+# 			srcs/image/incremente_intensity.c	\
+# 			srcs/image/add_diffuse_intensity.c	\
+# 			srcs/image/add_specular_intensity.c	\
 # 			\
 # 			srcs/menu/menu.c					\
 # 			srcs/menu/cursor.c					\

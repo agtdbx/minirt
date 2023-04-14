@@ -6,12 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/12 14:41:34 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:56:39 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder);
 static void	calculate_ends(t_cylinder *cylinder);
 
 void	display_cylinder(t_all *all, t_cylinder *cylinder)
@@ -30,19 +31,26 @@ void	display_cylinder(t_all *all, t_cylinder *cylinder)
 		cylinder->radius2 = cylinder->radius * cylinder->radius;
 	manage_color(all, &cylinder->color, 380);
 	cylinder->shininess_intensity /= 50.0f;
-	manage_float_range(all, &cylinder->shininess_intensity, 460, "shininess : ");
+	manage_float_range(all, &cylinder->shininess_intensity, 460,
+		"shininess : ");
 	cylinder->shininess_intensity *= 50.0f;
 	manage_float_range(all, &cylinder->reflexion_intensity, 500,
 		"reflexion : ");
 	if (all->draw_state != DRAW_TEXT)
 		return ;
+	draw_cylinder_properties(all, cylinder);
+}
+
+static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder)
+{
 	my_put_string(all, "CYLINDER", WIDTH - 250, 100);
 	display_pos(all, &cylinder->origin, 140);
 	display_dir(all, &cylinder->axis, 220);
 	display_float(all, cylinder->height, 300, "height : ");
 	display_float(all, cylinder->radius, 340, "radius : ");
 	display_color(all, &cylinder->color, 380);
-	display_float_range(all, cylinder->shininess_intensity / 50.0f, 460, "shininess : ");
+	display_float_range(all, cylinder->shininess_intensity / 50.0f,
+		460, "shininess : ");
 	display_float_range(all, cylinder->reflexion_intensity, 500,
 		"reflexion : ");
 }

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/12 14:41:39 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:57:01 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	display_plane(t_all *all, t_plane *plane)
 	display_pos(all, &plane->origin, 140);
 	display_dir(all, &plane->normal, 220);
 	display_color(all, &plane->color, 300);
-	display_float_range(all, plane->shininess_intensity / 50.0f, 380, "shininess : ");
+	display_float_range(all, plane->shininess_intensity / 50.0f, 380,
+		"shininess : ");
 	display_float_range(all, plane->reflexion_intensity, 420, "reflexion : ");
 }

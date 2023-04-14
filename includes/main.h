@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/12 12:53:57 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/14 11:54:31 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@
 # define SELECT_CAMERA -2
 # define SELECT_AMBIANT_LIGHT -3
 # define SELECT_LIGHT -4
+
+// Define for intensty of ambiant, diffuse and specular
+# define REFLECTION_AMBIANT_RATIO 0.2f
+# define REFLECTION_DIFFUSE_RATIO 0.5f
+# define REFLECTION_SPECULAR_RATIO 0.3f
 
 ////////////////////////////////////////////////////////////////////////////////
 // STRUCTS
@@ -246,7 +251,6 @@ typedef struct s_imglst
 	struct s_imglst	*next;
 }	t_imglst;
 
-
 // Main struct
 typedef struct s_all
 {
@@ -308,101 +312,110 @@ void		camera_rotations(t_all *all, float delta_time);
 
 /*=====================================DRAW===================================*/
 
-//image/ppr.c
+// image/ppr.c
 void		ppr_gestion(t_all *all, float delta_time);
 
-//image/draw.c
+// image/draw.c
 int			get_rgb(int r, int g, int b);
 void		draw_pixels(t_all *all, int x, int y, int color);
 void		draw_result(t_all *all, t_intersect_ret *res, int x, int y);
 
-//image/calculate_image.c
+// image/calculate_image.c
 void		calculate_image(t_all *all);
-void		do_intersections(t_all *all, t_intersect_ret *res, t_ray *ray);
 
-//image/ray_tab.c
+// image/ray_tab.c
 void		free_ray_tab(t_ray **ray_tab, int max_alloc);
 t_ray		**alloc_ray_tab(void);
 
-//image/antialiasing.c
+// image/antialiasing.c
 void		apply_antialiasing(t_all *all);
 
-//image/color_tab.c
+// image/color_tab.c
 void		free_color_tab(int **color_tab, int max_alloc);
 int			**alloc_color_tab(void);
 
-//image/calculate_light.c
-void		apply_dymamic_light_old(t_all *all, t_intersect_ret *res, t_ray *ray,
-				int reflect);
-void		apply_ambiant_light_old(t_all *all, t_intersect_ret *res);
+// image/compute_pixel.c
+void		compute_pixel(t_all *all, t_intersect_ret *res, int x, int y);
 
-//image/specular_reflexion.c
-void		apply_specular_reflexion_old(t_all *all, t_intersect_ret *res,
-				t_ray const *ray, int reflect);
+// image/incremente_intensity.c
+void		incremente_intensity(t_intersect_ret *res, t_light const *light,
+				float const reflection_ratio);
 
-//image/compute_light.c
+// image/compute_light.c
 void		compute_light(t_all *all, t_intersect_ret *res, t_ray *ray,
 				int reflect);
 
+// image/add_diffuse_intensity.c
+bool		add_diffuse_intensity(t_all *all, t_intersect_ret *res,
+				t_light const *light, t_vector const *pixel_pos);
+
+// image/add_specular_intensity.c
+void		add_specular_intensity(t_all *all, t_intersect_ret *res,
+				t_light const *light, t_vector const *pixel_pos);
+
+// image/mirror_reflection.c
+void		mirror_reflection(t_all *all, t_intersect_ret *res,
+				t_ray const *ray, int reflect);
+
 /*=====================================MENU===================================*/
 
-//image/buttons.c
+// image/buttons.c
 void		but_set_pos(t_button *but, int const x, int const y);
 void		but_draw(t_all *all, t_button const *but);
 bool		but_over(t_all *all, t_button *but);
 bool		but_click(t_all *all, t_button *but);
 
-//image/cursor.c
+// image/cursor.c
 void		cur_set_pos(t_cursor *cur, int const x, int const y);
 void		cur_draw(t_all *all, t_cursor const *cur);
 void		cur_tick(t_all *all, t_cursor *cur);
 
-//menu/menu.c
+// menu/menu.c
 void		check_tab_pressed(t_all *all, float const delta_time);
 void		init_menu(t_all *all);
 void		draw_menu(t_all *all);
 
-//menu/display_camera.c
+// menu/display_camera.c
 void		display_camera(t_all *all, t_camera *camera);
 
-//menu/display_ambiant_light.c
+// menu/display_ambiant_light.c
 void		display_ambiant_light(t_all *all, t_light *ambiant_light);
 
-//menu/display_light.c
+// menu/display_light.c
 void		display_light(t_all *all, t_light *light);
 
-//menu/display_sphere.c
+// menu/display_sphere.c
 void		display_sphere(t_all *all, t_sphere *sphere);
 
-//menu/display_plane.c
+// menu/display_plane.c
 void		display_plane(t_all *all, t_plane *plane);
 
-//menu/display_cylinder.c
+// menu/display_cylinder.c
 void		display_cylinder(t_all *all, t_cylinder *cylinder);
 
-//menu/display_color.c
+// menu/display_color.c
 void		display_color(t_all *all, t_color *color, int y_start);
 bool		manage_color(t_all *all, t_color *color, int y_start);
 
-//menu/display_dir.c
+// menu/display_dir.c
 void		display_dir(t_all *all, t_vector *dir, int y_start);
 bool		manage_dir(t_all *all, t_vector *dir, int y_start);
 
-//menu/display_pos.c
+// menu/display_pos.c
 void		display_pos(t_all *all, t_vector *pos, int y_start);
 bool		manage_pos(t_all *all, t_vector *pos, int y_start);
 
-//menu/display_float.c
+// menu/display_float.c
 void		display_float(t_all *all, float number, int y_start, char *text);
 bool		manage_float(t_all *all, float *number, int y_start, char *text);
 
-//menu/display_float_range.c
+// menu/display_float_range.c
 void		display_float_range(t_all *all, float float_range, int y_start,
 				char *text);
 void		manage_float_range(t_all *all, float *float_range, int y_start,
 				char *text);
 
-//menu/my_put_string.c
+// menu/my_put_string.c
 void		my_put_string(t_all *all, char *text, int x, int y);
 
 /*====================================PARSING=================================*/

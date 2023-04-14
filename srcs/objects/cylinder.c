@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/12 12:09:34 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/13 12:13:33 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	d = dot_product(&x, &x);
 	if (d > cylinder->radius2)
 		return ;
-	if (0.0f <= dst1.dst && (intersect_ret->dst < 0.0f || dst1.dst < intersect_ret->dst))
+	if (0.0f <= dst1.dst && (intersect_ret->dst <= 0.0f || dst1.dst < intersect_ret->dst))
 	{
 		intersect_ret->dst = dst1.dst;
 		intersect_ret->nrm = cylinder->top.normal;
@@ -148,7 +148,7 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 	if (d > cylinder->radius2)
 		return ;
 	if (0.0f <= dst0->dst
-		&& (intersect_ret->dst < 0.0f || dst0->dst < intersect_ret->dst))
+		&& (intersect_ret->dst <= 0.0f || dst0->dst < intersect_ret->dst))
 	{
 		intersect_ret->dst = dst0->dst;
 		intersect_ret->nrm = cylinder->bot.normal;
