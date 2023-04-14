@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:34:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 15:36:07 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/14 12:07:46 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	absolute_rotate(t_vector *vector, float angle, char axis)
  *   -computes rotation matrix using quaternions algebra.
  *   -avoids double coputations using temporary array `t'.
  */
-void	my_rot_around(t_vector *restrict vect,
+void	relative_rotate(t_vector *restrict vect,
 			t_vector const *restrict axis, float angle)
 {
 	float		t[13];

@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/14 11:33:13 by aderouba         ###   ########.fr        #
+#    Updated: 2023/04/14 12:31:52 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,12 +89,13 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/maths/is_xyz_in_range.c		\
 # 			srcs/maths/compute_screen_basis.c	\
 # 			\
-# 			srcs/objects/plane.c			\
-# 			srcs/objects/sphere.c			\
-# 			srcs/objects/camera.c			\
-# 			srcs/objects/cylinder.c			\
-# 			srcs/objects/space_rotation.c	\
-# 			srcs/objects/camera_movement.c	\
+# 			srcs/objects/plane.c				\
+# 			srcs/objects/sphere.c				\
+# 			srcs/objects/camera.c				\
+# 			srcs/objects/cylinder.c				\
+# 			srcs/objects/space_rotation.c		\
+# 			srcs/objects/camera_rotation.c		\
+# 			srcs/objects/camera_translation.c	\
 # 			\
 # 			srcs/parsing/parse_vec.c		\
 # 			srcs/parsing/parse_file.c		\

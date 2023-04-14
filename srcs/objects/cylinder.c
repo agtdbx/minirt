@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/13 12:13:33 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/14 13:44:57 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, float *dst);
 static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret);
+static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
+				t_intersect_ret *intersect_ret, t_intersect_ret *dst1);
 static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst0);
 
@@ -70,12 +72,13 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 	abc[2] = dot_product(&x, &x) - (dv_xv[1] * dv_xv[1]) - cylinder->radius2;
 	dst[0] = solve_quadratic(abc[0], abc[1], abc[2]);
 	dst[1] = dv_xv[0] * dst[0] + dv_xv[1];
-	if (dst[1] < 0 || dst[1] > cylinder->height)
+	if (dst[1] <= 0.0f || dst[1] > cylinder->height)
 	{
 		intersect_cylinder_ends(cylinder, ray, intersect_ret);
 		return ;
 	}
-	if (0.0f <= dst[0] && (intersect_ret->dst < 0.0f || dst[0] < intersect_ret->dst))
+	if (0.0f <= dst[0]
+		&& (intersect_ret->dst < 0.0f || dst[0] < intersect_ret->dst))
 		assign_result_value(cylinder, ray, intersect_ret, dst);
 }
 
@@ -103,9 +106,6 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 {
 	t_intersect_ret	dst0;
 	t_intersect_ret	dst1;
-	t_vector		x;
-	t_vector		p;
-	float			d;
 
 	dst0.dst = -1.0f;
 	fill_vec(&dst0.nrm, 0.0f, 0.0f, 0.0f);
@@ -113,17 +113,27 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	fill_vec(&dst1.nrm, 0.0f, 0.0f, 0.0f);
 	intersect_plane(&cylinder->bot, ray, &dst0);
 	intersect_plane(&cylinder->top, ray, &dst1);
-	if (dst1.dst < 0.0f || (0.0f <= dst0.dst && dst0.dst <= dst1.dst))
-		intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
-	p = get_point_on_ray(ray, dst1.dst);
+	intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
+	interect_cylinder_top_end(cylinder, ray, intersect_ret, &dst1);
+}
+
+static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
+				t_intersect_ret *intersect_ret, t_intersect_ret *dst1)
+{
+	t_vector	x;
+	t_vector	p;
+	float		d;
+
+	p = get_point_on_ray(ray, dst1->dst);
 	dup_vec(&x, &p);
 	sub_vec_vec(&x, &cylinder->top_origin);
 	d = dot_product(&x, &x);
 	if (d > cylinder->radius2)
 		return ;
-	if (0.0f <= dst1.dst && (intersect_ret->dst <= 0.0f || dst1.dst < intersect_ret->dst))
+	if (0.0f <= dst1->dst
+		&& (intersect_ret->dst <= 0.0f || dst1->dst < intersect_ret->dst))
 	{
-		intersect_ret->dst = dst1.dst;
+		intersect_ret->dst = dst1->dst;
 		intersect_ret->nrm = cylinder->top.normal;
 		intersect_ret->color = cylinder->color;
 		intersect_ret->shininess_intensity = cylinder->shininess_intensity;

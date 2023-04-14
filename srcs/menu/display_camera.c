@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:38:57 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 16:37:31 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/14 13:13:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,13 @@ static void	plus_fov(t_all *all, t_camera *camera)
  */
 static void	cursor_fov(t_all *all, t_camera *camera)
 {
-	float	len;
-
 	cur_tick(all, &all->menu.cur_fov);
 	if (camera->fov != all->menu.cur_fov.select)
 	{
 		camera->fov = all->menu.cur_fov.select;
-		len = WIDTH / (tan(camera->fov * PI_DIV_360) * 2.0f);
+		camera->len = WIDTH_DIV_2 / tan(camera->fov * PI_DIV_360);
 		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation, len);
+		multiply_vec_number(&all->scene.camera.orientation, camera->len);
 		all->draw_state = NEED_REDRAW;
 	}
 	cur_draw(all, &all->menu.cur_fov);

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/10 11:41:17 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:35:19 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,7 @@ void	hook(void *param)
 	if (all->draw_state == DRAW_TEXT)
 		all->draw_state = DRAW_PIXELS;
 	else if (all->draw_state == NEED_REDRAW)
-	{
 		imglst_clear(all, &all->text_imgs);
-		all->draw_state = DRAW_TEXT;
-	}
 }
 
 static void	set_mouse_state(t_all *all)

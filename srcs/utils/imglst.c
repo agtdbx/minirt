@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:19:27 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 16:54:41 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/14 14:35:14 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ void	imglst_clear(t_all *all, t_imglst **imglst)
 		*imglst = next;
 	}
 	*imglst = NULL;
+	all->draw_state = DRAW_TEXT;
 }
