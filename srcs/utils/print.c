@@ -6,13 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:34:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 16:32:58 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	print_vect(t_vector *vector)
+void	print_vect(t_vec3 *vector)
 {
 	printf("vec (%03.3f, %03.3f, %03.3f)\n", vector->x, vector->y, vector->z);
 }

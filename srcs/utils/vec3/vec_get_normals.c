@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   incremente_intensity.c                             :+:      :+:    :+:   */
+/*   vec_get_normals.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 11:30:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:14:54 by aderouba         ###   ########.fr       */
+/*   Created: 2023/02/24 15:28:30 by aderouba          #+#    #+#             */
+/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	incremente_intensity(t_intersect_ret *res, t_light const *light,
-			float const reflection_ratio)
+void	vec3_get_normals(t_vec3 const *vect, t_vec3 nrm[2])
 {
-	res->intensity_r += light->intensity_r * light->brightness
-		* reflection_ratio;
-	res->intensity_g += light->intensity_g * light->brightness
-		* reflection_ratio;
-	res->intensity_b += light->intensity_b * light->brightness
-		* reflection_ratio;
+	nrm[0].x = 1.0f;
+	nrm[0].y = (-vect->x) / vect->y;
+	nrm[0].z = 0.0f;
+	vec3_cross_product(vect, &nrm[0], &nrm[1]);
 }

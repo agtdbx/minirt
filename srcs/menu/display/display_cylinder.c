@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 11:56:39 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:19:51 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	display_cylinder(t_all *all, t_cylinder *cylinder)
 		calculate_ends(cylinder);
 	if (manage_dir(all, &cylinder->axis, 220))
 	{
-		normalize_vec(&cylinder->axis);
+		vec3_normalize(&cylinder->axis);
 		calculate_ends(cylinder);
 	}
 	if (manage_float(all, &cylinder->height, 300, "height : "))
@@ -57,16 +57,16 @@ static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder)
 
 static void	calculate_ends(t_cylinder *cylinder)
 {
-	t_vector	rev_axis;
+	t_vec3		rev_axis;
 	float const	half_height = cylinder->height / 2.0f;
 
-	dup_vec(&rev_axis, &cylinder->axis);
-	multiply_vec_number(&rev_axis, -1.0f);
-	dup_vec(&cylinder->bot_origin, &cylinder->origin);
+	vec3_dup(&rev_axis, &cylinder->axis);
+	vec3_multiply_number(&rev_axis, -1.0f);
+	vec3_dup(&cylinder->bot_origin, &cylinder->origin);
 	cylinder->bot_origin.x += rev_axis.x * half_height;
 	cylinder->bot_origin.y += rev_axis.y * half_height;
 	cylinder->bot_origin.z += rev_axis.z * half_height;
-	dup_vec(&cylinder->top_origin, &cylinder->origin);
+	vec3_dup(&cylinder->top_origin, &cylinder->origin);
 	cylinder->top_origin.x += cylinder->axis.x * half_height;
 	cylinder->top_origin.y += cylinder->axis.y * half_height;
 	cylinder->top_origin.z += cylinder->axis.z * half_height;

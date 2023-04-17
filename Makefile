@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/17 15:08:45 by aderouba         ###   ########.fr        #
+#    Updated: 2023/04/17 16:34:53 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ INCLUDES	:=	-Iincludes -Ilib/libft -I/usr/include -Ilib/mlx42/include
 #=== COMPILATION ==============================================================#
 
 CC			:=	clang
-CFLAGS		:=	-Wall -Wextra -Werror -Wno-unused-function -Ofast#TODO
+CFLAGS		:=	-Wall -Wextra -Werror -Wno-unused-function -Ofast -std=c99 #TODO
 CPPFLAGS	:=	-MP -MMD $(INCLUDES)
 LDFLAGS		:=	-Llib/libft -lft			\
 				-Llib/mlx42/build -lmlx42	\
@@ -69,22 +69,22 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/image/add_diffuse_intensity.c	\
 # 			srcs/image/add_specular_intensity.c	\
 # 			\
-# 			srcs/menu/menu.c					\
-# 			srcs/menu/cursor.c					\
-# 			srcs/menu/buttons.c					\
-# 			srcs/menu/init_menu.c				\
-# 			srcs/menu/display_dir.c				\
-# 			srcs/menu/display_pos.c				\
-# 			srcs/menu/my_put_string.c			\
-# 			srcs/menu/display_float.c			\
-# 			srcs/menu/display_color.c			\
-# 			srcs/menu/display_light.c			\
-# 			srcs/menu/display_plane.c			\
-# 			srcs/menu/display_camera.c			\
-# 			srcs/menu/display_sphere.c			\
-# 			srcs/menu/display_cylinder.c		\
-# 			srcs/menu/display_float_range.c		\
-# 			srcs/menu/display_ambiant_light.c	\
+# 			srcs/menu/menu.c							\
+# 			srcs/menu/cursor.c							\
+# 			srcs/menu/buttons.c							\
+# 			srcs/menu/init_menu.c						\
+# 			srcs/menu/my_put_string.c					\
+# 			srcs/menu/display/display_dir.c				\
+# 			srcs/menu/display/display_pos.c				\
+# 			srcs/menu/display/display_float.c			\
+# 			srcs/menu/display/display_color.c			\
+# 			srcs/menu/display/display_light.c			\
+# 			srcs/menu/display/display_plane.c			\
+# 			srcs/menu/display/display_camera.c			\
+# 			srcs/menu/display/display_sphere.c			\
+# 			srcs/menu/display/display_cylinder.c		\
+# 			srcs/menu/display/display_float_range.c		\
+# 			srcs/menu/display/display_ambiant_light.c	\
 # 			\
 # 			srcs/maths/is_xyz_in_range.c		\
 # 			srcs/maths/compute_screen_basis.c	\
@@ -109,14 +109,18 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/parsing/parse_cylinder.c	\
 # 			srcs/parsing/parse_direction.c	\
 # 			\
-# 			srcs/utils/rtlst.c			\
-# 			srcs/utils/imglst.c			\
-# 			srcs/utils/print.c			\
-# 			srcs/utils/number.c			\
-# 			srcs/utils/string.c			\
-# 			srcs/utils/vector.c			\
-# 			srcs/utils/math_utils.c		\
-# 			srcs/utils/intersect_ret.c	\
+# 			srcs/utils/rtlst.c						\
+# 			srcs/utils/imglst.c						\
+# 			srcs/utils/print.c						\
+# 			srcs/utils/number.c						\
+# 			srcs/utils/string.c						\
+# 			srcs/utils/math_utils.c					\
+# 			srcs/utils/intersect_ret.c				\
+# 			srcs/utils/vec3/vec_creation.c		\
+# 			srcs/utils/vec3/vec_operator.c		\
+# 			srcs/utils/vec3/vec_get_normals.c		\
+# 			srcs/utils/vec3/vec_vec_operator.c	\
+# 			srcs/utils/vec3/vec_number_operator.c	\
 # 			\
 # 			srcs/main.c
 

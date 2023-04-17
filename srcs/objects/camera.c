@@ -6,18 +6,18 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 11:39:21 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/03 11:13:34 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:21:42 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	fill_ray_tab_top(t_ray **ray_tab, t_vector screen_vect[2],
+static void	fill_ray_tab_top(t_ray **ray_tab, t_vec3 screen_vect[2],
 				int number_ray, int number_line);
-static void	fill_ray_tab_bot(t_ray **ray_tab, t_vector screen_vect[2],
+static void	fill_ray_tab_bot(t_ray **ray_tab, t_vec3 screen_vect[2],
 				int number_ray, int number_line);
 static void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray,
-				t_vector screen_vect[2]);
+				t_vec3 screen_vect[2]);
 
 /** get_screen_basis:
  *   return basis of screen plan(plan normal to camera), such that
@@ -25,16 +25,16 @@ static void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray,
  *   ret_basis[0] . camera = 0
  *   ret_basis[1] . camera = 0
  */
-void	get_screen_basis(t_vector const *camera, t_vector ret_basis[2], int ppr)
+void	get_screen_basis(t_vec3 const *camera, t_vec3 ret_basis[2], int ppr)
 {
 	float const	a = camera->x;
 	float const	b = camera->y;
 	float const	c = camera->z;
 
-	fill_vec(&ret_basis[0], -c, 0.0f, a);
-	multiply_vec_number(&ret_basis[0], ppr / get_length_vec(&ret_basis[0]));
-	fill_vec(&ret_basis[1], a * b, -(a * a) - (c * c), b * c);
-	multiply_vec_number(&ret_basis[1], ppr / get_length_vec(&ret_basis[1]));
+	vec3_fill(&ret_basis[0], -c, 0.0f, a);
+	vec3_multiply_number(&ret_basis[0], ppr / vec3_get_length(&ret_basis[0]));
+	vec3_fill(&ret_basis[1], a * b, -(a * a) - (c * c), b * c);
+	vec3_multiply_number(&ret_basis[1], ppr / vec3_get_length(&ret_basis[1]));
 }
 
 /*
@@ -46,7 +46,7 @@ Take the camera and the size of ray (How many pixel are trace per ray)
 void	fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 			int number_ray, int number_line)
 {
-	t_vector	screen_vect[2];
+	t_vec3	screen_vect[2];
 
 	get_screen_basis(&scene->camera.orientation, screen_vect, scene->ppr);
 	fov_to_ray_list(ray_tab[number_line / 2], &scene->camera, number_ray,
@@ -60,33 +60,33 @@ Take a static list of ray and the number of ray
 Take the camera and the size of ray (How many pixel are trace per ray)
 */
 static void	fov_to_ray_list(t_ray *ray_lst, t_camera *camera, int number_ray,
-			t_vector screen_vect[2])
+			t_vec3 screen_vect[2])
 {
 	int	i;
 
 	i = number_ray / 2;
-	dup_vec(&ray_lst[i].origin, &camera->pos);
-	dup_vec(&ray_lst[i].direction, &camera->orientation);
+	vec3_dup(&ray_lst[i].origin, &camera->pos);
+	vec3_dup(&ray_lst[i].direction, &camera->orientation);
 	i--;
 	while (i >= 0)
 	{
-		dup_vec(&ray_lst[i].origin, &camera->pos);
-		dup_vec(&ray_lst[i].direction, &ray_lst[i + 1].direction);
-		sub_vec_vec(&ray_lst[i].direction, &screen_vect[0]);
+		vec3_dup(&ray_lst[i].origin, &camera->pos);
+		vec3_dup(&ray_lst[i].direction, &ray_lst[i + 1].direction);
+		vec3_sub_vec3(&ray_lst[i].direction, &screen_vect[0]);
 		i--;
 	}
 	i = number_ray / 2;
 	i++;
 	while (i < number_ray)
 	{
-		dup_vec(&ray_lst[i].origin, &camera->pos);
-		dup_vec(&ray_lst[i].direction, &ray_lst[i - 1].direction);
-		add_vec_vec(&ray_lst[i].direction, &screen_vect[0]);
+		vec3_dup(&ray_lst[i].origin, &camera->pos);
+		vec3_dup(&ray_lst[i].direction, &ray_lst[i - 1].direction);
+		vec3_add_vec3(&ray_lst[i].direction, &screen_vect[0]);
 		i++;
 	}
 }
 
-static void	fill_ray_tab_top(t_ray **ray_tab, t_vector screen_vect[2],
+static void	fill_ray_tab_top(t_ray **ray_tab, t_vec3 screen_vect[2],
 				int number_ray, int number_line)
 {
 	int	x;
@@ -99,16 +99,16 @@ static void	fill_ray_tab_top(t_ray **ray_tab, t_vector screen_vect[2],
 		x = 0;
 		while (x < number_ray)
 		{
-			dup_vec(&ray_tab[y][x].direction, &ray_tab[y + 1][x].direction);
-			sub_vec_vec(&ray_tab[y][x].direction, &screen_vect[1]);
-			dup_vec(&ray_tab[y][x].origin, &ray_tab[y + 1][x].origin);
+			vec3_dup(&ray_tab[y][x].direction, &ray_tab[y + 1][x].direction);
+			vec3_sub_vec3(&ray_tab[y][x].direction, &screen_vect[1]);
+			vec3_dup(&ray_tab[y][x].origin, &ray_tab[y + 1][x].origin);
 			x++;
 		}
 		y--;
 	}
 }
 
-static void	fill_ray_tab_bot(t_ray **ray_tab, t_vector screen_vect[2],
+static void	fill_ray_tab_bot(t_ray **ray_tab, t_vec3 screen_vect[2],
 				int number_ray, int number_line)
 {
 	int	x;
@@ -121,9 +121,9 @@ static void	fill_ray_tab_bot(t_ray **ray_tab, t_vector screen_vect[2],
 		x = 0;
 		while (x < number_ray)
 		{
-			dup_vec(&ray_tab[y][x].direction, &ray_tab[y - 1][x].direction);
-			add_vec_vec(&ray_tab[y][x].direction, &screen_vect[1]);
-			dup_vec(&ray_tab[y][x].origin, &ray_tab[y - 1][x].origin);
+			vec3_dup(&ray_tab[y][x].direction, &ray_tab[y - 1][x].direction);
+			vec3_add_vec3(&ray_tab[y][x].direction, &screen_vect[1]);
+			vec3_dup(&ray_tab[y][x].origin, &ray_tab[y - 1][x].origin);
 			x++;
 		}
 		y++;

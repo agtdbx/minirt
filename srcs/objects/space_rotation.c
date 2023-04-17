@@ -6,19 +6,19 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:34:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 12:07:46 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:42:58 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 static inline float	loc_dot_prod(float x, float y, float z,
-						t_vector const *restrict v);
+						t_vec3 const *restrict v);
 
-static inline void	vect_cpy(t_vector *restrict dst,
-						t_vector const *restrict src);
+static inline void	vect_cpy(t_vec3 *restrict dst,
+						t_vec3 const *restrict src);
 
-void	absolute_rotate(t_vector *vector, float angle, char axis)
+void	absolute_rotate(t_vec3 *vector, float angle, char axis)
 {
 	const float	x = vector->x;
 	const float	y = vector->y;
@@ -47,11 +47,11 @@ void	absolute_rotate(t_vector *vector, float angle, char axis)
  *   -computes rotation matrix using quaternions algebra.
  *   -avoids double coputations using temporary array `t'.
  */
-void	relative_rotate(t_vector *restrict vect,
-			t_vector const *restrict axis, float angle)
+void	relative_rotate(t_vec3 *restrict vect,
+			t_vec3 const *restrict axis, float angle)
 {
-	float		t[13];
-	t_vector	ret;
+	float	t[13];
+	t_vec3	ret;
 
 	t[0] = cos(angle);
 	t[1] = 1.0f - t[0];
@@ -72,8 +72,8 @@ void	relative_rotate(t_vector *restrict vect,
 	vect_cpy(vect, &ret);
 }
 
-static inline void	vect_cpy(t_vector *restrict dst,
-						t_vector const *restrict src)
+static inline void	vect_cpy(t_vec3 *restrict dst,
+						t_vec3 const *restrict src)
 {
 	dst->x = src->x;
 	dst->y = src->y;
@@ -81,7 +81,7 @@ static inline void	vect_cpy(t_vector *restrict dst,
 }
 
 static inline float	loc_dot_prod(float x, float y, float z,
-						t_vector const *restrict v)
+						t_vec3 const *restrict v)
 {
 	return ((x * v->x) + (y * v->y) + (z * v->z));
 }

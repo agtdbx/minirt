@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   incremente_intensity.c                             :+:      :+:    :+:   */
+/*   vec_vec_operator.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/14 11:30:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:14:54 by aderouba         ###   ########.fr       */
+/*   Created: 2023/04/17 15:57:16 by aderouba          #+#    #+#             */
+/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	incremente_intensity(t_intersect_ret *res, t_light const *light,
-			float const reflection_ratio)
+void	vec3_add_vec3(t_vec3 *vec, t_vec3 const *vec_to_add)
 {
-	res->intensity_r += light->intensity_r * light->brightness
-		* reflection_ratio;
-	res->intensity_g += light->intensity_g * light->brightness
-		* reflection_ratio;
-	res->intensity_b += light->intensity_b * light->brightness
-		* reflection_ratio;
+	vec->x += vec_to_add->x;
+	vec->y += vec_to_add->y;
+	vec->z += vec_to_add->z;
+}
+
+void	vec3_sub_vec3(t_vec3 *vec, t_vec3 const *vec_to_sub)
+{
+	vec->x -= vec_to_sub->x;
+	vec->y -= vec_to_sub->y;
+	vec->z -= vec_to_sub->z;
 }

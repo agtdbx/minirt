@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 11:25:03 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 11:39:45 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:19:07 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,17 @@ void	mirror_reflection(t_all *all, t_intersect_ret *res,
 {
 	t_intersect_ret	mirror_res;
 	t_ray			mirror_ray;
-	t_vector		tmp;
+	t_vec3			tmp;
 
 	if (res->reflexion_intensity == 0.0f
 		|| res->intensity_r + res->intensity_g + res->intensity_b == 0.0f)
 		return ;
-	dup_vec(&tmp, &res->nrm);
-	multiply_vec_number(&tmp, 2 * dot_product(&ray->direction, &res->nrm));
+	vec3_dup(&tmp, &res->nrm);
+	vec3_multiply_number(&tmp,
+		2 * vec3_dot_product(&ray->direction, &res->nrm));
 	mirror_ray.origin = get_point_on_ray(ray, res->dst);
-	dup_vec(&mirror_ray.direction, &ray->direction);
-	sub_vec_vec(&mirror_ray.direction, &tmp);
+	vec3_dup(&mirror_ray.direction, &ray->direction);
+	vec3_sub_vec3(&mirror_ray.direction, &tmp);
 	init_intersect_ret(&mirror_res);
 	do_intersections_without_id(all, &mirror_res, &mirror_ray, res->id);
 	compute_light(all, &mirror_res, &mirror_ray, reflect);
@@ -61,7 +62,7 @@ static void	do_intersections_without_id(t_all *all, t_intersect_ret *res,
 
 static void	merge_pixels(t_intersect_ret *res, t_intersect_ret *mirror_res)
 {
-	float const		inv_intensity = (1.0f - res->reflexion_intensity);
+	float const	inv_intensity = (1.0f - res->reflexion_intensity);
 
 	res->color.r = (float)res->color.r * inv_intensity
 		+ (float)mirror_res->color.r * res->reflexion_intensity;

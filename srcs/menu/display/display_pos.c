@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:57:01 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 16:37:52 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:13:06 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static bool	plus_pos_axis(t_all *all, float *axis, int y);
 /*
  * Draw each position axis in differents lines in the menu
  */
-void	display_pos(t_all *all, t_vector *pos, int y_start)
+void	display_pos(t_all *all, t_vec3 *pos, int y_start)
 {
 	char	*tmp;
 	char	*to_print;
@@ -43,7 +43,7 @@ void	display_pos(t_all *all, t_vector *pos, int y_start)
 /*
  * Draw and manage button for each position axis in the menu
  */
-bool	manage_pos(t_all *all, t_vector *pos, int y_start)
+bool	manage_pos(t_all *all, t_vec3 *pos, int y_start)
 {
 	bool		modify;
 

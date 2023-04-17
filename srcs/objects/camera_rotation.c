@@ -6,14 +6,14 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 11:15:56 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 13:24:29 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:20:40 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
 static void	camera_rotations_arrond_x(t_all *all, const float degrees,
-				t_vector basis[3]);
+				t_vec3 basis[3]);
 static void	camera_rotations_arrond_y(t_all *all, const float degrees);
 
 void	camera_rotations(t_all *all, float delta_time)
@@ -25,7 +25,7 @@ void	camera_rotations(t_all *all, float delta_time)
 }
 
 static void	camera_rotations_arrond_x(t_all *all, const float degrees,
-			t_vector basis[3])
+			t_vec3 basis[3])
 {
 	const float	rad = degrees * PI_DIV_180;
 
@@ -33,8 +33,8 @@ static void	camera_rotations_arrond_x(t_all *all, const float degrees,
 	{
 		relative_rotate(&basis[1], &basis[0], rad);
 		relative_rotate(&basis[2], &basis[0], rad);
-		dup_vec(&all->scene.camera.orientation, &basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation,
+		vec3_dup(&all->scene.camera.orientation, &basis[2]);
+		vec3_multiply_number(&all->scene.camera.orientation,
 			all->scene.camera.len);
 		all->draw_state = NEED_REDRAW;
 	}
@@ -43,8 +43,8 @@ static void	camera_rotations_arrond_x(t_all *all, const float degrees,
 	{
 		relative_rotate(&basis[1], &basis[0], -rad);
 		relative_rotate(&basis[2], &basis[0], -rad);
-		dup_vec(&all->scene.camera.orientation, &basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation,
+		vec3_dup(&all->scene.camera.orientation, &basis[2]);
+		vec3_multiply_number(&all->scene.camera.orientation,
 			all->scene.camera.len);
 		all->draw_state = NEED_REDRAW;
 	}
@@ -57,8 +57,8 @@ static void	camera_rotations_arrond_y(t_all *all, const float degrees)
 		absolute_rotate(&all->scene.camera.basis[0], degrees, ROTATE_AROUND_Y);
 		absolute_rotate(&all->scene.camera.basis[1], degrees, ROTATE_AROUND_Y);
 		absolute_rotate(&all->scene.camera.basis[2], degrees, ROTATE_AROUND_Y);
-		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation,
+		vec3_dup(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
+		vec3_multiply_number(&all->scene.camera.orientation,
 			all->scene.camera.len);
 		all->draw_state = NEED_REDRAW;
 	}
@@ -67,8 +67,8 @@ static void	camera_rotations_arrond_y(t_all *all, const float degrees)
 		absolute_rotate(&all->scene.camera.basis[0], -degrees, ROTATE_AROUND_Y);
 		absolute_rotate(&all->scene.camera.basis[1], -degrees, ROTATE_AROUND_Y);
 		absolute_rotate(&all->scene.camera.basis[2], -degrees, ROTATE_AROUND_Y);
-		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation,
+		vec3_dup(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
+		vec3_multiply_number(&all->scene.camera.orientation,
 			all->scene.camera.len);
 		all->draw_state = NEED_REDRAW;
 	}

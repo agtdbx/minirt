@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 11:19:24 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 11:50:48 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:17:44 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static bool	is_in_shadow(t_all *all, t_ray *ray, float distance, int id_ignore);
 
 bool	add_diffuse_intensity(t_all *all, t_intersect_ret *res,
-			t_light const *light, t_vector const *pixel_pos)
+			t_light const *light, t_vec3 const *pixel_pos)
 {
 	float	intensity;
 	float	distance;
@@ -25,14 +25,14 @@ bool	add_diffuse_intensity(t_all *all, t_intersect_ret *res,
 
 	if (light->brightness == 0.0f)
 		return (false);
-	dup_vec(&ray_from_light.origin, &light->pos);
-	dup_vec(&ray_from_light.direction, pixel_pos);
-	sub_vec_vec(&ray_from_light.direction, &light->pos);
-	distance = get_length_vec(&ray_from_light.direction);
+	vec3_dup(&ray_from_light.origin, &light->pos);
+	vec3_dup(&ray_from_light.direction, pixel_pos);
+	vec3_sub_vec3(&ray_from_light.direction, &light->pos);
+	distance = vec3_get_length(&ray_from_light.direction);
 	if (distance >= LIGHT_DIFFUSE_RADIUS)
 		return (false);
-	normalize_vec(&ray_from_light.direction);
-	angle_ratio = -dot_product(&res->nrm, &ray_from_light.direction);
+	vec3_normalize(&ray_from_light.direction);
+	angle_ratio = -vec3_dot_product(&res->nrm, &ray_from_light.direction);
 	if (angle_ratio < 0.0f)
 		return (false);
 	if (is_in_shadow(all, &ray_from_light, distance, res->id))

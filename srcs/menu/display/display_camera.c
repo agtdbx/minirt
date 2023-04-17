@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:38:57 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 13:13:25 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:13:15 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	minus_fov(t_all *all, t_camera *camera);
 static void	plus_fov(t_all *all, t_camera *camera);
 static void	cursor_fov(t_all *all, t_camera *camera);
-static char	*display_const_vec(char *text, t_vector *vec);
+static char	*display_const_vec(char *text, t_vec3 *vec);
 
 /*
  * Draw and manage the camera's informations into the menu
@@ -63,8 +63,8 @@ static void	minus_fov(t_all *all, t_camera *camera)
 		camera->fov--;
 		all->menu.cur_fov.select = camera->fov;
 		len = WIDTH / (tan(camera->fov * PI_DIV_360) * 2.0f);
-		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation, len);
+		vec3_dup(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
+		vec3_multiply_number(&all->scene.camera.orientation, len);
 		all->draw_state = NEED_REDRAW;
 	}
 	but_draw(all, &all->menu.but_minus);
@@ -89,8 +89,8 @@ static void	plus_fov(t_all *all, t_camera *camera)
 		camera->fov++;
 		all->menu.cur_fov.select = camera->fov;
 		len = WIDTH / (tan(camera->fov * PI_DIV_360) * 2.0f);
-		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation, len);
+		vec3_dup(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
+		vec3_multiply_number(&all->scene.camera.orientation, len);
 		all->draw_state = NEED_REDRAW;
 	}
 	but_draw(all, &all->menu.but_plus);
@@ -106,8 +106,8 @@ static void	cursor_fov(t_all *all, t_camera *camera)
 	{
 		camera->fov = all->menu.cur_fov.select;
 		camera->len = WIDTH_DIV_2 / tan(camera->fov * PI_DIV_360);
-		dup_vec(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
-		multiply_vec_number(&all->scene.camera.orientation, camera->len);
+		vec3_dup(&all->scene.camera.orientation, &all->scene.camera.basis[2]);
+		vec3_multiply_number(&all->scene.camera.orientation, camera->len);
 		all->draw_state = NEED_REDRAW;
 	}
 	cur_draw(all, &all->menu.cur_fov);
@@ -116,7 +116,7 @@ static void	cursor_fov(t_all *all, t_camera *camera)
 /*
  * Draw a vector which can't be modify in the menu
  */
-static char	*display_const_vec(char *text, t_vector *vec)
+static char	*display_const_vec(char *text, t_vec3 *vec)
 {
 	char	*tmp;
 	char	*res;

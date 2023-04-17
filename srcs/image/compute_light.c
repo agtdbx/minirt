@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:20:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 11:51:40 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:15:05 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	compute_light(t_all *all, t_intersect_ret *res, t_ray *ray, int reflect)
 {
 	int				i;
-	t_vector const	pixel_pos = get_point_on_ray(ray, res->dst);
+	t_vec3 const	pixel_pos = get_point_on_ray(ray, res->dst);
 	bool			calculate_specular;
 
 	incremente_intensity(res, &all->scene.ambient_light,

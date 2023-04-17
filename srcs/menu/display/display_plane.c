@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 11:57:01 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:20:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	display_plane(t_all *all, t_plane *plane)
 	manage_pos(all, &plane->origin, 140);
 	if (manage_dir(all, &plane->normal, 220))
 	{
-		normalize_vec(&plane->normal);
-		dup_vec(&plane->rev_normal, &plane->normal);
-		multiply_vec_number(&plane->rev_normal, -1.0f);
+		vec3_normalize(&plane->normal);
+		vec3_dup(&plane->rev_normal, &plane->normal);
+		vec3_multiply_number(&plane->rev_normal, -1.0f);
 	}
 	manage_color(all, &plane->color, 300);
 	plane->shininess_intensity /= 50.0f;

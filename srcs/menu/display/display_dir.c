@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 13:57:01 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 16:37:37 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:13:24 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static bool	cursor_dir_axis(t_all *all, float *channel, int y);
 /*
  * Draw each direction axis in differents lines in the menu
  */
-void	display_dir(t_all *all, t_vector *dir, int y_start)
+void	display_dir(t_all *all, t_vec3 *dir, int y_start)
 {
 	char	*tmp;
 	char	*to_print;
@@ -44,7 +44,7 @@ void	display_dir(t_all *all, t_vector *dir, int y_start)
 /*
  * Draw and manage button for each direction axis in the menu
  */
-bool	manage_dir(t_all *all, t_vector *dir, int y_start)
+bool	manage_dir(t_all *all, t_vec3 *dir, int y_start)
 {
 	bool		modify;
 

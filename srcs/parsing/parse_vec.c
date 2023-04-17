@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   parse_vec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 12:02:48 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 16:59:30 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static t_result	parse_coordinate(char const *nptr, float *ret_coordinate);
 
-t_result	parse_vec(char *xyz_str, t_vector *ret_vec)
+t_result	parse_vec(char *xyz_str, t_vec3 *ret_vec)
 {
 	char	*saveptr;
 	char	*nptr;

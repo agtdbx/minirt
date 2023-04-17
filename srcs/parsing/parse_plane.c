@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 12:16:00 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/31 16:06:15 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ t_result	parse_plane(t_scene *ret_scene)
 {
 	t_plane		plane;
 	char		*tok;
-	t_vector	pos;
-	t_vector	nrm;
+	t_vec3	pos;
+	t_vec3	nrm;
 	t_color		color;
 
 	tok = ft_strtok(NULL, " \n");

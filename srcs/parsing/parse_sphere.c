@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 18:08:01 by tdubois           #+#    #+#             */
-/*   Updated: 2023/03/31 16:06:00 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_result	parse_sphere(t_scene *ret_scene)
 	char		*tok;
 	float		radius;
 	t_color		color;
-	t_vector	pos;
+	t_vec3	pos;
 
 	tok = ft_strtok(NULL, " \n");
 	if (parse_vec(tok, &pos) == FAILURE)

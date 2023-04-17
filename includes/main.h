@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 15:09:38 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 16:43:42 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,95 +74,95 @@ typedef struct s_color
 }	t_color;
 
 // Vector struct
-typedef struct s_vector
+typedef struct s_vec3
 {
 	float	x;
 	float	y;
 	float	z;
-}	t_vector;
+}	t_vec3;
 
 // Ray for raytracing struct
 typedef struct s_ray
 {
-	t_vector	origin;
-	t_vector	direction;
+	t_vec3	origin;
+	t_vec3	direction;
 }	t_ray;
 
 // Sphere struct
 typedef struct s_sphere
 {
-	t_vector	origin;
-	float		radius;
-	float		radius2;
-	float		shininess_intensity;
-	float		reflexion_intensity;
-	t_color		color;
-	int			id;
+	t_vec3	origin;
+	float	radius;
+	float	radius2;
+	float	shininess_intensity;
+	float	reflexion_intensity;
+	t_color	color;
+	int		id;
 }	t_sphere;
 
 // Plane struct
 typedef struct s_plane
 {
-	t_vector	origin;
-	t_vector	normal;
-	t_vector	rev_normal;
-	t_color		color;
-	float		shininess_intensity;
-	float		reflexion_intensity;
-	int			id;
+	t_vec3	origin;
+	t_vec3	normal;
+	t_vec3	rev_normal;
+	t_color	color;
+	float	shininess_intensity;
+	float	reflexion_intensity;
+	int		id;
 }	t_plane;
 
 // Cylinder struct
 typedef struct s_cylinder
 {
-	t_vector	origin;
-	t_vector	bot_origin;
-	t_vector	top_origin;
-	t_vector	axis;
-	t_plane		bot;
-	t_plane		top;
-	float		radius;
-	float		radius2;
-	float		height;
-	float		shininess_intensity;
-	float		reflexion_intensity;
-	t_color		color;
-	int			id;
+	t_vec3	origin;
+	t_vec3	bot_origin;
+	t_vec3	top_origin;
+	t_vec3	axis;
+	t_plane	bot;
+	t_plane	top;
+	float	radius;
+	float	radius2;
+	float	height;
+	float	shininess_intensity;
+	float	reflexion_intensity;
+	t_color	color;
+	int		id;
 }	t_cylinder;
 
 // Intersect result struct
 typedef struct s_intersect_ret
 {
-	t_vector	nrm;
-	t_color		color;
-	float		dst;
-	float		intensity_r;
-	float		intensity_g;
-	float		intensity_b;
-	float		shininess_intensity;
-	float		reflexion_intensity;
-	int			id;
+	t_vec3	nrm;
+	t_color	color;
+	float	dst;
+	float	intensity_r;
+	float	intensity_g;
+	float	intensity_b;
+	float	shininess_intensity;
+	float	reflexion_intensity;
+	int		id;
 }	t_intersect_ret;
 
 // Camera Struct
 typedef struct s_camera
 {
-	t_vector	pos;
-	t_vector	orientation;
-	t_vector	basis[3];
-	int			fov;
-	float		len;
+	t_vec3	pos;
+	t_vec3	orientation;
+	t_vec3	basis[3];
+	int		fov;
+	float	len;
 }	t_camera;
 
 // Light Struct
 typedef struct s_light
 {
-	t_vector	pos;
-	float		brightness;
-	float		intensity_r;
-	float		intensity_g;
-	float		intensity_b;
-	t_color		color;
+	t_vec3	pos;
+	float	brightness;
+	float	intensity_r;
+	float	intensity_g;
+	float	intensity_b;
+	t_color	color;
 }	t_light;
 
 // Object type
@@ -214,11 +214,11 @@ typedef struct s_button
 // Cursor Struct
 typedef struct s_cursor
 {
-	int		x;
-	int		y;
-	int		width;
-	int		height;
-	int		select;
+	int	x;
+	int	y;
+	int	width;
+	int	height;
+	int	select;
 }	t_cursor;
 
 // Scene Struct
@@ -278,17 +278,17 @@ int			main(int argc, char **argv);
 /*====================================OBJECT==================================*/
 
 // objets/sphere.c
-t_sphere	create_sphere(t_vector origin, float diameter, t_color color);
+t_sphere	create_sphere(t_vec3 origin, float diameter, t_color color);
 void		intersect_sphere(t_sphere *sphere, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
 // objets/plane.c
-t_plane		create_plane(t_vector origin, t_vector normal, t_color color);
+t_plane		create_plane(t_vec3 origin, t_vec3 normal, t_color color);
 void		intersect_plane(t_plane *plane, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
 // objets/create_cylinder.c
-t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
+t_cylinder	create_cylinder(t_vec3 origin, t_vec3 axis, float size[2],
 				t_color color);
 
 // objets/intersect_cylinder.c
@@ -296,18 +296,18 @@ void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
 // objets/camera.c
-void		get_screen_basis(t_vector const *camera, t_vector ret_basis[2],
+void		get_screen_basis(t_vec3 const *camera, t_vec3 ret_basis[2],
 				int ppr);
 void		fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 				int number_ray, int number_line);
 
 // objets/space_operations.c
-void		translate(t_vector *vector, float x, float y, float z);
-void		absolute_rotate(t_vector *vector, float angle, char axis);
-void		relative_rotate(t_vector *restrict vect,
-				t_vector const *restrict axis, float angle);
+void		translate(t_vec3 *vector, float x, float y, float z);
+void		absolute_rotate(t_vec3 *vector, float angle, char axis);
+void		relative_rotate(t_vec3 *restrict vect,
+				t_vec3 const *restrict axis, float angle);
 
-void		my_vect_cpy(t_vector *restrict dst, t_vector const *restrict src);
+void		my_vect_cpy(t_vec3 *restrict dst, t_vec3 const *restrict src);
 
 // objets/camera_operation.c
 void		camera_translations(t_all *all, float delta_time);
@@ -350,11 +350,11 @@ void		compute_light(t_all *all, t_intersect_ret *res, t_ray *ray,
 
 // image/add_diffuse_intensity.c
 bool		add_diffuse_intensity(t_all *all, t_intersect_ret *res,
-				t_light const *light, t_vector const *pixel_pos);
+				t_light const *light, t_vec3 const *pixel_pos);
 
 // image/add_specular_intensity.c
 void		add_specular_intensity(t_all *all, t_intersect_ret *res,
-				t_light const *light, t_vector const *pixel_pos);
+				t_light const *light, t_vec3 const *pixel_pos);
 
 // image/mirror_reflection.c
 void		mirror_reflection(t_all *all, t_intersect_ret *res,
@@ -378,41 +378,41 @@ void		check_tab_pressed(t_all *all, float const delta_time);
 void		init_menu(t_all *all);
 void		draw_menu(t_all *all);
 
-// menu/display_camera.c
+// menu/display/display_camera.c
 void		display_camera(t_all *all, t_camera *camera);
 
-// menu/display_ambiant_light.c
+// menu/display/display_ambiant_light.c
 void		display_ambiant_light(t_all *all, t_light *ambiant_light);
 
-// menu/display_light.c
+// menu/display/display_light.c
 void		display_light(t_all *all, t_light *light);
 
-// menu/display_sphere.c
+// menu/display/display_sphere.c
 void		display_sphere(t_all *all, t_sphere *sphere);
 
-// menu/display_plane.c
+// menu/display/display_plane.c
 void		display_plane(t_all *all, t_plane *plane);
 
-// menu/display_cylinder.c
+// menu/display/display_cylinder.c
 void		display_cylinder(t_all *all, t_cylinder *cylinder);
 
-// menu/display_color.c
+// menu/display/display_color.c
 void		display_color(t_all *all, t_color *color, int y_start);
 bool		manage_color(t_all *all, t_color *color, int y_start);
 
-// menu/display_dir.c
-void		display_dir(t_all *all, t_vector *dir, int y_start);
-bool		manage_dir(t_all *all, t_vector *dir, int y_start);
+// menu/display/display_dir.c
+void		display_dir(t_all *all, t_vec3 *dir, int y_start);
+bool		manage_dir(t_all *all, t_vec3 *dir, int y_start);
 
-// menu/display_pos.c
-void		display_pos(t_all *all, t_vector *pos, int y_start);
-bool		manage_pos(t_all *all, t_vector *pos, int y_start);
+// menu/display/display_pos.c
+void		display_pos(t_all *all, t_vec3 *pos, int y_start);
+bool		manage_pos(t_all *all, t_vec3 *pos, int y_start);
 
-// menu/display_float.c
+// menu/display/display_float.c
 void		display_float(t_all *all, float number, int y_start, char *text);
 bool		manage_float(t_all *all, float *number, int y_start, char *text);
 
-// menu/display_float_range.c
+// menu/display/display_float_range.c
 void		display_float_range(t_all *all, float float_range, int y_start,
 				char *text);
 void		manage_float_range(t_all *all, float *float_range, int y_start,
@@ -440,10 +440,10 @@ t_result	parse_cylinder(t_scene *ret_scene);
 t_result	parse_color(char *rgb_str, t_color *ret_color);
 
 // parsing/parse_vec.c
-t_result	parse_vec(char *xyz_str, t_vector *ret_vec);
+t_result	parse_vec(char *xyz_str, t_vec3 *ret_vec);
 
 // parsing/parse_vec.c
-t_result	parse_direction(char *xyz_str, t_vector *ret_vec);
+t_result	parse_direction(char *xyz_str, t_vec3 *ret_vec);
 
 // parsing/parse_float.c
 t_result	parse_float(char const *nptr, float *ret_float);
@@ -454,23 +454,31 @@ t_result	parse_float(char const *nptr, float *ret_float);
 void		compute_screen_basis(t_camera *ret_cam);
 
 // maths/is_xyz_in_range.c
-bool		is_xyz_in_range(t_vector const *vec, float min, float max);
+bool		is_xyz_in_range(t_vec3 const *vec, float min, float max);
 
 /*====================================UTILS===================================*/
 
-// utils/vector.c
-void		fill_vec(t_vector *vec, float const x, float const y,
+// utils/vec3/vec_creation.c
+void		vec3_fill(t_vec3 *vec, float const x, float const y,
 				float const z);
-void		dup_vec(t_vector *vec, t_vector const *vec_to_dup);
-float		get_length_vec(t_vector *vec);
-void		normalize_vec(t_vector *vec);
-void		multiply_vec_number(t_vector *vec, float const number);
-void		add_vec_vec(t_vector *vec, t_vector const *vec_to_add);
-void		sub_vec_vec(t_vector *vec, t_vector const *vec_to_sub);
-float		dot_product(t_vector const *v1, t_vector const *v2);
-void		cross_product(t_vector const *v1, t_vector const *v2,
-				t_vector *vec_res);
-void		get_normals_of_vect(t_vector const *vect, t_vector nrm[2]);
+void		vec3_dup(t_vec3 *vec, t_vec3 const *vec_to_dup);
+
+// utils/vec3/vec_vec_operator.c
+void		vec3_add_vec3(t_vec3 *vec, t_vec3 const *vec_to_add);
+void		vec3_sub_vec3(t_vec3 *vec, t_vec3 const *vec_to_sub);
+
+// utils/vec3/vec_number_operator.c
+void		vec3_multiply_number(t_vec3 *vec, float const number);
+
+// utils/vec3/vec_operator.c
+float		vec3_get_length(t_vec3 *vec);
+void		vec3_normalize(t_vec3 *vec);
+float		vec3_dot_product(t_vec3 const *v1, t_vec3 const *v2);
+void		vec3_cross_product(t_vec3 const *v1, t_vec3 const *v2,
+				t_vec3 *vec_res);
+
+// utils/vec3/vec3_get_normals.c
+void		vec3_get_normals(t_vec3 const *vect, t_vec3 nrm[2]);
 
 // utils/rtlst.c
 t_rtlst		*rtlst_new(t_rtlst_t type, t_rtlst_v value, int id);
@@ -484,7 +492,7 @@ void		imglst_add_back(t_imglst **imglst, t_imglst *new);
 void		imglst_clear(t_all *all, t_imglst **imglst);
 
 // utils/print.c
-void		print_vect(t_vector *vector);
+void		print_vect(t_vec3 *vector);
 void		print_ray(t_ray *ray);
 void		print_sphere(t_sphere *sphere);
 void		print_plane(t_plane *plane);
@@ -496,7 +504,7 @@ void		print_rtlst(t_rtlst *rtlst);
 
 // utils/math_utils.c
 float		solve_quadratic(float a, float b, float c);
-t_vector	get_point_on_ray(t_ray const *ray, float const dist);
+t_vec3		get_point_on_ray(t_ray const *ray, float const dist);
 
 // utils/number.c
 bool		is_int(char const *str);
