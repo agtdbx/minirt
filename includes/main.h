@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 12:07:45 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:09:38 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -287,9 +287,11 @@ t_plane		create_plane(t_vector origin, t_vector normal, t_color color);
 void		intersect_plane(t_plane *plane, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
-// objets/cylinder.c
+// objets/create_cylinder.c
 t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
 				t_color color);
+
+// objets/intersect_cylinder.c
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 

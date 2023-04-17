@@ -6,11 +6,14 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/12 12:09:44 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 14:58:53 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+static void	set_intersecte_ret(t_intersect_ret *intersect_ret, t_plane *plane,
+				float dst, t_vector *nrm);
 
 t_plane	create_plane(t_vector origin, t_vector normal, t_color color)
 {
@@ -30,11 +33,12 @@ t_plane	create_plane(t_vector origin, t_vector normal, t_color color)
 // param : plane, ray
 // result : distance beetween ray origin and plane.
 //			if resut < 0, no interection
-void	intersect_plane(t_plane *plane, t_ray *ray, t_intersect_ret *intersect_ret)
+void	intersect_plane(t_plane *plane, t_ray *ray,
+			t_intersect_ret *intersect_ret)
 {
 	float		denom;
 	float		dst;
-	t_vector 	tmp;
+	t_vector	tmp;
 
 	dup_vec(&tmp, &plane->origin);
 	sub_vec_vec(&tmp, &ray->origin);
@@ -42,27 +46,26 @@ void	intersect_plane(t_plane *plane, t_ray *ray, t_intersect_ret *intersect_ret)
 	if (denom < 0.000001f)
 	{
 		dst = dot_product(&tmp, &plane->normal) / denom;
-		if (0.0f <= dst && (intersect_ret->dst < 0.0f || dst < intersect_ret->dst))
-		{
-			intersect_ret->dst = dst;
-			intersect_ret->nrm = plane->normal;
-			intersect_ret->color = plane->color;
-			intersect_ret->shininess_intensity = plane->shininess_intensity;
-			intersect_ret->reflexion_intensity = plane->reflexion_intensity;
-			intersect_ret->id = plane->id;
-		}
+		if (0.0f <= dst
+			&& (intersect_ret->dst < 0.0f || dst < intersect_ret->dst))
+			set_intersecte_ret(intersect_ret, plane, dst, &plane->normal);
 	}
 	else if (denom > -0.000001f)
 	{
 		dst = dot_product(&tmp, &plane->rev_normal) / (-denom);
-		if (0.0f <= dst && (intersect_ret->dst < 0.0f || dst < intersect_ret->dst))
-		{
-			intersect_ret->dst = dst;
-			intersect_ret->nrm = plane->rev_normal;
-			intersect_ret->color = plane->color;
-			intersect_ret->shininess_intensity = plane->shininess_intensity;
-			intersect_ret->reflexion_intensity = plane->reflexion_intensity;
-			intersect_ret->id = plane->id;
-		}
+		if (0.0f <= dst
+			&& (intersect_ret->dst < 0.0f || dst < intersect_ret->dst))
+			set_intersecte_ret(intersect_ret, plane, dst, &plane->rev_normal);
 	}
+}
+
+static void	set_intersecte_ret(t_intersect_ret *intersect_ret, t_plane *plane,
+			float dst, t_vector *nrm)
+{
+	intersect_ret->dst = dst;
+	dup_vec(&intersect_ret->nrm, nrm);
+	intersect_ret->color = plane->color;
+	intersect_ret->shininess_intensity = plane->shininess_intensity;
+	intersect_ret->reflexion_intensity = plane->reflexion_intensity;
+	intersect_ret->id = plane->id;
 }

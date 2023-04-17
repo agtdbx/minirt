@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cylinder.c                                         :+:      :+:    :+:   */
+/*   intersect_cylinder.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 13:44:57 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:09:09 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,36 +20,6 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst1);
 static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst0);
-
-t_cylinder	create_cylinder(t_vector origin, t_vector axis, float size[2],
-				t_color color)
-{
-	t_cylinder	res;
-	t_vector	rev_axis;
-
-	dup_vec(&rev_axis, &axis);
-	multiply_vec_number(&rev_axis, -1.0f);
-	res.radius = size[0] / 2.0f;
-	res.radius2 = res.radius * res.radius;
-	res.height = size[1];
-	dup_vec(&res.origin, &origin);
-	dup_vec(&res.bot_origin, &origin);
-	res.bot_origin.x += rev_axis.x * (res.height / 2.0f);
-	res.bot_origin.y += rev_axis.y * (res.height / 2.0f);
-	res.bot_origin.z += rev_axis.z * (res.height / 2.0f);
-	dup_vec(&res.top_origin, &origin);
-	res.top_origin.x += axis.x * (res.height / 2.0f);
-	res.top_origin.y += axis.y * (res.height / 2.0f);
-	res.top_origin.z += axis.z * (res.height / 2.0f);
-	res.bot = create_plane(res.bot_origin, rev_axis, color);
-	res.top = create_plane(res.top_origin, axis, color);
-	dup_vec(&res.axis, &axis);
-	res.color = color;
-	res.id = -1;
-	res.shininess_intensity = 10.0f;
-	res.reflexion_intensity = 0.0f;
-	return (res);
-}
 
 // param : cylinder, ray
 // result : distance beetween ray origin and cylinder.
@@ -80,6 +50,7 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 	if (0.0f <= dst[0]
 		&& (intersect_ret->dst < 0.0f || dst[0] < intersect_ret->dst))
 		assign_result_value(cylinder, ray, intersect_ret, dst);
+	intersect_cylinder_ends(cylinder, ray, intersect_ret);
 }
 
 static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
@@ -124,6 +95,8 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 	t_vector	p;
 	float		d;
 
+	if (dst1->dst < 0.0f)
+		return ;
 	p = get_point_on_ray(ray, dst1->dst);
 	dup_vec(&x, &p);
 	sub_vec_vec(&x, &cylinder->top_origin);
