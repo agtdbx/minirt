@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:20:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:15:05 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:30:35 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	compute_light(t_all *all, t_intersect_ret *res, t_ray *ray, int reflect)
 			add_specular_intensity(all, res, &all->scene.light, &pixel_pos);
 		i++;
 	}
+	apply_transparency(all, res, ray);
 	if (reflect > 0)
 		mirror_reflection(all, res, ray, reflect - 1);
 }

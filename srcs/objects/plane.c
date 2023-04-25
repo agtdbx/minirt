@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:42:28 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:29:54 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_plane	create_plane(t_vec3 origin, t_vec3 normal, t_color color)
 	res.id = -1;
 	res.shininess_intensity = 10.0f;
 	res.reflexion_intensity = 0.0f;
+	res.transparency_intensity = 0.0f;
+	res.refraction_intensity = 1.3f;
 	return (res);
 }
 
@@ -67,5 +69,7 @@ static void	set_intersecte_ret(t_intersect_ret *intersect_ret, t_plane *plane,
 	intersect_ret->color = plane->color;
 	intersect_ret->shininess_intensity = plane->shininess_intensity;
 	intersect_ret->reflexion_intensity = plane->reflexion_intensity;
+	intersect_ret->transparency_intensity = plane->transparency_intensity;
+	intersect_ret->refraction_intensity = plane->refraction_intensity;
 	intersect_ret->id = plane->id;
 }

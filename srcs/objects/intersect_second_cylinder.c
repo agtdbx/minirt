@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect_cylinder.c                               :+:      :+:    :+:   */
+/*   intersect_second_cylinder.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 14:36:36 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/25 14:36:41 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 // param : cylinder, ray
 // result : distance beetween ray origin and cylinder.
 //			if resut < 0, no interection
-void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
+void	intersect_second_cylinder(t_cylinder *cylinder, t_ray *ray,
 			t_intersect_ret *intersect_ret)
 {
 	float	dst[2];
@@ -42,7 +42,7 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 		* 2.0f;
 	abc[2] = vec3_dot_product(&x, &x) - (dv_xv[1] * dv_xv[1])
 		- cylinder->radius2;
-	dst[0] = solve_quadratic(abc[0], abc[1], abc[2]);
+	dst[0] = solve_second_quadratic(abc[0], abc[1], abc[2]);
 	dst[1] = dv_xv[0] * dst[0] + dv_xv[1];
 	if (dst[1] <= 0.0f || dst[1] > cylinder->height)
 	{

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:43:42 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/25 18:12:38 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct s_sphere
 	float	radius2;
 	float	shininess_intensity;
 	float	reflexion_intensity;
+	float	transparency_intensity;
+	float	refraction_intensity;
 	t_color	color;
 	int		id;
 }	t_sphere;
@@ -109,6 +111,8 @@ typedef struct s_plane
 	t_color	color;
 	float	shininess_intensity;
 	float	reflexion_intensity;
+	float	transparency_intensity;
+	float	refraction_intensity;
 	int		id;
 }	t_plane;
 
@@ -126,6 +130,8 @@ typedef struct s_cylinder
 	float	height;
 	float	shininess_intensity;
 	float	reflexion_intensity;
+	float	transparency_intensity;
+	float	refraction_intensity;
 	t_color	color;
 	int		id;
 }	t_cylinder;
@@ -141,6 +147,8 @@ typedef struct s_intersect_ret
 	float	intensity_b;
 	float	shininess_intensity;
 	float	reflexion_intensity;
+	float	transparency_intensity;
+	float	refraction_intensity;
 	int		id;
 }	t_intersect_ret;
 
@@ -281,6 +289,8 @@ int			main(int argc, char **argv);
 t_sphere	create_sphere(t_vec3 origin, float diameter, t_color color);
 void		intersect_sphere(t_sphere *sphere, t_ray *ray,
 				t_intersect_ret *intersect_ret);
+void		intersect_second_sphere(t_sphere *sphere, t_ray *ray,
+				t_intersect_ret *intersect_ret);
 
 // objets/plane.c
 t_plane		create_plane(t_vec3 origin, t_vec3 normal, t_color color);
@@ -293,6 +303,10 @@ t_cylinder	create_cylinder(t_vec3 origin, t_vec3 axis, float size[2],
 
 // objets/intersect_cylinder.c
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
+				t_intersect_ret *intersect_ret);
+
+// objets/intersect_second_cylinder.c
+void		intersect_second_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
 // objets/camera.c
@@ -317,6 +331,11 @@ void		camera_rotations(t_all *all, float delta_time);
 
 // image/ppr.c
 void		ppr_gestion(t_all *all, float delta_time);
+
+// image/intersections.c
+void		do_intersections(t_all *all, t_intersect_ret *res, t_ray *ray);
+void		do_intersections_without_id(t_all *all, t_intersect_ret *res,
+				t_ray *ray, int id_ignore);
 
 // image/draw.c
 int			get_rgb(int r, int g, int b);
@@ -356,9 +375,16 @@ bool		add_diffuse_intensity(t_all *all, t_intersect_ret *res,
 void		add_specular_intensity(t_all *all, t_intersect_ret *res,
 				t_light const *light, t_vec3 const *pixel_pos);
 
+// image/merge_pixels.c
+void		merge_pixels(t_intersect_ret *res,
+				t_intersect_ret *transparency_res, float intensity);
+
 // image/mirror_reflection.c
 void		mirror_reflection(t_all *all, t_intersect_ret *res,
 				t_ray const *ray, int reflect);
+
+// image/transparency.c
+void		apply_transparency(t_all *all, t_intersect_ret *res, t_ray *ray);
 
 /*=====================================MENU===================================*/
 
@@ -504,6 +530,7 @@ void		print_rtlst(t_rtlst *rtlst);
 
 // utils/math_utils.c
 float		solve_quadratic(float a, float b, float c);
+float		solve_second_quadratic(float a, float b, float c);
 t_vec3		get_point_on_ray(t_ray const *ray, float const dist);
 
 // utils/number.c

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 15:16:10 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 16:37:39 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:50:35 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ static void	cursor_float_range(t_all *all, float *float_range, int y_start,
 {
 	cur_set_pos(&all->menu.cur_float, WIDTH - 400 + x_gap, y_start);
 	cur_tick(all, &all->menu.cur_float);
-	if ((*float_range) * 40.0f != all->menu.cur_float.select)
+	if ((int)((*float_range) * 40.0f) != all->menu.cur_float.select)
 	{
 		*float_range = (float)all->menu.cur_float.select / 40.0f;
 		all->draw_state = NEED_REDRAW;

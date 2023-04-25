@@ -6,12 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:19:51 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/25 13:30:04 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+static void	manage_intensities(t_all *all, t_cylinder *cylinder);
 static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder);
 static void	calculate_ends(t_cylinder *cylinder);
 
@@ -30,15 +31,26 @@ void	display_cylinder(t_all *all, t_cylinder *cylinder)
 	if (manage_float(all, &cylinder->radius, 340, "radius : "))
 		cylinder->radius2 = cylinder->radius * cylinder->radius;
 	manage_color(all, &cylinder->color, 380);
+	manage_intensities(all, cylinder);
+	if (all->draw_state != DRAW_TEXT)
+		return ;
+	draw_cylinder_properties(all, cylinder);
+}
+
+static void	manage_intensities(t_all *all, t_cylinder *cylinder)
+{
 	cylinder->shininess_intensity /= 50.0f;
 	manage_float_range(all, &cylinder->shininess_intensity, 460,
 		"shininess : ");
 	cylinder->shininess_intensity *= 50.0f;
 	manage_float_range(all, &cylinder->reflexion_intensity, 500,
 		"reflexion : ");
-	if (all->draw_state != DRAW_TEXT)
-		return ;
-	draw_cylinder_properties(all, cylinder);
+	manage_float_range(all, &cylinder->transparency_intensity, 540,
+		"transparency : ");
+	cylinder->refraction_intensity -= 1.0f;
+	manage_float_range(all, &cylinder->refraction_intensity, 580,
+		"refraction : ");
+	cylinder->refraction_intensity += 1.0f;
 }
 
 static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder)
@@ -53,6 +65,10 @@ static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder)
 		460, "shininess : ");
 	display_float_range(all, cylinder->reflexion_intensity, 500,
 		"reflexion : ");
+	display_float_range(all, cylinder->transparency_intensity, 540,
+		"transparency : ");
+	display_float_range(all, cylinder->refraction_intensity, 580,
+		"refraction : ");
 }
 
 static void	calculate_ends(t_cylinder *cylinder)

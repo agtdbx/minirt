@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/17 16:34:53 by aderouba         ###   ########.fr        #
+#    Updated: 2023/04/25 17:59:43 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -61,8 +61,11 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/image/ray_tab.c				\
 # 			srcs/image/color_tab.c				\
 # 			srcs/image/antialiasing.c			\
+# 			srcs/image/transparency.c			\
+# 			srcs/image/merge_pixels.c			\
 # 			srcs/image/compute_light.c			\
 # 			srcs/image/compute_pixel.c			\
+# 			srcs/image/intersections.c			\
 # 			srcs/image/calculate_image.c		\
 # 			srcs/image/mirror_reflection.c		\
 # 			srcs/image/incremente_intensity.c	\
@@ -89,14 +92,15 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/maths/is_xyz_in_range.c		\
 # 			srcs/maths/compute_screen_basis.c	\
 # 			\
-# 			srcs/objects/plane.c				\
-# 			srcs/objects/sphere.c				\
-# 			srcs/objects/camera.c				\
-# 			srcs/objects/space_rotation.c		\
-# 			srcs/objects/camera_rotation.c		\
-# 			srcs/objects/create_cylinder.c		\
-# 			srcs/objects/intersect_cylinder.c	\
-# 			srcs/objects/camera_translation.c	\
+# 			srcs/objects/plane.c						\
+# 			srcs/objects/sphere.c						\
+# 			srcs/objects/camera.c						\
+# 			srcs/objects/space_rotation.c				\
+# 			srcs/objects/camera_rotation.c				\
+# 			srcs/objects/create_cylinder.c				\
+# 			srcs/objects/camera_translation.c			\
+# 			srcs/objects/intersect_cylinder.c			\
+# 			srcs/objects/intersect_second_cylinder.c	\
 # 			\
 # 			srcs/parsing/parse_vec.c		\
 # 			srcs/parsing/parse_file.c		\
