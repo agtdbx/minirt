@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 11:15:56 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:20:40 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/26 10:17:27 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static void	camera_rotations_arrond_x(t_all *all, const float degrees,
 			all->scene.camera.len);
 		all->draw_state = NEED_REDRAW;
 	}
-	if (all->scene.camera.basis[2].z > 0.1f
-		&& mlx_is_key_down(all->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(all->mlx, MLX_KEY_DOWN))
 	{
 		relative_rotate(&basis[1], &basis[0], -rad);
 		relative_rotate(&basis[2], &basis[0], -rad);

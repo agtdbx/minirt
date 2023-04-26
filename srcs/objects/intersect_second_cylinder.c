@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 14:36:41 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/26 13:03:49 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,16 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	vec3_fill(&dst1.nrm, 0.0f, 0.0f, 0.0f);
 	intersect_plane(&cylinder->bot, ray, &dst0);
 	intersect_plane(&cylinder->top, ray, &dst1);
-	intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
-	interect_cylinder_top_end(cylinder, ray, intersect_ret, &dst1);
+	if (dst0.dst < 0.0f && dst1.dst < 0.0f)
+		return ;
+	if (dst0.dst < 0.0f)
+		interect_cylinder_top_end(cylinder, ray, intersect_ret, &dst1);
+	if (dst1.dst < 0.0f)
+		intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
+	if (dst0.dst > dst1.dst)
+		intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
+	else
+		interect_cylinder_top_end(cylinder, ray, intersect_ret, &dst1);
 }
 
 static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,

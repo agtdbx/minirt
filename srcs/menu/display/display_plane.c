@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 13:30:59 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/26 09:58:02 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,6 @@ void	display_plane(t_all *all, t_plane *plane)
 	manage_float_range(all, &plane->reflexion_intensity, 420, "reflexion : ");
 	manage_float_range(all, &plane->transparency_intensity, 460,
 		"transparency : ");
-	plane->refraction_intensity -= 1.0f;
-	manage_float_range(all, &plane->refraction_intensity, 500,
-		"refraction : ");
-	plane->refraction_intensity += 1.0f;
 	if (all->draw_state != DRAW_TEXT)
 		return ;
 	display_properties(all, plane);
@@ -50,6 +46,4 @@ static void	display_properties(t_all *all, t_plane *plane)
 	display_float_range(all, plane->reflexion_intensity, 420, "reflexion : ");
 	display_float_range(all, plane->transparency_intensity, 460,
 		"transparency : ");
-	display_float_range(all, plane->refraction_intensity, 500,
-		"refraction : ");
 }

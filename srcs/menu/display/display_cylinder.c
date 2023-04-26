@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 13:30:04 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/26 12:36:42 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ static void	manage_intensities(t_all *all, t_cylinder *cylinder)
 		"reflexion : ");
 	manage_float_range(all, &cylinder->transparency_intensity, 540,
 		"transparency : ");
-	cylinder->refraction_intensity -= 1.0f;
-	manage_float_range(all, &cylinder->refraction_intensity, 580,
+	manage_float(all, &cylinder->refraction_intensity, 580,
 		"refraction : ");
-	cylinder->refraction_intensity += 1.0f;
 }
 
 static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder)
@@ -67,7 +65,7 @@ static void	draw_cylinder_properties(t_all *all, t_cylinder *cylinder)
 		"reflexion : ");
 	display_float_range(all, cylinder->transparency_intensity, 540,
 		"transparency : ");
-	display_float_range(all, cylinder->refraction_intensity, 580,
+	display_float(all, cylinder->refraction_intensity, 580,
 		"refraction : ");
 }
 
