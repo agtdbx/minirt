@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 18:12:38 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 09:57:56 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,7 @@ typedef struct s_intersect_ret
 	float	reflexion_intensity;
 	float	transparency_intensity;
 	float	refraction_intensity;
+	int		reflect_limit;
 	int		id;
 }	t_intersect_ret;
 
@@ -364,8 +365,7 @@ void		incremente_intensity(t_intersect_ret *res, t_light const *light,
 				float const reflection_ratio);
 
 // image/compute_light.c
-void		compute_light(t_all *all, t_intersect_ret *res, t_ray *ray,
-				int reflect);
+void		compute_light(t_all *all, t_intersect_ret *res, t_ray *ray);
 
 // image/add_diffuse_intensity.c
 bool		add_diffuse_intensity(t_all *all, t_intersect_ret *res,
@@ -381,10 +381,24 @@ void		merge_pixels(t_intersect_ret *res,
 
 // image/mirror_reflection.c
 void		mirror_reflection(t_all *all, t_intersect_ret *res,
-				t_ray const *ray, int reflect);
+				t_ray const *ray);
 
 // image/transparency.c
 void		apply_transparency(t_all *all, t_intersect_ret *res, t_ray *ray);
+bool		refract(t_vec3 const *v, t_vec3 const *n, float ni_over_nt,
+				t_vec3 *refracted);
+void		transparency_reflect(t_all *all, t_intersect_ret *res, t_ray *ray);
+
+// image/sphere_transparency.c
+void		sphere_transparency(t_all *all, t_intersect_ret *res, t_ray *ray,
+				t_sphere *sphere);
+
+// image/plane_transparency.c
+void		plane_transparency(t_all *all, t_intersect_ret *res, t_ray *ray);
+
+// image/cylinder_transparency.c
+void		cylinder_transparency(t_all *all, t_intersect_ret *res, t_ray *ray,
+				t_cylinder *cylinder);
 
 /*=====================================MENU===================================*/
 
@@ -542,6 +556,6 @@ char		*ft_strtok_r(char *str, char const *sep, char **saveptr);
 char		*ft_strtok(char *str, char const *sep);
 
 // utils/dst_and_nrm.c
-void		init_intersect_ret(t_intersect_ret *to_init);
+void		init_intersect_ret(t_intersect_ret *to_init, int reflect_limit);
 
 #endif

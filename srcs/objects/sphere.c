@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/26 12:38:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:40:00 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_sphere	create_sphere(t_vec3 origin, float diameter, t_color color)
 	res.shininess_intensity = 10.0f;
 	res.reflexion_intensity = 0.0f;
 	res.transparency_intensity = 0.0f;
-	res.refraction_intensity = 1.3f;
+	res.refraction_intensity = 1.0f;
 	return (res);
 }
 

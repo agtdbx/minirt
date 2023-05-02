@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/04/25 17:59:43 by aderouba         ###   ########.fr        #
+#    Updated: 2023/05/02 09:07:06 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,8 +67,10 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/image/compute_pixel.c			\
 # 			srcs/image/intersections.c			\
 # 			srcs/image/calculate_image.c		\
-# 			srcs/image/mirror_reflection.c		\
+# 			srcs/image/plane_transparency.c		\
+# 			srcs/image/sphere_transparency.c	\
 # 			srcs/image/incremente_intensity.c	\
+# 			srcs/image/cylinder_transparency.c	\
 # 			srcs/image/add_diffuse_intensity.c	\
 # 			srcs/image/add_specular_intensity.c	\
 # 			\

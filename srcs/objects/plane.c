@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 14:29:54 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:39:52 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_plane	create_plane(t_vec3 origin, t_vec3 normal, t_color color)
 	res.shininess_intensity = 10.0f;
 	res.reflexion_intensity = 0.0f;
 	res.transparency_intensity = 0.0f;
-	res.refraction_intensity = 1.3f;
+	res.refraction_intensity = 1.0f;
 	return (res);
 }
 

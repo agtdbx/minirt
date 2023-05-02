@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 13:22:56 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 08:40:14 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ static void	init_intensities(t_cylinder *cylinder)
 	cylinder->shininess_intensity = 10.0f;
 	cylinder->reflexion_intensity = 0.0f;
 	cylinder->transparency_intensity = 0.0f;
-	cylinder->refraction_intensity = 1.3f;
+	cylinder->refraction_intensity = 1.0f;
 }

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/26 12:31:41 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/28 13:41:43 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,12 @@ void	display_sphere(t_all *all, t_sphere *sphere)
 	manage_float_range(all, &sphere->reflexion_intensity, 380, "reflexion : ");
 	manage_float_range(all, &sphere->transparency_intensity, 420,
 		"transparency : ");
+	sphere->refraction_intensity -= 1.0f;
+	sphere->refraction_intensity *= 20.0f;
 	manage_float(all, &sphere->refraction_intensity, 460,
 		"refraction : ");
+	sphere->refraction_intensity /= 20.0f;
+	sphere->refraction_intensity += 1.0f;
 	if (all->draw_state != DRAW_TEXT)
 		return ;
 	display_properties(all, sphere);

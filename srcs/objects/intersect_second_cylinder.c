@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/26 13:03:49 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/04/28 13:27:26 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	intersect_second_cylinder(t_cylinder *cylinder, t_ray *ray,
 		return ;
 	}
 	if (0.0f <= dst[0]
-		&& (intersect_ret->dst < 0.0f || dst[0] < intersect_ret->dst))
+		&& dst[0] > intersect_ret->dst)
 		assign_result_value(cylinder, ray, intersect_ret, dst);
 }
 
@@ -90,14 +90,8 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	intersect_plane(&cylinder->top, ray, &dst1);
 	if (dst0.dst < 0.0f && dst1.dst < 0.0f)
 		return ;
-	if (dst0.dst < 0.0f)
-		interect_cylinder_top_end(cylinder, ray, intersect_ret, &dst1);
-	if (dst1.dst < 0.0f)
-		intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
-	if (dst0.dst > dst1.dst)
-		intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
-	else
-		interect_cylinder_top_end(cylinder, ray, intersect_ret, &dst1);
+	interect_cylinder_top_end(cylinder, ray, intersect_ret, &dst1);
+	intersect_cylinder_bot_end(cylinder, ray, intersect_ret, &dst0);
 }
 
 static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
@@ -116,7 +110,7 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 	if (d > cylinder->radius2)
 		return ;
 	if (0.0f <= dst1->dst
-		&& (intersect_ret->dst <= 0.0f || dst1->dst < intersect_ret->dst))
+		&& dst1->dst > intersect_ret->dst)
 	{
 		intersect_ret->dst = dst1->dst;
 		intersect_ret->nrm = cylinder->top.normal;
@@ -146,7 +140,7 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 	if (d > cylinder->radius2)
 		return ;
 	if (0.0f <= dst0->dst
-		&& (intersect_ret->dst <= 0.0f || dst0->dst < intersect_ret->dst))
+		&& dst0->dst > intersect_ret->dst)
 	{
 		intersect_ret->dst = dst0->dst;
 		intersect_ret->nrm = cylinder->bot.normal;

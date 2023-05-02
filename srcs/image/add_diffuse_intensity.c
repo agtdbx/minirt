@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 11:19:24 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:17:44 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 10:02:23 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static bool	is_in_shadow(t_all *all, t_ray *ray, float distance, int id_ignore)
 	t_intersect_ret	res;
 	t_rtlst			*obj;
 
-	init_intersect_ret(&res);
+	init_intersect_ret(&res, 0);
 	obj = all->scene.objects;
 	while (obj)
 	{

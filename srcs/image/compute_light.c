@@ -6,13 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/11 17:20:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/25 14:30:35 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 09:58:42 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	compute_light(t_all *all, t_intersect_ret *res, t_ray *ray, int reflect)
+void	compute_light(t_all *all, t_intersect_ret *res, t_ray *ray)
 {
 	int				i;
 	t_vec3 const	pixel_pos = get_point_on_ray(ray, res->dst);
@@ -30,6 +30,6 @@ void	compute_light(t_all *all, t_intersect_ret *res, t_ray *ray, int reflect)
 		i++;
 	}
 	apply_transparency(all, res, ray);
-	if (reflect > 0)
-		mirror_reflection(all, res, ray, reflect - 1);
+	if (res->reflect_limit >= 0)
+		mirror_reflection(all, res, ray);
 }
