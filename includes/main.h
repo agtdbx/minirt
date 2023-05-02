@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/02 09:57:56 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:36:06 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,6 @@ typedef struct s_menu
 {
 	t_button	but_camera;
 	t_button	but_ambiant_ligth;
-	t_button	but_ligth;
 	t_button	but_minus;
 	t_button	but_plus;
 	t_cursor	cur_fov;

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:14:50 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/07 16:37:25 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:36:29 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	draw_menu(t_all *all)
 	display_selected(all);
 	draw_but_color(all, &all->menu.but_camera, SELECT_CAMERA);
 	draw_but_color(all, &all->menu.but_ambiant_ligth, SELECT_AMBIANT_LIGHT);
-	draw_but_color(all, &all->menu.but_ligth, SELECT_LIGHT);
 }
 
 static void	check_button_click(t_all *all)
@@ -71,11 +70,6 @@ static void	check_button_click(t_all *all)
 	if (but_click(all, &all->menu.but_ambiant_ligth))
 	{
 		all->menu.id_obj_select = SELECT_AMBIANT_LIGHT;
-		all->draw_state = NEED_REDRAW;
-	}
-	if (but_click(all, &all->menu.but_ligth))
-	{
-		all->menu.id_obj_select = SELECT_LIGHT;
 		all->draw_state = NEED_REDRAW;
 	}
 }
