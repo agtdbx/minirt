@@ -6,13 +6,13 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 15:59:53 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:03:31 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-float	vec3_get_length(t_vec3 *vec)
+float	vec3_get_length(t_vec3 const *vec)
 {
 	return (sqrt((vec->x * vec->x) + (vec->y * vec->y) + (vec->z * vec->z)));
 }

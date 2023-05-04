@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/26 12:50:38 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:25:18 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst1);
 static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst0);
+static t_color	cylinder_map(t_vec3 const *p);
+static t_color	cylinder_ends_map(t_vec3 const *p);
 
 // param : cylinder, ray
 // result : distance beetween ray origin and cylinder.
@@ -67,7 +69,13 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 	vec3_sub_vec3(&x, &intersect_ret->nrm);
 	vec3_fill(&intersect_ret->nrm, x.x, x.y, x.z);
 	vec3_normalize(&intersect_ret->nrm);
-	intersect_ret->color = cylinder->color;
+
+	// intersect_ret->color = cylinder->color;
+
+	t_vec3	p = get_point_on_ray(ray, intersect_ret->dst);
+	vec3_sub_vec3(&p, &cylinder->origin);
+	intersect_ret->color = cylinder_map(&p);
+
 	intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 	intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 	intersect_ret->transparency_intensity = cylinder->transparency_intensity;
@@ -120,7 +128,13 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 	{
 		intersect_ret->dst = dst1->dst;
 		intersect_ret->nrm = cylinder->top.normal;
-		intersect_ret->color = cylinder->color;
+
+		// intersect_ret->color = cylinder->color;
+
+		t_vec3	p = get_point_on_ray(ray, intersect_ret->dst);
+		vec3_sub_vec3(&p, &cylinder->origin);
+		intersect_ret->color = cylinder_ends_map(&p);
+
 		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->transparency_intensity
@@ -150,7 +164,13 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 	{
 		intersect_ret->dst = dst0->dst;
 		intersect_ret->nrm = cylinder->bot.normal;
-		intersect_ret->color = cylinder->color;
+
+		// intersect_ret->color = cylinder->color;
+
+		t_vec3	p = get_point_on_ray(ray, intersect_ret->dst);
+		vec3_sub_vec3(&p, &cylinder->origin);
+		intersect_ret->color = cylinder_ends_map(&p);
+
 		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->transparency_intensity
@@ -158,4 +178,44 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 		intersect_ret->refraction_intensity = cylinder->refraction_intensity;
 		intersect_ret->id = cylinder->id;
 	}
+}
+
+static t_color	do_checkboard(float w, float h, float u, float v)
+{
+	t_color	res;
+
+	res.r = 0;
+	res.g = 0;
+	res.b = 0;
+	if (((int)(u * w) + (int)(v * h)) % 2)
+	{
+		res.r = 255;
+		res.g = 255;
+		res.b = 255;
+	}
+	return (res);
+}
+
+static t_color	cylinder_map(t_vec3 const *p)
+{
+	float	theta;
+	float	raw_u;
+	float	u;
+	float	v;
+
+	theta = atan2f(p->x, p->z);
+	raw_u = theta / (2.0f * PI);
+	u = 1.0f - (raw_u + 0.5f);
+	v = p->y - (int)p->y;
+	return (do_checkboard(16.0f, 8.0f, u, v));
+}
+
+static t_color	cylinder_ends_map(t_vec3 const *p)
+{
+	float	u;
+	float	v;
+
+	u = p->x - (int)p->x;
+	v = p->z - (int)p->z;
+	return (do_checkboard(16.0f, 8.0f, u, v));
 }

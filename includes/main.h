@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/02 15:36:06 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/04 16:03:47 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -510,7 +510,7 @@ void		vec3_sub_vec3(t_vec3 *vec, t_vec3 const *vec_to_sub);
 void		vec3_multiply_number(t_vec3 *vec, float const number);
 
 // utils/vec3/vec_operator.c
-float		vec3_get_length(t_vec3 *vec);
+float		vec3_get_length(t_vec3 const *vec);
 void		vec3_normalize(t_vec3 *vec);
 float		vec3_dot_product(t_vec3 const *v1, t_vec3 const *v2);
 void		vec3_cross_product(t_vec3 const *v1, t_vec3 const *v2,
