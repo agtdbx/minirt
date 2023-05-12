@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/04 16:03:47 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/12 17:01:16 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,17 @@
 # define HEIGHT 995
 
 # define WIDTH_DIV_2 960
-# define HEIGHT_DIV_2 497.5
+# define HEIGHT_DIV_2 497.5f
 
 # define LIGHT_DIFFUSE_RADIUS 100.0f
 
 # define MAX_REFLECT 4
 
 // Define for pre-calculate value
-# define PI 3.141592
-# define PI_DIV_180 0.017453
-# define PI_DIV_360 0.008726
+# define PI 3.141592f
+# define PI_DIV_180 0.017453f
+# define PI_DIV_360 0.008726f
+# define DIV_180_BY_PI 57.295779f
 
 // Define for rotate parameter
 # define ROTATE_AROUND_X 'x'
@@ -318,6 +319,7 @@ void		fill_tab_ray(t_ray **ray_tab, t_scene *scene,
 // objets/space_operations.c
 void		translate(t_vec3 *vector, float x, float y, float z);
 void		absolute_rotate(t_vec3 *vector, float angle, char axis);
+void		absolute_rotate_rad(t_vec3 *vector, float rad, char axis);
 void		relative_rotate(t_vec3 *restrict vect,
 				t_vec3 const *restrict axis, float angle);
 

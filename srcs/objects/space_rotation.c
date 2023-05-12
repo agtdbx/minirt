@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 10:34:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:42:58 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:17:01 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,29 @@ void	absolute_rotate(t_vec3 *vector, float angle, char axis)
 	const float	y = vector->y;
 	const float	z = vector->z;
 	const float	rad = angle * PI_DIV_180;
+
+	if (axis == ROTATE_AROUND_X)
+	{
+		vector->y = cos(rad) * y + sin(rad) * z;
+		vector->z = -sin(rad) * y + cos(rad) * z;
+	}
+	else if (axis == ROTATE_AROUND_Y)
+	{
+		vector->x = cos(rad) * x + sin(rad) * z;
+		vector->z = -sin(rad) * x + cos(rad) * z;
+	}
+	else if (axis == ROTATE_AROUND_Z)
+	{
+		vector->x = cos(rad) * x + sin(rad) * y;
+		vector->y = -sin(rad) * x + cos(rad) * y;
+	}
+}
+
+void	absolute_rotate_rad(t_vec3 *vector, float rad, char axis)
+{
+	const float	x = vector->x;
+	const float	y = vector->y;
+	const float	z = vector->z;
 
 	if (axis == ROTATE_AROUND_X)
 	{
