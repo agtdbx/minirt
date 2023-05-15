@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/12 16:56:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:35:58 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,6 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst1);
 static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst0);
-static t_color	cylinder_map(t_vec3 const *p, t_cylinder const *cylinder,
-					float cy);
-static t_color	cylinder_ends_map(t_vec3 const *p, t_plane const *plane);
 
 // param : cylinder, ray
 // result : distance beetween ray origin and cylinder.
@@ -70,13 +67,7 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 	vec3_sub_vec3(&x, &intersect_ret->nrm);
 	vec3_fill(&intersect_ret->nrm, x.x, x.y, x.z);
 	vec3_normalize(&intersect_ret->nrm);
-
-	// intersect_ret->color = cylinder->color;
-
-	t_vec3	p = get_point_on_ray(ray, intersect_ret->dst);
-	vec3_sub_vec3(&p, &cylinder->origin);
-	intersect_ret->color = cylinder_map(&p, cylinder, dst[1]);
-
+	intersect_ret->color = cylinder_map(ray, *dst, cylinder, dst[1]);
 	intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 	intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 	intersect_ret->transparency_intensity = cylinder->transparency_intensity;
@@ -129,13 +120,7 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 	{
 		intersect_ret->dst = dst1->dst;
 		intersect_ret->nrm = cylinder->top.normal;
-
-		// intersect_ret->color = cylinder->color;
-
-		t_vec3	p = get_point_on_ray(ray, intersect_ret->dst);
-		vec3_sub_vec3(&p, &cylinder->origin);
-		intersect_ret->color = cylinder_ends_map(&p, &cylinder->top);
-
+		intersect_ret->color = plane_map(ray, intersect_ret->dst, &cylinder->top);
 		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->transparency_intensity
@@ -165,13 +150,7 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 	{
 		intersect_ret->dst = dst0->dst;
 		intersect_ret->nrm = cylinder->bot.normal;
-
-		// intersect_ret->color = cylinder->color;
-
-		t_vec3	p = get_point_on_ray(ray, intersect_ret->dst);
-		vec3_sub_vec3(&p, &cylinder->origin);
-		intersect_ret->color = cylinder_ends_map(&p, &cylinder->bot);
-
+		intersect_ret->color = plane_map(ray, intersect_ret->dst, &cylinder->bot);
 		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->transparency_intensity
@@ -196,102 +175,4 @@ static t_color	do_checkboard(float w, float h, float u, float v)
 		res.b = 255;
 	}
 	return (res);
-}
-
-// static void	align_on_y(t_vec3 *rp, t_vec3 const *axis)
-// {
-// 	float	xy_length;
-// 	float	z_angle;
-// 	float	vec_length;
-// 	float	x_angle;
-
-// 	xy_length = sqrtf((axis->x * axis->x) + (axis->y * axis->y));
-// 	if (xy_length == 0.0f)
-// 	{
-// 		z_angle = 90 * DIV_180_BY_PI;
-// 		if (axis->x < 0.0f)
-// 			z_angle = -z_angle;
-// 	}
-// 	else
-// 		z_angle = acosf(axis->y / xy_length);
-
-// 	vec_length = vec3_get_length(axis);
-// 	x_angle = acosf(xy_length / vec_length);
-// 	if (axis->z < 0.0f)
-// 		x_angle = -x_angle;
-// 	else if (axis->z == 0.0f)
-// 		x_angle = 0.0f;
-// 	if (axis->x > 0.0f)
-// 		z_angle = -z_angle;
-// 	else if (axis->x == 0.0f)
-// 		z_angle = 0.0f;
-
-// 	t_vec3	xy_axis[2];
-// 	get_screen_basis(axis, xy_axis, 1);
-
-// 	vec3_normalize(&xy_axis[0]);
-// 	vec3_normalize(&xy_axis[1]);
-
-// 	absolute_rotate_rad(rp, x_angle, ROTATE_AROUND_X);
-// 	absolute_rotate_rad(rp, z_angle, ROTATE_AROUND_Z);
-// 	// relative_rotate(rp, &xy_axis[0], z_angle);
-
-// }
-
-static t_color	cylinder_map(t_vec3 const *p, t_cylinder const *cylinder,
-					float cy)
-{
-	t_vec3	ref; // vecteur de référence parallèle à Oxz (le sol)
-	t_vec3	tmp;
-	t_vec3	proj; // projeté de p sur le plan normal à axis
-	float	cx;
-
-	if (cylinder->axis.x != 0.0f || cylinder->axis.y != 0.0f)
-		vec3_fill(&ref, -cylinder->axis.y, cylinder->axis.x, 0.0f);
-	else
-		vec3_fill(&ref, 0.0f, 0.0f, 1.0f);
-
-	vec3_cross_product(&cylinder->axis, p, &tmp);
-	vec3_cross_product(&cylinder->axis, &tmp, &proj);
-	vec3_normalize(&ref);
-	vec3_normalize(&proj);
-
-	cx = acosf(vec3_dot_product(&proj, &ref));
-
-	cx = cx / (2.0f * PI);
-
-	vec3_cross_product(&cylinder->axis, &ref, &tmp);
-	vec3_normalize(&tmp);
-	if (vec3_dot_product(&proj, &tmp) < 0.0f)
-		cx = 1.0f - cx;
-
-	cy /= cylinder->height;
-
-	return (do_checkboard(8.0f, 8.0f, cx, cy));
-}
-
-static t_color	cylinder_ends_map(t_vec3 const *p, t_plane const *plane)
-{
-	float	u;
-	float	v;
-
-	t_vec3	o_x;
-	t_vec3	o_y;
-
-	if (plane->normal.x != 0.0f || plane->normal.y != 0.0f)
-		vec3_fill(&o_y, -plane->normal.y, plane->normal.x, 0.0f);
-	else
-		vec3_fill(&o_y, 0.0f, 0.0f, 1.0f);
-	vec3_cross_product(&plane->normal, &o_y, &o_x);
-
-	vec3_normalize(&o_x);
-	vec3_normalize(&o_y);
-
-	u = vec3_dot_product(&o_x, p);
-	v = vec3_dot_product(&o_y, p);
-	u -= (int)u;
-	v -= (int)v;
-	u = (u + 1.0f) / 2.0f;
-	v = (v + 1.0f) / 2.0f;
-	return (do_checkboard(8.0f, 8.0f, u, v));
 }

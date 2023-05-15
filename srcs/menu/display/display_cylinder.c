@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/28 13:48:32 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:21:21 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ static void	calculate_ends(t_cylinder *cylinder)
 	cylinder->top_origin.z += cylinder->axis.z * half_height;
 	cylinder->bot = create_plane(cylinder->bot_origin, rev_axis,
 			cylinder->color);
+	cylinder->bot.mapping_type = cylinder->mapping_type;
 	cylinder->top = create_plane(cylinder->top_origin, cylinder->axis,
 			cylinder->color);
+	cylinder->top.mapping_type = cylinder->mapping_type;
 }

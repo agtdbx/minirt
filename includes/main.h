@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/12 17:01:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 13:38:35 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,14 @@ typedef enum e_draw_state
 	DRAW_TEXT
 }	t_draw_state;
 
+// Draw state enem
+typedef enum e_mapping_type
+{
+	MAP_COLOR,
+	MAP_CHECKERBOARD,
+	MAP_TEXTURE
+}	t_mapping_type;
+
 // Color struct
 typedef struct s_color
 {
@@ -92,49 +100,58 @@ typedef struct s_ray
 // Sphere struct
 typedef struct s_sphere
 {
-	t_vec3	origin;
-	float	radius;
-	float	radius2;
-	float	shininess_intensity;
-	float	reflexion_intensity;
-	float	transparency_intensity;
-	float	refraction_intensity;
-	t_color	color;
-	int		id;
+	t_vec3			origin;
+	float			radius;
+	float			radius2;
+	float			shininess_intensity;
+	float			reflexion_intensity;
+	float			transparency_intensity;
+	float			refraction_intensity;
+	t_color			color;
+	int				id;
+	t_mapping_type	mapping_type;
+	mlx_texture_t	*texture_map;
+	mlx_texture_t	*normal_map;
 }	t_sphere;
 
 // Plane struct
 typedef struct s_plane
 {
-	t_vec3	origin;
-	t_vec3	normal;
-	t_vec3	rev_normal;
-	t_color	color;
-	float	shininess_intensity;
-	float	reflexion_intensity;
-	float	transparency_intensity;
-	float	refraction_intensity;
-	int		id;
+	t_vec3			origin;
+	t_vec3			normal;
+	t_vec3			rev_normal;
+	t_color			color;
+	float			shininess_intensity;
+	float			reflexion_intensity;
+	float			transparency_intensity;
+	float			refraction_intensity;
+	t_mapping_type	mapping_type;
+	mlx_texture_t	*texture_map;
+	mlx_texture_t	*normal_map;
+	int				id;
 }	t_plane;
 
 // Cylinder struct
 typedef struct s_cylinder
 {
-	t_vec3	origin;
-	t_vec3	bot_origin;
-	t_vec3	top_origin;
-	t_vec3	axis;
-	t_plane	bot;
-	t_plane	top;
-	float	radius;
-	float	radius2;
-	float	height;
-	float	shininess_intensity;
-	float	reflexion_intensity;
-	float	transparency_intensity;
-	float	refraction_intensity;
-	t_color	color;
-	int		id;
+	t_vec3			origin;
+	t_vec3			bot_origin;
+	t_vec3			top_origin;
+	t_vec3			axis;
+	t_plane			bot;
+	t_plane			top;
+	float			radius;
+	float			radius2;
+	float			height;
+	float			shininess_intensity;
+	float			reflexion_intensity;
+	float			transparency_intensity;
+	float			refraction_intensity;
+	t_color			color;
+	int				id;
+	t_mapping_type	mapping_type;
+	mlx_texture_t	*texture_map;
+	mlx_texture_t	*normal_map;
 }	t_cylinder;
 
 // Intersect result struct
@@ -286,15 +303,21 @@ int			main(int argc, char **argv);
 
 /*====================================OBJECT==================================*/
 
-// objets/sphere.c
+// objets/create_sphere.c
 t_sphere	create_sphere(t_vec3 origin, float diameter, t_color color);
+void		delete_sphere(t_sphere *sphere);
+
+// objets/intersect_sphere.c
 void		intersect_sphere(t_sphere *sphere, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 void		intersect_second_sphere(t_sphere *sphere, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
-// objets/plane.c
+// objets/create_plane.c
 t_plane		create_plane(t_vec3 origin, t_vec3 normal, t_color color);
+void		delete_plane(t_plane *plane);
+
+// objets/intersect_plane.c
 void		intersect_plane(t_plane *plane, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
@@ -400,6 +423,12 @@ void		plane_transparency(t_all *all, t_intersect_ret *res, t_ray *ray);
 // image/cylinder_transparency.c
 void		cylinder_transparency(t_all *all, t_intersect_ret *res, t_ray *ray,
 				t_cylinder *cylinder);
+
+// image/mapping.c
+t_color		sphere_map(t_ray const *ray, float dst, t_sphere const *sphere);
+t_color		plane_map(t_ray const *ray, float dst, t_plane const *plane);
+t_color		cylinder_map(t_ray const *ray, float dst,
+				t_cylinder const *cylinder, float cy);
 
 /*=====================================MENU===================================*/
 
