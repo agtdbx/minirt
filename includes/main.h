@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 17:17:46 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:53:04 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,6 +316,8 @@ void		intersect_second_sphere(t_sphere *sphere, t_ray *ray,
 
 // objets/create_plane.c
 t_plane		create_plane(t_vec3 origin, t_vec3 normal, t_color color);
+t_plane		create_plane_for_cylinder(t_vec3 origin, t_vec3 normal,
+				t_cylinder *cylinder);
 void		delete_plane(t_plane *plane);
 
 // objets/intersect_plane.c

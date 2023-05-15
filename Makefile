@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/05/15 11:47:33 by aderouba         ###   ########.fr        #
+#    Updated: 2023/05/15 17:35:12 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -125,10 +125,10 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/utils/string.c						\
 # 			srcs/utils/math_utils.c					\
 # 			srcs/utils/intersect_ret.c				\
-# 			srcs/utils/vec3/vec_creation.c		\
-# 			srcs/utils/vec3/vec_operator.c		\
+# 			srcs/utils/vec3/vec_creation.c			\
+# 			srcs/utils/vec3/vec_operator.c			\
 # 			srcs/utils/vec3/vec_get_normals.c		\
-# 			srcs/utils/vec3/vec_vec_operator.c	\
+# 			srcs/utils/vec3/vec_vec_operator.c		\
 # 			srcs/utils/vec3/vec_number_operator.c	\
 # 			\
 # 			srcs/main.c
