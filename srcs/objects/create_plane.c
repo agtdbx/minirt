@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 11:53:35 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:25:47 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ t_plane	create_plane(t_vec3 origin, t_vec3 normal, t_color color)
 	res.refraction_intensity = 1.0f;
 	res.mapping_type = MAP_COLOR;
 	res.texture_map = NULL;
+	// res.texture_map = mlx_load_png("img/gravel_texture.png");
+	// res.texture_map = mlx_load_png("img/test.png");
 	res.normal_map = NULL;
 	return (res);
 }

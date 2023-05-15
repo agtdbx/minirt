@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:10:13 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 13:40:30 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:07:28 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,31 @@ static t_color	do_checkboard(float w, float h, float u, float v)
 	return (res);
 }
 
+static t_color	do_texture(mlx_texture_t *texture, float u, float v)
+{
+	t_color	res;
+	int		x;
+	int		y;
+	int		pixel_index;
+	int		space_between_color;
+
+	if (!texture)
+	{
+		res.r = 0;
+		res.g = 0;
+		res.b = 0;
+		return res;
+	}
+	x = texture->width * u;
+	y = texture->height * v;
+	pixel_index = texture->width * y + x;
+	space_between_color = texture->bytes_per_pixel / 3;
+	res.r = texture->pixels[pixel_index * texture->bytes_per_pixel];
+	res.g = texture->pixels[pixel_index * texture->bytes_per_pixel + space_between_color];
+	res.b = texture->pixels[pixel_index * texture->bytes_per_pixel + (space_between_color * 2)];
+	return (res);
+}
+
 t_color	sphere_map(t_ray const *ray, float dst, t_sphere const *sphere)
 {
 	float	theta;
@@ -46,7 +71,9 @@ t_color	sphere_map(t_ray const *ray, float dst, t_sphere const *sphere)
 	raw_u = theta / (2.0f * PI);
 	u = 1.0f - (raw_u + 0.5f);
 	v = 1.0f - (phi / PI);
-	return (do_checkboard(16.0f, 8.0f, u, v));
+	if (sphere->mapping_type == MAP_CHECKERBOARD)
+		return (do_checkboard(8.0f, 8.0f, u, v));
+	return (do_texture(sphere->texture_map, u, v));
 }
 
 t_color	plane_map(t_ray const *ray, float dst, t_plane const *plane)
@@ -74,7 +101,9 @@ t_color	plane_map(t_ray const *ray, float dst, t_plane const *plane)
 	v -= (int)v;
 	u = (u + 1.0f) / 2.0f;
 	v = (v + 1.0f) / 2.0f;
-	return (do_checkboard(8.0f, 8.0f, u, v));
+	if (plane->mapping_type == MAP_CHECKERBOARD)
+		return (do_checkboard(8.0f, 8.0f, u, v));
+	return (do_texture(plane->texture_map, u, v));
 }
 
 t_color	cylinder_map(t_ray const *ray, float dst, t_cylinder const *cylinder,
@@ -105,5 +134,7 @@ t_color	cylinder_map(t_ray const *ray, float dst, t_cylinder const *cylinder,
 	if (vec3_dot_product(&proj, &tmp) < 0.0f)
 		cx = 1.0f - cx;
 	cy /= cylinder->height;
-	return (do_checkboard(8.0f, 8.0f, cx, cy));
+	if (cylinder->mapping_type == MAP_CHECKERBOARD)
+		return (do_checkboard(16.0f, 8.0f, cx, cy));
+	return (do_texture(cylinder->texture_map, cx, cy));
 }

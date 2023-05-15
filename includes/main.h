@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 13:38:35 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:17:46 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -305,6 +305,7 @@ int			main(int argc, char **argv);
 
 // objets/create_sphere.c
 t_sphere	create_sphere(t_vec3 origin, float diameter, t_color color);
+t_sphere	create_sphere_from_light(t_light *light);
 void		delete_sphere(t_sphere *sphere);
 
 // objets/intersect_sphere.c
@@ -324,6 +325,7 @@ void		intersect_plane(t_plane *plane, t_ray *ray,
 // objets/create_cylinder.c
 t_cylinder	create_cylinder(t_vec3 origin, t_vec3 axis, float size[2],
 				t_color color);
+void		delete_cylinder(t_cylinder *cylinder);
 
 // objets/intersect_cylinder.c
 void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,

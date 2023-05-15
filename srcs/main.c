@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/14 14:35:19 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 16:27:57 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void		init_struct(t_all *all);
 static float	get_delta_time(t_all *all);
 void			hook(void *param);
 static void		set_mouse_state(t_all *all);
+static void		delete_objects(t_scene *scene);
 
 int	main(int argc, char **argv)
 {
@@ -43,9 +44,9 @@ int	main(int argc, char **argv)
 	mlx_loop_hook(all.mlx, &hook, &all);
 	mlx_loop(all.mlx);
 	mlx_terminate(all.mlx);
-	rtlst_free(&all.scene.objects);
 	free_ray_tab(all.ray_tab, HEIGHT);
 	free_color_tab(all.colors_tab, HEIGHT);
+	delete_objects(&all.scene);
 	return (EXIT_SUCCESS);
 }
 
@@ -141,4 +142,22 @@ static void	set_mouse_state(t_all *all)
 	}
 	else
 		all->mouse.pressed = false;
+}
+
+static void	delete_objects(t_scene *scene)
+{
+	t_rtlst	*tmp;
+
+	tmp = scene->objects;
+	while (tmp)
+	{
+		if (tmp->type == SPHERE)
+			delete_sphere(&tmp->value.as_sphere);
+		else if (tmp->type == PLANE)
+			delete_plane(&tmp->value.as_plane);
+		else if (tmp->type == CYLINDER)
+			delete_cylinder(&tmp->value.as_cylinder);
+		tmp = tmp->next;
+	}
+	rtlst_free(&scene->objects);
 }

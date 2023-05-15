@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 13:39:27 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:10:13 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ t_cylinder	create_cylinder(t_vec3 origin, t_vec3 axis, float size[2],
 	res.id = -1;
 	res.mapping_type = MAP_COLOR;
 	res.texture_map = NULL;
+	// res.texture_map = mlx_load_png("img/gravel_texture.png");
+	// res.texture_map = mlx_load_png("img/test.png");
 	res.normal_map = NULL;
 	vec3_dup(&res.origin, &origin);
 	vec3_dup(&res.axis, &axis);
@@ -51,7 +53,8 @@ static void	init_ends(t_cylinder *cylinder)
 	cylinder->top_origin.x += cylinder->axis.x * (cylinder->height / 2.0f);
 	cylinder->top_origin.y += cylinder->axis.y * (cylinder->height / 2.0f);
 	cylinder->top_origin.z += cylinder->axis.z * (cylinder->height / 2.0f);
-	cylinder->top = create_plane(cylinder->top_origin, cylinder->axis, cylinder->color);
+	cylinder->top = create_plane(cylinder->top_origin, cylinder->axis,
+		cylinder->color);
 	cylinder->top.mapping_type = cylinder->mapping_type;
 }
 
@@ -61,4 +64,12 @@ static void	init_intensities(t_cylinder *cylinder)
 	cylinder->reflexion_intensity = 0.0f;
 	cylinder->transparency_intensity = 0.0f;
 	cylinder->refraction_intensity = 1.0f;
+}
+
+void	delete_cylinder(t_cylinder *cylinder)
+{
+	if (cylinder->texture_map)
+		mlx_delete_texture(cylinder->texture_map);
+	if (cylinder->normal_map)
+		mlx_delete_texture(cylinder->normal_map);
 }
