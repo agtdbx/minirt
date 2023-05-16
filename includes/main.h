@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 17:53:04 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:52:00 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -429,10 +429,10 @@ void		cylinder_transparency(t_all *all, t_intersect_ret *res, t_ray *ray,
 				t_cylinder *cylinder);
 
 // image/mapping.c
-t_color		sphere_map(t_ray const *ray, float dst, t_sphere const *sphere);
-t_color		plane_map(t_ray const *ray, float dst, t_plane const *plane);
+t_color		sphere_map(t_ray const *ray, float dst, t_sphere const *sphere, t_intersect_ret *res);
+t_color		plane_map(t_ray const *ray, float dst, t_plane const *plane, t_intersect_ret *res);
 t_color		cylinder_map(t_ray const *ray, float dst,
-				t_cylinder const *cylinder, float cy);
+				t_cylinder const *cylinder, float cy, t_intersect_ret *res);
 
 /*=====================================MENU===================================*/
 

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 13:35:58 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:53:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ static void	assign_result_value(t_cylinder *cylinder, t_ray *ray,
 	vec3_sub_vec3(&x, &intersect_ret->nrm);
 	vec3_fill(&intersect_ret->nrm, x.x, x.y, x.z);
 	vec3_normalize(&intersect_ret->nrm);
-	intersect_ret->color = cylinder_map(ray, *dst, cylinder, dst[1]);
 	intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 	intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 	intersect_ret->transparency_intensity = cylinder->transparency_intensity;
 	intersect_ret->refraction_intensity = cylinder->refraction_intensity;
 	intersect_ret->id = cylinder->id;
+	intersect_ret->color = cylinder_map(ray, *dst, cylinder, dst[1], intersect_ret);
 	intersect_cylinder_ends(cylinder, ray, intersect_ret);
 }
 
@@ -120,13 +120,13 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 	{
 		intersect_ret->dst = dst1->dst;
 		intersect_ret->nrm = cylinder->top.normal;
-		intersect_ret->color = plane_map(ray, intersect_ret->dst, &cylinder->top);
 		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->transparency_intensity
 			= cylinder->transparency_intensity;
 		intersect_ret->refraction_intensity = cylinder->refraction_intensity;
 		intersect_ret->id = cylinder->id;
+		intersect_ret->color = plane_map(ray, intersect_ret->dst, &cylinder->top, intersect_ret);
 	}
 }
 
@@ -150,13 +150,13 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 	{
 		intersect_ret->dst = dst0->dst;
 		intersect_ret->nrm = cylinder->bot.normal;
-		intersect_ret->color = plane_map(ray, intersect_ret->dst, &cylinder->bot);
 		intersect_ret->shininess_intensity = cylinder->shininess_intensity;
 		intersect_ret->reflexion_intensity = cylinder->reflexion_intensity;
 		intersect_ret->transparency_intensity
 			= cylinder->transparency_intensity;
 		intersect_ret->refraction_intensity = cylinder->refraction_intensity;
 		intersect_ret->id = cylinder->id;
+		intersect_ret->color = plane_map(ray, intersect_ret->dst, &cylinder->bot, intersect_ret);
 	}
 }
 

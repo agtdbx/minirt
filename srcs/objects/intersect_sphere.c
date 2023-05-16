@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:47:41 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 11:43:31 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:52:43 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	intersect_sphere(t_sphere *sphere, t_ray *ray,
 		vec3_sub_vec3(&x, &sphere->origin);
 		vec3_fill(&intersect_ret->nrm, x.x, x.y, x.z);
 		vec3_normalize(&intersect_ret->nrm);
-		intersect_ret->color = sphere_map(ray, dst, sphere);
 		set_intensities_res(sphere, intersect_ret);
 		intersect_ret->id = sphere->id;
+		intersect_ret->color = sphere_map(ray, dst, sphere, intersect_ret);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 11:50:49 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/16 13:52:58 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	intersect_plane(t_plane *plane, t_ray *ray,
 			&& (intersect_ret->dst < 0.0f || dst < intersect_ret->dst))
 		{
 			set_intersecte_ret(intersect_ret, plane, dst, &plane->normal);
-			intersect_ret->color = plane_map(ray, dst, plane);
+			intersect_ret->color = plane_map(ray, dst, plane, intersect_ret);
 		}
 	}
 	else if (denom > -0.000001f)
@@ -45,7 +45,7 @@ void	intersect_plane(t_plane *plane, t_ray *ray,
 			&& (intersect_ret->dst < 0.0f || dst < intersect_ret->dst))
 		{
 			set_intersecte_ret(intersect_ret, plane, dst, &plane->rev_normal);
-			intersect_ret->color = plane_map(ray, dst, plane);
+			intersect_ret->color = plane_map(ray, dst, plane, intersect_ret);
 		}
 	}
 }
