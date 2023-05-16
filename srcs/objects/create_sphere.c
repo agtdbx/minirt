@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/15 11:41:56 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/16 13:48:57 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/16 14:36:53 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ t_sphere	create_sphere(t_vec3 origin, float diameter, t_color color)
 	res.reflexion_intensity = 0.0f;
 	res.transparency_intensity = 0.0f;
 	res.refraction_intensity = 1.0f;
-	res.mapping_type = MAP_CHECKERBOARD;
+	res.mapping_type = MAP_TEXTURE;
 	res.texture_map = NULL;
-	// res.texture_map = mlx_load_png("img/gravel_texture.png");
+	res.texture_map = mlx_load_png("img/gravel_texture.png");
 	// res.texture_map = mlx_load_png("img/test.png");
 	res.normal_map = NULL;
-	// res.normal_map = mlx_load_png("img/gravel_normal.png");
+	res.normal_map = mlx_load_png("img/gravel_normal.png");
 	return (res);
 }
 
