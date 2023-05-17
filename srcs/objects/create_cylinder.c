@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/16 14:56:56 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/17 15:45:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ t_cylinder	create_cylinder(t_vec3 origin, t_vec3 axis, float size[2],
 	res.height = size[1];
 	res.color = color;
 	res.id = -1;
-	res.mapping_type = MAP_COLOR;
+	res.mapping_type = MAP_TEXTURE;
 	res.texture_map = NULL;
-	// res.texture_map = mlx_load_png("img/gravel_texture.png");
+	res.texture_map = mlx_load_png("img/gravel_texture.png");
 	// res.texture_map = mlx_load_png("img/test.png");
 	res.normal_map = NULL;
-	// res.normal_map = mlx_load_png("img/gravel_normal.png");
+	res.normal_map = mlx_load_png("img/gravel_normal.png");
 	vec3_dup(&res.origin, &origin);
 	vec3_dup(&res.axis, &axis);
 	init_ends(&res);

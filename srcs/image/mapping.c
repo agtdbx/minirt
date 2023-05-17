@@ -76,9 +76,16 @@ static t_vec3	mat_product(
 	return (result);
 }
 
-static void	do_normal_map(mlx_texture_t *texture, float u, float v, t_intersect_ret *ret, t_vec3 const *o_x, t_vec3 const *o_y, t_vec3 const *o_z)
+static void	do_normal_map(
+				mlx_texture_t *texture,
+				float u,
+				float v,
+				t_intersect_ret *ret,
+				t_vec3 const *o_x,
+				t_vec3 const *o_y,
+				t_vec3 const *o_z)
 {
-	t_vec3	vec;
+	t_vec3	new_nrm;
 	int		x;
 	int		y;
 	int		pixel_index;
@@ -90,21 +97,23 @@ static void	do_normal_map(mlx_texture_t *texture, float u, float v, t_intersect_
 	y = texture->height * v;
 	pixel_index = texture->width * y + x;
 	space_between_color = texture->bytes_per_pixel / 3;
-	vec.x = texture->pixels[pixel_index * texture->bytes_per_pixel] / 255.0f;
-	vec.y = texture->pixels[pixel_index * texture->bytes_per_pixel + space_between_color] / 255.0f;
-	vec.z = texture->pixels[pixel_index * texture->bytes_per_pixel + (space_between_color * 2)] / 255.0f;
-	vec.x = (vec.x * 2.0f) - 1.0f;
-	vec.y = (vec.y * 2.0f) - 1.0f;
-	vec.z = (vec.z * 2.0f) - 1.0f;
-	// print_vect(&vec);
-	// vec3_normalize(&vec);
-	// ret->nrm.x *= -vec.x;
-	// ret->nrm.y *= -vec.y;
-	// ret->nrm.z *= -vec.z;
+	new_nrm.x = texture->pixels[pixel_index *
+				texture->bytes_per_pixel] / 255.0f;
+	new_nrm.y = texture->pixels[pixel_index *
+				texture->bytes_per_pixel + space_between_color] / 255.0f;
+	new_nrm.z = texture->pixels[pixel_index *
+				texture->bytes_per_pixel + (space_between_color * 2)] / 255.0f;
+	new_nrm.x = (new_nrm.x * 2.0f) - 1.0f;
+	new_nrm.y = (new_nrm.y * 2.0f) - 1.0f;
+	new_nrm.z = (new_nrm.z * 2.0f) - 1.0f;
 
-	vec = mat_product(o_x, o_y, o_z, &vec);
-	vec3_add_vec3(&ret->nrm, &vec);
+	// vec3_normalize(&new_nrm);
+	new_nrm.x *= -1;
+	new_nrm.y *= -1;
+	new_nrm = mat_product(o_x, o_y, o_z, &new_nrm);
+	vec3_dup(&ret->nrm, &new_nrm);
 	vec3_normalize(&ret->nrm);
+
 }
 
 t_color	sphere_map(t_ray const *ray, float dst, t_sphere const *sphere, t_intersect_ret *res)
@@ -133,7 +142,11 @@ t_color	sphere_map(t_ray const *ray, float dst, t_sphere const *sphere, t_inters
 	return (do_texture(sphere->texture_map, u, v));
 }
 
-t_color	plane_map(t_ray const *ray, float dst, t_plane const *plane, t_intersect_ret *res)
+t_color	plane_map(
+			t_ray const *ray,
+			float dst,
+			t_plane const *plane,
+			t_intersect_ret *res)
 {
 	float	u;
 	float	v;
@@ -163,7 +176,7 @@ t_color	plane_map(t_ray const *ray, float dst, t_plane const *plane, t_intersect
 	else
 		v = fabs(v);
 	if (plane->normal_map)
-		do_normal_map(plane->normal_map, u, v, res, &o_x, &o_y, &plane->normal);
+		do_normal_map(plane->normal_map, u, v, res, &o_x, &o_y, &res->nrm);
 	if (plane->mapping_type == MAP_COLOR)
 		return (plane->color);
 	else if (plane->mapping_type == MAP_CHECKERBOARD)
@@ -180,7 +193,6 @@ t_color	cylinder_map(t_ray const *ray, float dst, t_cylinder const *cylinder,
 	float	cx;
 	t_vec3	p;
 
-	(void)res;
 	p = get_point_on_ray(ray, dst);
 	vec3_sub_vec3(&p, &cylinder->origin);
 	if (cylinder->axis.x != 0.0f || cylinder->axis.y != 0.0f)
@@ -198,8 +210,8 @@ t_color	cylinder_map(t_ray const *ray, float dst, t_cylinder const *cylinder,
 	if (vec3_dot_product(&proj, &tmp) < 0.0f)
 		cx = 1.0f - cx;
 	cy /= cylinder->height;
-	// if (cylinder->normal_map)
-	// 	do_normal_map(cylinder->normal_map, cx, cy, res);
+	if (cylinder->normal_map)
+		do_normal_map(cylinder->normal_map, cx, cy, res, &tmp, &ref, &cylinder->axis);
 	if (cylinder->mapping_type == MAP_COLOR)
 		return (cylinder->color);
 	else if (cylinder->mapping_type == MAP_CHECKERBOARD)
