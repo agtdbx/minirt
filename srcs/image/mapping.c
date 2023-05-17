@@ -211,7 +211,14 @@ t_color	cylinder_map(t_ray const *ray, float dst, t_cylinder const *cylinder,
 		cx = 1.0f - cx;
 	cy /= cylinder->height;
 	if (cylinder->normal_map)
-		do_normal_map(cylinder->normal_map, cx, cy, res, &tmp, &ref, &cylinder->axis);
+	{
+		vec3_cross_product(&cylinder->axis, &res->nrm, &tmp);
+		vec3_normalize(&tmp);
+		vec3_multiply_number(&tmp, -1.0f);
+		vec3_dup(&ref, &cylinder->axis);
+		vec3_multiply_number(&ref, -1.0f);
+		do_normal_map(cylinder->normal_map, cx, cy, res, &tmp, &ref, &res->nrm);
+	}
 	if (cylinder->mapping_type == MAP_COLOR)
 		return (cylinder->color);
 	else if (cylinder->mapping_type == MAP_CHECKERBOARD)
