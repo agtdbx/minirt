@@ -107,7 +107,6 @@ static void	do_normal_map(
 	new_nrm.y = (new_nrm.y * 2.0f) - 1.0f;
 	new_nrm.z = (new_nrm.z * 2.0f) - 1.0f;
 
-	// vec3_normalize(&new_nrm);
 	new_nrm.x *= -1;
 	new_nrm.y *= -1;
 	new_nrm = mat_product(o_x, o_y, o_z, &new_nrm);
@@ -124,8 +123,9 @@ t_color	sphere_map(t_ray const *ray, float dst, t_sphere const *sphere, t_inters
 	float	u;
 	float	v;
 	t_vec3	p;
+	t_vec3	o_x;
+	t_vec3	o_y;
 
-	(void)res;
 	p = get_point_on_ray(ray, dst);
 	vec3_sub_vec3(&p, &sphere->origin);
 	theta = atan2f(p.x, p.z);
@@ -133,8 +133,13 @@ t_color	sphere_map(t_ray const *ray, float dst, t_sphere const *sphere, t_inters
 	raw_u = theta / (2.0f * PI);
 	u = 1.0f - (raw_u + 0.5f);
 	v = 1.0f - (phi / PI);
-	// if (sphere->normal_map)
-	// 	do_normal_map(sphere->normal_map, u, v, res);
+	if (sphere->normal_map)
+	{
+		vec3_fill(&o_y, 0.0f, -1.0f, 0.0f);
+		vec3_cross_product(&res->nrm, &o_y, &o_x);
+		vec3_normalize(&o_x);
+		do_normal_map(sphere->normal_map, u, v, res, &o_x, &o_y, &res->nrm);
+	}
 	if (sphere->mapping_type == MAP_COLOR)
 		return (sphere->color);
 	else if (sphere->mapping_type == MAP_CHECKERBOARD)
