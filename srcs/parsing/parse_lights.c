@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 13:42:29 by aderouba          #+#    #+#             */
-/*   Updated: 2023/03/27 18:29:32 by tdubois          ###   ########.fr       */
+/*   Updated: 2023/05/19 12:57:01 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,44 @@ t_result	parse_ambient_light(t_scene *ret_scene)
 
 t_result	parse_light(t_scene *ret_scene)
 {
-	static bool	is_initialized = false;
+	static int	id = -4;
+	t_vec3		pos;
+	float		brightness;
+	t_color		color;
+	t_light		*new_light;
+	t_light		*tmp;
 	char		*tok;
 
-	if (is_initialized)
-		return (FAILURE);
-	is_initialized = true;
 	tok = ft_strtok(NULL, " \n");
-	if (parse_vec(tok, &ret_scene->light.pos) == FAILURE)
+	if (parse_vec(tok, &pos) == FAILURE)
 		return (FAILURE);
 	tok = ft_strtok(NULL, " \n");
-	if (parse_brightness(tok, &ret_scene->light.brightness) == FAILURE)
+	if (parse_brightness(tok, &brightness) == FAILURE)
 		return (FAILURE);
 	tok = ft_strtok(NULL, " \n");
-	if (parse_color(tok, &ret_scene->light.color) == FAILURE)
+	if (parse_color(tok, &color) == FAILURE)
 		return (FAILURE);
 	if (ft_strtok(NULL, " \n") != NULL)
 		return (FAILURE);
-	compute_intensity(&ret_scene->light);
+	new_light = malloc(sizeof(t_light));
+	if (new_light == NULL)
+		return (FAILURE);
+	vec3_dup(&new_light->pos, &pos);
+	new_light->color = color;
+	new_light->brightness = brightness;
+	new_light->id = id;
+	new_light->next = NULL;
+	compute_intensity(new_light);
+	id--;
+	tmp = ret_scene->lights;
+	if (tmp == NULL)
+	{
+		ret_scene->lights = new_light;
+		return (SUCCESS);
+	}
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new_light;
 	return (SUCCESS);
 }
 

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 14:34:31 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/17 16:05:45 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:10:20 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,13 +69,13 @@ void	print_camera(t_scene *scene)
 		scene->camera.fov);
 }
 
-void	print_light(t_scene *scene)
+void	print_light(t_light *light)
 {
 	printf("Light : pos = (%03.3f, %03.3f, %03.3f), intensity = %03.3f,"
 		" color = (%i, %i, %i)\n",
-		scene->light.pos.x, scene->light.pos.y, scene->light.pos.z,
-		scene->light.brightness, scene->light.color.r, scene->light.color.g,
-		scene->light.color.b);
+		light->pos.x, light->pos.y, light->pos.z,
+		light->brightness, light->color.r, light->color.g,
+		light->color.b);
 }
 
 void	print_rtlst(t_rtlst *rtlst)

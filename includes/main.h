@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/16 13:52:00 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:09:58 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,12 +184,14 @@ typedef struct s_camera
 // Light Struct
 typedef struct s_light
 {
-	t_vec3	pos;
-	float	brightness;
-	float	intensity_r;
-	float	intensity_g;
-	float	intensity_b;
-	t_color	color;
+	t_vec3			pos;
+	float			brightness;
+	float			intensity_r;
+	float			intensity_g;
+	float			intensity_b;
+	int				id;
+	t_color			color;
+	struct s_light	*next;
 }	t_light;
 
 // Object type
@@ -223,7 +225,7 @@ typedef struct s_scene
 	t_light		ambient_light;
 	int			ppr;
 	t_camera	camera;
-	t_light		light;
+	t_light		*lights;
 	t_rtlst		*objects;
 }	t_scene;
 
@@ -573,7 +575,7 @@ void		print_plane(t_plane *plane);
 void		print_cylinder(t_cylinder *cylinder);
 void		print_ambiant_light(t_scene *scene);
 void		print_camera(t_scene *scene);
-void		print_light(t_scene *scene);
+void		print_light(t_light *light);
 void		print_rtlst(t_rtlst *rtlst);
 
 // utils/math_utils.c

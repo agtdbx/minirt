@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:19:36 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 16:27:57 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:18:40 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ static void	set_mouse_state(t_all *all)
 static void	delete_objects(t_scene *scene)
 {
 	t_rtlst	*tmp;
+	t_light	*next_light;
 
 	tmp = scene->objects;
 	while (tmp)
@@ -160,4 +161,10 @@ static void	delete_objects(t_scene *scene)
 		tmp = tmp->next;
 	}
 	rtlst_free(&scene->objects);
+	while (scene->lights)
+	{
+		next_light = scene->lights->next;
+		free(scene->lights);
+		scene->lights = next_light;
+	}
 }

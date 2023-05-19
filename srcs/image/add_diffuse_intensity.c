@@ -6,13 +6,14 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 11:19:24 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/02 15:50:19 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:13:33 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static bool		is_intersect_light(t_all *all, t_intersect_ret *res);
+static bool		is_intersect_light(t_intersect_ret *res,
+					t_light const *light);
 static float	shadow_intersect(t_all *all, t_ray *ray, float distance,
 					int id_ignore);
 static void		manage_intersect(t_rtlst *obj, t_intersect_ret *res,
@@ -27,7 +28,7 @@ bool	add_diffuse_intensity(t_all *all, t_intersect_ret *res,
 	float	angle_ratio;
 	t_ray	ray_from_light;
 
-	if (light->brightness == 0.0f || is_intersect_light(all, res))
+	if (light->brightness == 0.0f || is_intersect_light(res, light))
 		return (false);
 	vec3_dup(&ray_from_light.origin, &light->pos);
 	vec3_dup(&ray_from_light.direction, pixel_pos);
@@ -48,13 +49,14 @@ bool	add_diffuse_intensity(t_all *all, t_intersect_ret *res,
 	return (true);
 }
 
-static bool	is_intersect_light(t_all *all, t_intersect_ret *res)
+static bool	is_intersect_light(t_intersect_ret *res,
+				t_light const *light)
 {
 	if (res->id <= -4)
 	{
-		res->intensity_r += all->scene.light.brightness;
-		res->intensity_g += all->scene.light.brightness;
-		res->intensity_b += all->scene.light.brightness;
+		res->intensity_r += light->brightness;
+		res->intensity_g += light->brightness;
+		res->intensity_b += light->brightness;
 		if (res->intensity_r > 1.0f)
 			res->intensity_r = 1.0f;
 		if (res->intensity_g > 1.0f)

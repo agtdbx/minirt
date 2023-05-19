@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:14:50 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/02 15:36:29 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:12:47 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static void	check_button_click(t_all *all)
 static void	display_selected(t_all *all)
 {
 	t_rtlst	*obj;
+	t_light	*light;
 
 	if (all->draw_state == DRAW_TEXT)
 		my_put_string(all, "MENU", WIDTH - 230, 10);
@@ -84,8 +85,19 @@ static void	display_selected(t_all *all)
 		display_camera(all, &all->scene.camera);
 	else if (all->menu.id_obj_select == SELECT_AMBIANT_LIGHT)
 		display_ambiant_light(all, &all->scene.ambient_light);
-	else if (all->menu.id_obj_select == SELECT_LIGHT)
-		display_light(all, &all->scene.light);
+	else if (all->menu.id_obj_select < -3)
+	{
+		light = all->scene.lights;
+		while (light)
+		{
+			if (all->menu.id_obj_select == light->id)
+			{
+				display_light(all, light);
+				break ;
+			}
+			light = light->next;
+		}
+	}
 	else
 	{
 		obj = get_obj_by_index(all->scene.objects, all->menu.id_obj_select);

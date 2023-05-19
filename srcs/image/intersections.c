@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:58:42 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 17:18:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 13:01:18 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	do_intersections(t_all *all, t_intersect_ret *res, t_ray *ray)
 {
 	t_rtlst		*obj;
+	t_light		*tmp_light;
 	t_sphere	sphere;
 
 	obj = all->scene.objects;
@@ -31,8 +32,13 @@ void	do_intersections(t_all *all, t_intersect_ret *res, t_ray *ray)
 	}
 	if (all->show_menu)
 	{
-		sphere = create_sphere_from_light(&all->scene.light);
-		intersect_sphere(&sphere, ray, res);
+		tmp_light = all->scene.lights;
+		while (tmp_light)
+		{
+			sphere = create_sphere_from_light(tmp_light);
+			intersect_sphere(&sphere, ray, res);
+			tmp_light = tmp_light->next;
+		}
 	}
 }
 
