@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/17 14:15:35 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:06:59 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,27 @@ t_plane	create_plane_for_cylinder(t_vec3 origin, t_vec3 normal,
 	res.mapping_type = cylinder->mapping_type;
 	res.texture_map = cylinder->texture_map;
 	res.normal_map = cylinder->normal_map;
+	return (res);
+}
+
+t_plane	create_plane_for_cone(t_vec3 origin, t_vec3 normal,
+			t_cone *cone)
+{
+	t_plane	res;
+
+	res.origin = origin;
+	res.normal = normal;
+	vec3_dup(&res.rev_normal, &res.normal);
+	vec3_multiply_number(&res.rev_normal, -1.0f);
+	res.color = cone->color;
+	res.id = cone->id;
+	res.shininess_intensity = cone->shininess_intensity;
+	res.reflexion_intensity = cone->reflexion_intensity;
+	res.transparency_intensity = cone->transparency_intensity;
+	res.refraction_intensity = cone->refraction_intensity;
+	res.mapping_type = cone->mapping_type;
+	res.texture_map = cone->texture_map;
+	res.normal_map = cone->normal_map;
 	return (res);
 }
 

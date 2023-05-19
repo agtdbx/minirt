@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/19 13:09:58 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:18:28 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,28 @@ typedef struct s_cylinder
 	mlx_texture_t	*normal_map;
 }	t_cylinder;
 
+// Cone struct
+typedef struct s_cone
+{
+	t_vec3			origin;
+	t_vec3			end_pos;
+	t_vec3			axis;
+	t_vec3			rev_axis;
+	t_plane			plane;
+	float			radius;
+	float			radius2;
+	float			height;
+	float			shininess_intensity;
+	float			reflexion_intensity;
+	float			transparency_intensity;
+	float			refraction_intensity;
+	t_color			color;
+	int				id;
+	t_mapping_type	mapping_type;
+	mlx_texture_t	*texture_map;
+	mlx_texture_t	*normal_map;
+}	t_cone;
+
 // Intersect result struct
 typedef struct s_intersect_ret
 {
@@ -199,7 +221,8 @@ typedef enum e_rtlst_t
 {
 	SPHERE,
 	PLANE,
-	CYLINDER
+	CYLINDER,
+	CONE
 }	t_rtlst_t;
 
 // Object union
@@ -208,6 +231,7 @@ typedef union u_rtlst_v
 	t_sphere	as_sphere;
 	t_plane		as_plane;
 	t_cylinder	as_cylinder;
+	t_cone		as_cone;
 }	t_rtlst_v;
 
 // Object list
@@ -320,6 +344,8 @@ void		intersect_second_sphere(t_sphere *sphere, t_ray *ray,
 t_plane		create_plane(t_vec3 origin, t_vec3 normal, t_color color);
 t_plane		create_plane_for_cylinder(t_vec3 origin, t_vec3 normal,
 				t_cylinder *cylinder);
+t_plane		create_plane_for_cone(t_vec3 origin, t_vec3 normal,
+				t_cone *cone);
 void		delete_plane(t_plane *plane);
 
 // objets/intersect_plane.c
@@ -338,6 +364,10 @@ void		intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 // objets/intersect_second_cylinder.c
 void		intersect_second_cylinder(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret);
+
+// objets/create_cone.c
+t_cone		create_cone(t_vec3 origin, t_vec3 axis, float size[2],
+				t_color color);
 
 // objets/camera.c
 void		get_screen_basis(t_vec3 const *camera, t_vec3 ret_basis[2],
@@ -511,6 +541,7 @@ t_result	parse_camera(t_scene *ret_scene);
 t_result	parse_sphere(t_scene *ret_scene);
 t_result	parse_plane(t_scene *ret_scene);
 t_result	parse_cylinder(t_scene *ret_scene);
+t_result	parse_cone(t_scene *ret_scene);
 
 // parsing/parse_color.c
 t_result	parse_color(char *rgb_str, t_color *ret_color);

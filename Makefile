@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/05/15 17:35:12 by aderouba         ###   ########.fr        #
+#    Updated: 2023/05/19 15:10:27 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,6 +96,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/maths/compute_screen_basis.c	\
 # 			\
 # 			srcs/objects/camera.c						\
+# 			srcs/objects/create_cone.c					\
 # 			srcs/objects/create_plane.c					\
 # 			srcs/objects/create_sphere.c				\
 # 			srcs/objects/space_rotation.c				\
@@ -109,6 +110,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			\
 # 			srcs/parsing/parse_vec.c		\
 # 			srcs/parsing/parse_file.c		\
+# 			srcs/parsing/parse_cone.c		\
 # 			srcs/parsing/parse_color.c		\
 # 			srcs/parsing/parse_float.c		\
 # 			srcs/parsing/parse_plane.c		\

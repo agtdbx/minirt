@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 09:53:06 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/19 12:59:16 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/19 15:13:02 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ static t_result	parse_line(char const *identifier, t_scene *ret_scene)
 		return (parse_plane(ret_scene));
 	else if (ft_strcmp("cy", identifier) == 0)
 		return (parse_cylinder(ret_scene));
+	else if (ft_strcmp("co", identifier) == 0)
+		return (parse_cone(ret_scene));
 	else if (ft_strcmp("\n", identifier) == 0)
 		return (SUCCESS);
 	ft_printf_fd("Error\n", STDERR_FILENO);
