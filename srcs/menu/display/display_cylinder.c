@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 16:34:26 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/15 17:57:41 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:16:28 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,11 @@ void	display_cylinder(t_all *all, t_cylinder *cylinder)
 		calculate_ends(cylinder);
 	if (manage_float(all, &cylinder->radius, 340, "radius : "))
 		cylinder->radius2 = cylinder->radius * cylinder->radius;
-	manage_color(all, &cylinder->color, 380);
+	if (manage_color(all, &cylinder->color, 380))
+	{
+		cylinder->bot.color = cylinder->color;
+		cylinder->top.color = cylinder->color;
+	}
 	manage_intensities(all, cylinder);
 	if (all->draw_state != DRAW_TEXT)
 		return ;

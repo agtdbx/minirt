@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:38:03 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/23 13:55:03 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/23 18:07:33 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ static void	assign_result_value(t_cone * cone, t_intersect_ret *ret,
 	ret->refraction_intensity = cone->refraction_intensity;
 	ret->id = cone->id;
 	ret->color = cone->color;
+
+	intersect_end(cone, ray, ret);
 }
 
 static void	intersect_end(t_cone *cone, t_ray *ray,
