@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 11:19:24 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/19 13:13:33 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:59:41 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,6 @@ static void	manage_intersect(t_rtlst *obj, t_intersect_ret *res, t_ray *ray)
 		intersect_plane(&obj->value.as_plane, ray, res);
 	else if (obj->type == CYLINDER)
 		intersect_cylinder(&obj->value.as_cylinder, ray, res);
+	else if (obj->type == CONE)
+		intersect_cone(&obj->value.as_cone, ray, res);
 }

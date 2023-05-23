@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/19 15:18:28 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/22 11:52:21 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,8 +160,7 @@ typedef struct s_cone
 	t_vec3			origin;
 	t_vec3			end_pos;
 	t_vec3			axis;
-	t_vec3			rev_axis;
-	t_plane			plane;
+	t_plane			end;
 	float			radius;
 	float			radius2;
 	float			height;
@@ -368,6 +367,10 @@ void		intersect_second_cylinder(t_cylinder *cylinder, t_ray *ray,
 // objets/create_cone.c
 t_cone		create_cone(t_vec3 origin, t_vec3 axis, float size[2],
 				t_color color);
+
+// objets/intersect_cone.c
+void		intersect_cone(t_cone *cone, t_ray *ray,
+				t_intersect_ret *intersect_ret);
 
 // objets/camera.c
 void		get_screen_basis(t_vec3 const *camera, t_vec3 ret_basis[2],

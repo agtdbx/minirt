@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/05/19 15:10:27 by aderouba         ###   ########.fr        #
+#    Updated: 2023/05/19 17:38:29 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,6 +99,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/objects/create_cone.c					\
 # 			srcs/objects/create_plane.c					\
 # 			srcs/objects/create_sphere.c				\
+# 			srcs/objects/intersect_cone.c				\
 # 			srcs/objects/space_rotation.c				\
 # 			srcs/objects/camera_rotation.c				\
 # 			srcs/objects/create_cylinder.c				\

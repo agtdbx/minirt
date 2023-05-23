@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/16 13:53:45 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/23 12:36:14 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	intersect_cylinder(t_cylinder *cylinder, t_ray *ray,
 	abc[2] = vec3_dot_product(&x, &x) - (dv_xv[1] * dv_xv[1])
 		- cylinder->radius2;
 	dst[0] = solve_quadratic(abc[0], abc[1], abc[2]);
+	if (dst[0] < 0.0f)
+		return ;
 	dst[1] = dv_xv[0] * dst[0] + dv_xv[1];
 	if (dst[1] <= 0.0f || dst[1] > cylinder->height)
 	{

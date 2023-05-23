@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 15:01:53 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/19 15:17:44 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/22 11:53:25 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ t_cone	create_cone(t_vec3 origin, t_vec3 axis, float size[2],
 	vec3_multiply_number(&tmp, res.height);
 	vec3_dup(&res.end_pos, &origin);
 	vec3_add_vec3(&res.end_pos, &tmp);
-	vec3_dup(&res.rev_axis, &res.axis);
-	vec3_multiply_number(&res.rev_axis, -1.0f);
-	create_plane_for_cone(res.origin, res.axis, &res);
+	res.end = create_plane_for_cone(res.end_pos, res.axis, &res);
 	res.shininess_intensity = 10.0f;
 	res.reflexion_intensity = 0.0f;
 	res.transparency_intensity = 0.0f;

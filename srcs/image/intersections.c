@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 17:58:42 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/19 13:01:18 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/23 13:47:37 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	do_intersections(t_all *all, t_intersect_ret *res, t_ray *ray)
 		else if (obj->type == CYLINDER)
 			intersect_cylinder(&obj->value.as_cylinder, ray,
 				res);
+		else if (obj->type == CONE)
+			intersect_cone(&obj->value.as_cone, ray, res);
 		obj = obj->next;
 	}
 	if (all->show_menu)
@@ -59,6 +61,8 @@ void	do_intersections_without_id(t_all *all, t_intersect_ret *res,
 			else if (obj->type == CYLINDER)
 				intersect_cylinder(&obj->value.as_cylinder, ray,
 					res);
+			else if (obj->type == CONE)
+				intersect_cone(&obj->value.as_cone, ray, res);
 		}
 		obj = obj->next;
 	}
