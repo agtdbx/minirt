@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 13:14:50 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/19 13:12:47 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:55:52 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,12 @@ static void	display_selected(t_all *all)
 		{
 			if (obj->type == SPHERE)
 				display_sphere(all, &obj->value.as_sphere);
-			if (obj->type == PLANE)
+			else if (obj->type == PLANE)
 				display_plane(all, &obj->value.as_plane);
-			if (obj->type == CYLINDER)
+			else if (obj->type == CYLINDER)
 				display_cylinder(all, &obj->value.as_cylinder);
+			else if (obj->type == CONE)
+				display_cone(all, &obj->value.as_cone);
 		}
 		else if (all->draw_state == DRAW_TEXT)
 			my_put_string(all, "NONE", WIDTH - 230, 100);

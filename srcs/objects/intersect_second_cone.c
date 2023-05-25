@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   intersect_cone.c                                   :+:      :+:    :+:   */
+/*   intersect_second_cone.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 17:38:03 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/25 12:29:27 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:49:57 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-static void	assign_result_value(t_cone * cone, t_intersect_ret *ret,
+static void	assign_second_result_value(t_cone * cone, t_intersect_ret *ret,
 				t_ray *ray, float dst, float m, float tmp);
-static void	intersect_end(t_cone *cone, t_ray *ray,
+static void	intersect_second_end(t_cone *cone, t_ray *ray,
 				t_intersect_ret *ret);
 
 
-void	intersect_cone(t_cone *cone, t_ray *ray,
+void	intersect_second_cone(t_cone *cone, t_ray *ray,
 			t_intersect_ret *ret)
 {
 	float const	k = cone->radius / cone->height;
@@ -48,25 +48,18 @@ void	intersect_cone(t_cone *cone, t_ray *ray,
 	c = vec3_dot_product(&x, &x) - tmp * (x_dot_v * x_dot_v);
 
 	// Calculate dist
-	dst = solve_quadratic(a, b, c);
-	if (dst < 0.0f)
-		return ;
+	dst = solve_second_quadratic(a, b, c);
 	m = d_dot_v * dst + x_dot_v;
-	if (m < 0.0f)
+	if (m < 0.0f || m > cone->height)
 	{
-		dst = solve_second_quadratic(a, b, c);
-		m = d_dot_v * dst + x_dot_v;
-	}
-	if (m < 0.0f || cone->height < m)
-	{
-		intersect_end(cone, ray, ret);
+		intersect_second_end(cone, ray, ret);
 		return ;
 	}
-	if (ret->dst < 0.0f || dst < ret->dst)
-		assign_result_value(cone, ret, ray, dst, m, tmp);
+	if (0.0f <= dst && dst > ret->dst)
+		assign_second_result_value(cone, ret, ray, dst, m, tmp);
 }
 
-static void	assign_result_value(t_cone * cone, t_intersect_ret *ret,
+static void	assign_second_result_value(t_cone * cone, t_intersect_ret *ret,
 				t_ray *ray, float dst, float m, float tmp)
 {
 	t_vec3	tmp_vec;
@@ -85,12 +78,11 @@ static void	assign_result_value(t_cone * cone, t_intersect_ret *ret,
 	ret->transparency_intensity = cone->transparency_intensity;
 	ret->refraction_intensity = cone->refraction_intensity;
 	ret->id = cone->id;
-	ret->color = cone_map(ray, dst, cone, m, ret);
-
-	intersect_end(cone, ray, ret);
+	ret->color = cone->color;
+	intersect_second_end(cone, ray, ret);
 }
 
-static void	intersect_end(t_cone *cone, t_ray *ray,
+static void	intersect_second_end(t_cone *cone, t_ray *ray,
 				t_intersect_ret *ret)
 {
 	t_intersect_ret	tmp;
@@ -106,7 +98,7 @@ static void	intersect_end(t_cone *cone, t_ray *ray,
 	d = vec3_dot_product(&x, &x);
 	if (d > cone->radius2)
 		return ;
-	if (ret->dst < 0.0f || tmp.dst < ret->dst)
+	if (0.0f <= tmp.dst && tmp.dst > ret->dst)
 	{
 		ret->dst = tmp.dst;
 		ret->nrm = cone->end.normal;

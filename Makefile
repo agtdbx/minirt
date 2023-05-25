@@ -6,7 +6,7 @@
 #    By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/09/26 12:24:51 by aderouba          #+#    #+#              #
-#    Updated: 2023/05/19 17:38:29 by aderouba         ###   ########.fr        #
+#    Updated: 2023/05/24 12:25:11 by aderouba         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/image/compute_pixel.c			\
 # 			srcs/image/intersections.c			\
 # 			srcs/image/calculate_image.c		\
+# 			srcs/image/cone_transparency.c		\
 # 			srcs/image/plane_transparency.c		\
 # 			srcs/image/sphere_transparency.c	\
 # 			srcs/image/incremente_intensity.c	\
@@ -82,6 +83,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/menu/my_put_string.c					\
 # 			srcs/menu/display/display_dir.c				\
 # 			srcs/menu/display/display_pos.c				\
+# 			srcs/menu/display/display_cone.c			\
 # 			srcs/menu/display/display_float.c			\
 # 			srcs/menu/display/display_color.c			\
 # 			srcs/menu/display/display_light.c			\
@@ -107,6 +109,7 @@ SRCS	:=	$(shell fd -g '*.c' -E '*.test.c' $(SRC))
 # 			srcs/objects/intersect_sphere.c				\
 # 			srcs/objects/camera_translation.c			\
 # 			srcs/objects/intersect_cylinder.c			\
+# 			srcs/objects/intersect_second_cone.c		\
 # 			srcs/objects/intersect_second_cylinder.c	\
 # 			\
 # 			srcs/parsing/parse_vec.c		\

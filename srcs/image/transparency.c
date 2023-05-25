@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 12:38:10 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/02 09:58:32 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/24 12:03:05 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	apply_transparency(t_all *all, t_intersect_ret *res, t_ray *ray)
 				plane_transparency(all, res, ray);
 			else if (obj->type == CYLINDER)
 				cylinder_transparency(all, res, ray, &obj->value.as_cylinder);
+			else if (obj->type == CONE)
+				cone_transparency(all, res, ray, &obj->value.as_cone);
 		}
 		obj = obj->next;
 	}

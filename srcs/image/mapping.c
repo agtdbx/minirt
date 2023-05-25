@@ -230,3 +230,46 @@ t_color	cylinder_map(t_ray const *ray, float dst, t_cylinder const *cylinder,
 		return (do_checkboard(16.0f, 8.0f, cx, cy));
 	return (do_texture(cylinder->texture_map, cx, cy));
 }
+
+
+t_color	cone_map(t_ray const *ray, float dst, t_cone const *cone,
+					float cy, t_intersect_ret *res)
+{
+	t_vec3	ref; // vecteur de référence parallèle à Oxz (le sol)
+	t_vec3	tmp;
+	t_vec3	proj; // projeté de p sur le plan normal à axis
+	float	cx;
+	t_vec3	p;
+
+	p = get_point_on_ray(ray, dst);
+	vec3_sub_vec3(&p, &cone->origin);
+	if (cone->axis.x != 0.0f || cone->axis.y != 0.0f)
+		vec3_fill(&ref, -cone->axis.y, cone->axis.x, 0.0f);
+	else
+		vec3_fill(&ref, 0.0f, 0.0f, 1.0f);
+	vec3_cross_product(&cone->axis, &p, &tmp);
+	vec3_cross_product(&cone->axis, &tmp, &proj);
+	vec3_normalize(&ref);
+	vec3_normalize(&proj);
+	cx = acosf(vec3_dot_product(&proj, &ref));
+	cx = cx / (2.0f * PI);
+	vec3_cross_product(&cone->axis, &ref, &tmp);
+	vec3_normalize(&tmp);
+	if (vec3_dot_product(&proj, &tmp) < 0.0f)
+		cx = 1.0f - cx;
+	cy /= cone->height;
+	if (cone->normal_map)
+	{
+		vec3_cross_product(&cone->axis, &res->nrm, &tmp);
+		vec3_normalize(&tmp);
+		vec3_multiply_number(&tmp, -1.0f);
+		vec3_dup(&ref, &cone->axis);
+		vec3_multiply_number(&ref, -1.0f);
+		do_normal_map(cone->normal_map, cx, cy, res, &tmp, &ref, &res->nrm);
+	}
+	if (cone->mapping_type == MAP_COLOR)
+		return (cone->color);
+	else if (cone->mapping_type == MAP_CHECKERBOARD)
+		return (do_checkboard(16.0f, 8.0f, cx, cy));
+	return (do_texture(cone->texture_map, cx, cy));
+}

@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 13:29:55 by aderouba          #+#    #+#             */
-/*   Updated: 2023/04/28 13:27:26 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:23:45 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,8 @@ static void	intersect_cylinder_ends(t_cylinder *cylinder, t_ray *ray,
 	t_intersect_ret	dst0;
 	t_intersect_ret	dst1;
 
-	dst0.dst = -1.0f;
-	vec3_fill(&dst0.nrm, 0.0f, 0.0f, 0.0f);
-	dst1.dst = -1.0f;
-	vec3_fill(&dst1.nrm, 0.0f, 0.0f, 0.0f);
+	init_intersect_ret(&dst0, 0);
+	init_intersect_ret(&dst1, 0);
 	intersect_plane(&cylinder->bot, ray, &dst0);
 	intersect_plane(&cylinder->top, ray, &dst1);
 	if (dst0.dst < 0.0f && dst1.dst < 0.0f)
@@ -98,13 +96,11 @@ static void	interect_cylinder_top_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst1)
 {
 	t_vec3	x;
-	t_vec3	p;
 	float	d;
 
 	if (dst1->dst < 0.0f)
 		return ;
-	p = get_point_on_ray(ray, dst1->dst);
-	vec3_dup(&x, &p);
+	x = get_point_on_ray(ray, dst1->dst);;
 	vec3_sub_vec3(&x, &cylinder->top_origin);
 	d = vec3_dot_product(&x, &x);
 	if (d > cylinder->radius2)
@@ -128,13 +124,11 @@ static void	intersect_cylinder_bot_end(t_cylinder *cylinder, t_ray *ray,
 				t_intersect_ret *intersect_ret, t_intersect_ret *dst0)
 {
 	t_vec3	x;
-	t_vec3	p;
 	float	d;
 
 	if (dst0->dst < 0.0f)
 		return ;
-	p = get_point_on_ray(ray, dst0->dst);
-	vec3_dup(&x, &p);
+	x = get_point_on_ray(ray, dst0->dst);
 	vec3_sub_vec3(&x, &cylinder->bot_origin);
 	d = vec3_dot_product(&x, &x);
 	if (d > cylinder->radius2)

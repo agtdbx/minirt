@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 12:22:07 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/22 11:52:21 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/25 12:01:24 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,6 +372,10 @@ t_cone		create_cone(t_vec3 origin, t_vec3 axis, float size[2],
 void		intersect_cone(t_cone *cone, t_ray *ray,
 				t_intersect_ret *intersect_ret);
 
+// objets/intersect_second_cylinder.c
+void	intersect_second_cone(t_cone *cone, t_ray *ray,
+			t_intersect_ret *ret);
+
 // objets/camera.c
 void		get_screen_basis(t_vec3 const *camera, t_vec3 ret_basis[2],
 				int ppr);
@@ -463,12 +467,17 @@ void		plane_transparency(t_all *all, t_intersect_ret *res, t_ray *ray);
 void		cylinder_transparency(t_all *all, t_intersect_ret *res, t_ray *ray,
 				t_cylinder *cylinder);
 
+// image/cylinder_transparency.c
+void		cone_transparency(t_all *all, t_intersect_ret *res, t_ray *ray,
+				t_cone *cone);
+
 // image/mapping.c
 t_color		sphere_map(t_ray const *ray, float dst, t_sphere const *sphere, t_intersect_ret *res);
 t_color		plane_map(t_ray const *ray, float dst, t_plane const *plane, t_intersect_ret *res);
 t_color		cylinder_map(t_ray const *ray, float dst,
 				t_cylinder const *cylinder, float cy, t_intersect_ret *res);
-
+t_color		cone_map(t_ray const *ray, float dst, t_cone const *cone,
+				float cy, t_intersect_ret *res);
 /*=====================================MENU===================================*/
 
 // image/buttons.c
@@ -504,6 +513,9 @@ void		display_plane(t_all *all, t_plane *plane);
 
 // menu/display/display_cylinder.c
 void		display_cylinder(t_all *all, t_cylinder *cylinder);
+
+// menu/display/display_cone.c
+void	display_cone(t_all *all, t_cone *cone);
 
 // menu/display/display_color.c
 void		display_color(t_all *all, t_color *color, int y_start);

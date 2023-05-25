@@ -6,7 +6,7 @@
 /*   By: aderouba <aderouba@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 18:19:02 by aderouba          #+#    #+#             */
-/*   Updated: 2023/05/23 18:16:31 by aderouba         ###   ########.fr       */
+/*   Updated: 2023/05/24 11:32:15 by aderouba         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_plane	create_plane(t_vec3 origin, t_vec3 normal, t_color color)
 {
 	t_plane	res;
 
-	res.origin = origin;
-	res.normal = normal;
+	vec3_dup(&res.origin, &origin);
+	vec3_dup(&res.normal, &normal);
 	vec3_dup(&res.rev_normal, &res.normal);
 	vec3_multiply_number(&res.rev_normal, -1.0f);
 	res.color = color;
@@ -43,8 +43,8 @@ t_plane	create_plane_for_cylinder(t_vec3 origin, t_vec3 normal,
 {
 	t_plane	res;
 
-	res.origin = origin;
-	res.normal = normal;
+	vec3_dup(&res.origin, &origin);
+	vec3_dup(&res.normal, &normal);
 	vec3_dup(&res.rev_normal, &res.normal);
 	vec3_multiply_number(&res.rev_normal, -1.0f);
 	res.color = cylinder->color;
@@ -64,8 +64,8 @@ t_plane	create_plane_for_cone(t_vec3 origin, t_vec3 normal,
 {
 	t_plane	res;
 
-	res.origin = origin;
-	res.normal = normal;
+	vec3_dup(&res.origin, &origin);
+	vec3_dup(&res.normal, &normal);
 	vec3_dup(&res.rev_normal, &res.normal);
 	vec3_multiply_number(&res.rev_normal, -1.0f);
 	res.color = cone->color;
